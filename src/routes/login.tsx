@@ -1,4 +1,5 @@
 import '../styles/login.css'
+import {Link} from "react-router-dom";
 
 export default function LoginPage() {
     return (
@@ -14,11 +15,11 @@ export default function LoginPage() {
                     <input type="password" placeholder="Password"/>
 
                     <button className="login-button">Log In</button>
-                    <a href="#" className="forgot-link">Forgotten password?</a>
+                    <Link to={'/account-recovery'} className="forgot-link">Forgotten password?</Link>
 
                     <hr className="divider"/>
 
-                    <button className="create-account-button">Create new account</button>
+                    <Link to={'/register'} className="create-account-button">Create new account</Link>
                 </div>
             </div>
         </div>

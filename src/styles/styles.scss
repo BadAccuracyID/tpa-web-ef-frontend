@@ -1,0 +1,238 @@
+// Define variables
+$font-family-main: 'Roboto', sans-serif;
+$color-primary: #1877f2;
+$color-primary-dark: #1464aa;
+$color-secondary: #42b72a;
+$color-secondary-dark: #36a420;
+$color-dark: #000000;
+$color-light: #f0f2f5;
+$color-grey: #ccc;
+$input-border: 1px solid #cccccc;
+$transition: 0.2s ease;
+
+// Define mixin
+@mixin button-style($bg-color) {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: $bg-color;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  width: fit-content;
+  transition: $transition;
+}
+
+@mixin button-style-wide($bg-color) {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: $bg-color;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: $transition;
+}
+
+@mixin link-style {
+  color: $color-primary;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: $transition;
+
+  &:hover {
+    color: $color-primary-dark;
+  }
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $font-family-main;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.account-recovery,
+.login,
+.register {
+  height: 100vh;
+  min-height: 100vh;
+  background-color: $color-light;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1000px;
+    width: 100%;
+
+    &-left {
+      width: 100%;
+      padding: 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    &-right-login,
+    &-right-register {
+      width: 100%;
+      padding: 25px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      gap: 8px;
+
+      font-family: $font-family-main;
+    }
+
+    &-right-login {
+      max-width: 400px;
+    }
+
+    &-right-register {
+      max-width: 450px;
+    }
+
+    &-recovery {
+      width: 100%;
+      max-width: 500px;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      font-family: $font-family-main;
+
+      h2 {
+        font-size: 1.5rem;
+        color: $color-dark;
+        margin: 0;
+      }
+
+      p {
+        margin: 0
+      }
+    }
+  }
+
+  .divider {
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: $color-grey;
+  }
+
+  .logo {
+    font-size: 56px;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+    color: #1877f2;
+    margin-bottom: 20px;
+
+    &-slogan {
+      font-size: 24px;
+      font-weight: normal;
+      font-family: 'Roboto', sans-serif;
+      margin-bottom: 20px;
+    }
+  }
+
+  input {
+    width: 100%;
+    padding: 16px;
+
+    border: $input-border;
+    border-radius: 4px;
+
+    font-size: 1rem;
+    font-family: $font-family-main;
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+    }
+  }
+
+  select {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 12px;
+    border: $input-border;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #ffffff;
+    cursor: pointer;
+    appearance: none;
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+    }
+  }
+
+  .row-container {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    gap: 10px;
+  }
+
+  .cancel-button {
+    @include button-style(#E4E6EB);
+    color: $color-dark;
+    text-decoration: none;
+  }
+
+  .search-button, .login-redirect-button {
+    @include button-style($color-primary);
+  }
+
+  .login-button {
+    @include button-style-wide($color-primary);
+  }
+
+  .register-button {
+    @include button-style-wide($color-secondary);
+  }
+
+  .create-account-button {
+    @include button-style($color-secondary);
+  }
+
+  .forgot-link {
+    @include link-style;
+  }
+}

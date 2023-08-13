@@ -1,18 +1,18 @@
-import "../styles/register.css";
+import "../styles/styles.scss";
 import {Link} from "react-router-dom";
 
 export default function RegisterPage() {
     return (
-        <div className="register-page">
-            <div className="register-container">
+        <div className="register">
+            <div className="container">
 
-                <div className="register-container-left">
+                <div className="container-left">
                     <div className="logo">facebook</div>
                     <p className="logo-slogan">Facebook helps you connect and share with the people in your life.</p>
                 </div>
 
-                <div className="register-container-right">
-                    <div className="first-last-name-container">
+                <div className="container-right-register">
+                    <div className="row-container">
                         <input type="text" placeholder="First Name"/>
                         <input type="text" placeholder="Last Name"/>
                     </div>

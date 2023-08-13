@@ -1,16 +1,16 @@
-import '../styles/login.css'
+import "../styles/styles.scss";
 import {Link} from "react-router-dom";
 
 export default function LoginPage() {
     return (
-        <div className="login-page">
-            <div className="login-container">
-                <div className="login-container-left">
+        <div className="login">
+            <div className="container">
+                <div className="container-left">
                     <div className="logo">facebook</div>
                     <p className="logo-slogan">Facebook helps you connect and share with the people in your life.</p>
                 </div>
 
-                <div className="login-container-right">
+                <div className="container-right-login">
                     <input type="text" placeholder="Email address"/>
                     <input type="password" placeholder="Password"/>
 

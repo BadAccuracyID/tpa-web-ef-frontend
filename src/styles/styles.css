@@ -1,0 +1,263 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.account-recovery,
+.login,
+.register {
+  height: 100vh;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.account-recovery .container,
+.login .container,
+.register .container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1000px;
+  width: 100%;
+}
+.account-recovery .container-left,
+.login .container-left,
+.register .container-left {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.account-recovery .container-right-login, .account-recovery .container-right-register,
+.login .container-right-login,
+.login .container-right-register,
+.register .container-right-login,
+.register .container-right-register {
+  width: 100%;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-family: "Roboto", sans-serif;
+}
+.account-recovery .container-right-login,
+.login .container-right-login,
+.register .container-right-login {
+  max-width: 400px;
+}
+.account-recovery .container-right-register,
+.login .container-right-register,
+.register .container-right-register {
+  max-width: 450px;
+}
+.account-recovery .container-recovery,
+.login .container-recovery,
+.register .container-recovery {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: "Roboto", sans-serif;
+}
+.account-recovery .container-recovery h2,
+.login .container-recovery h2,
+.register .container-recovery h2 {
+  font-size: 1.5rem;
+  color: #000000;
+  margin: 0;
+}
+.account-recovery .container-recovery p,
+.login .container-recovery p,
+.register .container-recovery p {
+  margin: 0;
+}
+.account-recovery .divider,
+.login .divider,
+.register .divider {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #ccc;
+}
+.account-recovery .logo,
+.login .logo,
+.register .logo {
+  font-size: 56px;
+  font-weight: bold;
+  font-family: "Roboto", sans-serif;
+  color: #1877f2;
+  margin-bottom: 20px;
+}
+.account-recovery .logo-slogan,
+.login .logo-slogan,
+.register .logo-slogan {
+  font-size: 24px;
+  font-weight: normal;
+  font-family: "Roboto", sans-serif;
+  margin-bottom: 20px;
+}
+.account-recovery input,
+.login input,
+.register input {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: "Roboto", sans-serif;
+}
+.account-recovery input:focus,
+.login input:focus,
+.register input:focus {
+  outline: none;
+  border-color: #1877f2;
+}
+.account-recovery select,
+.login select,
+.register select {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 12px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #ffffff;
+  cursor: pointer;
+  appearance: none;
+}
+.account-recovery select:focus,
+.login select:focus,
+.register select:focus {
+  outline: none;
+  border-color: #1877f2;
+}
+.account-recovery .row-container,
+.login .row-container,
+.register .row-container {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 10px;
+}
+.account-recovery .cancel-button,
+.login .cancel-button,
+.register .cancel-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #E4E6EB;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  width: fit-content;
+  transition: 0.2s ease;
+  color: #000000;
+  text-decoration: none;
+}
+.account-recovery .search-button, .account-recovery .login-redirect-button,
+.login .search-button,
+.login .login-redirect-button,
+.register .search-button,
+.register .login-redirect-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #1877f2;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  width: fit-content;
+  transition: 0.2s ease;
+}
+.account-recovery .login-button,
+.login .login-button,
+.register .login-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #1877f2;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.account-recovery .register-button,
+.login .register-button,
+.register .register-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #42b72a;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.account-recovery .create-account-button,
+.login .create-account-button,
+.register .create-account-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #42b72a;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  width: fit-content;
+  transition: 0.2s ease;
+}
+.account-recovery .forgot-link,
+.login .forgot-link,
+.register .forgot-link {
+  color: #1877f2;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+.account-recovery .forgot-link:hover,
+.login .forgot-link:hover,
+.register .forgot-link:hover {
+  color: #1464aa;
+}
+
+/*# sourceMappingURL=styles.css.map */

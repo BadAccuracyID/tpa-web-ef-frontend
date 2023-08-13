@@ -1,10 +1,10 @@
-import "../styles/account-recovery.css";
+import "../styles/styles.scss";
 import {Link} from "react-router-dom";
 
 export default function AccountRecoveryPage() {
     return (
-        <div className="account-recovery-page">
-            <div className="container">
+        <div className="account-recovery">
+            <div className="container-recovery">
                 <h2>Find Your Account</h2>
                 <hr className="divider"/>
                 <p>
@@ -12,10 +12,9 @@ export default function AccountRecoveryPage() {
                 </p>
 
                 <input type="text" placeholder="Email Address"/>
-
                 <hr className="divider"/>
 
-                <div className="buttons-container">
+                <div className="row-container">
                     <Link to={'/login'} className="cancel-button">Cancel</Link>
                     <button className="search-button">Search</button>
                 </div>

@@ -25,6 +25,10 @@
 .login-container-left {
     width: 400px;
     padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .login-container-right {
@@ -58,7 +62,7 @@
     margin-bottom: 20px;
 }
 
-input {
+.login-page input {
     width: 100%;
     padding: 15px;
     margin-bottom: 12px;
@@ -70,7 +74,7 @@ input {
     font-family: 'Roboto', sans-serif;
 }
 
-input:focus {
+.login-page input:focus {
     outline: none;
     border-color: #1877f2;
 }

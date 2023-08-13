@@ -11,7 +11,7 @@ export default function LoginPage() {
                 </div>
 
                 <div className="login-container-right">
-                    <input type="text" placeholder="Email or phone number"/>
+                    <input type="text" placeholder="Email address"/>
                     <input type="password" placeholder="Password"/>
 
                     <button className="login-button">Log In</button>

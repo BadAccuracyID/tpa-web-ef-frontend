@@ -5,7 +5,7 @@ export default function AccountRecoveryPage() {
     return (
         <div className="account-recovery-page">
             <div className="container">
-                <h3>Find Your Account</h3>
+                <h2>Find Your Account</h2>
                 <hr className="divider"/>
                 <p>
                     Please enter your email address to search for your account.

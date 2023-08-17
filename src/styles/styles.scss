@@ -9,6 +9,7 @@ $color-light: #f0f2f5;
 $color-grey: #ccc;
 $input-border: 1px solid #cccccc;
 $transition: 0.2s ease;
+$phoneSize: 768px;
 
 // Define mixin
 @mixin button-style($bg-color) {
@@ -81,6 +82,12 @@ html {
     justify-content: space-between;
     max-width: 1000px;
     width: 100%;
+    padding: 50px;
+
+    @media(max-width: $phoneSize) {
+      flex-direction: column;
+      justify-content: center;
+    }
 
     &-left {
       width: 100%;
@@ -89,6 +96,10 @@ html {
       display: flex;
       flex-direction: column;
       justify-content: center;
+
+      @media(max-width: $phoneSize) {
+        text-align: center;
+      }
     }
 
     &-right-login,
@@ -111,10 +122,18 @@ html {
 
     &-right-login {
       max-width: 400px;
+
+      @media(max-width: $phoneSize) {
+        max-width: 100%;
+      }
     }
 
     &-right-register {
       max-width: 450px;
+
+      @media(max-width: $phoneSize) {
+        max-width: 100%;
+      }
     }
 
     &-recovery {
@@ -165,6 +184,10 @@ html {
       font-weight: normal;
       font-family: 'Roboto', sans-serif;
       margin-bottom: 20px;
+
+      @media(max-width: $phoneSize) {
+        display: none;
+      }
     }
   }
 

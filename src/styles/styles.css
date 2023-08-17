@@ -27,6 +27,15 @@ html {
   justify-content: space-between;
   max-width: 1000px;
   width: 100%;
+  padding: 50px;
+}
+@media (max-width: 768px) {
+  .account-recovery .container,
+  .login .container,
+  .register .container {
+    flex-direction: column;
+    justify-content: center;
+  }
 }
 .account-recovery .container-left,
 .login .container-left,
@@ -36,6 +45,13 @@ html {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+@media (max-width: 768px) {
+  .account-recovery .container-left,
+  .login .container-left,
+  .register .container-left {
+    text-align: center;
+  }
 }
 .account-recovery .container-right-login, .account-recovery .container-right-register,
 .login .container-right-login,
@@ -59,10 +75,24 @@ html {
 .register .container-right-login {
   max-width: 400px;
 }
+@media (max-width: 768px) {
+  .account-recovery .container-right-login,
+  .login .container-right-login,
+  .register .container-right-login {
+    max-width: 100%;
+  }
+}
 .account-recovery .container-right-register,
 .login .container-right-register,
 .register .container-right-register {
   max-width: 450px;
+}
+@media (max-width: 768px) {
+  .account-recovery .container-right-register,
+  .login .container-right-register,
+  .register .container-right-register {
+    max-width: 100%;
+  }
 }
 .account-recovery .container-recovery,
 .login .container-recovery,
@@ -116,6 +146,13 @@ html {
   font-weight: normal;
   font-family: "Roboto", sans-serif;
   margin-bottom: 20px;
+}
+@media (max-width: 768px) {
+  .account-recovery .logo-slogan,
+  .login .logo-slogan,
+  .register .logo-slogan {
+    display: none;
+  }
 }
 .account-recovery input,
 .login input,

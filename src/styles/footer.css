@@ -1,0 +1,32 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.footer {
+  height: max-content;
+  background-color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.footer .links, .footer p, .footer a {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: darkgray;
+  text-decoration: none;
+}
+.footer .links:hover, .footer p:hover, .footer a:hover {
+  text-decoration: underline;
+}
+
+/*# sourceMappingURL=footer.css.map */

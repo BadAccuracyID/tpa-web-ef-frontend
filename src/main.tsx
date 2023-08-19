@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import LoginPage from "./routes/login.tsx";
-import RegisterPage from "./routes/register.tsx";
+import {RegisterPage, RegisterSuccessfulPage} from "./routes/register.tsx";
 import AccountRecoveryPage from "./routes/account-recovery.tsx";
 import ActivateAccountPage from "./routes/ActivateAccountPage.tsx";
 import {ApolloClient, createHttpLink, InMemoryCache} from "@apollo/client";
@@ -31,6 +31,11 @@ const router = createBrowserRouter([
                     {
                         path: "register",
                         element: <RegisterPage/>,
+
+                    },
+                    {
+                        path: "register/successful",
+                        element: <RegisterSuccessfulPage/>,
                     },
                     {
                         path: "account-recovery",

@@ -1,8 +1,53 @@
 import "../styles/auth.scss";
-import {Link} from "react-router-dom";
+import {Link, redirect} from "react-router-dom";
 import FooterComponent from "../components/Footer.tsx";
+import {useState} from "react";
+import {onRegister} from "../lib/controllers/AuthController.ts";
 
-export default function RegisterPage() {
+export function RegisterPage() {
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [dateOfBirth, setDateOfBirth] = useState('')
+    const [gender, setGender] = useState('')
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const onRegisterClick = async () => {
+        setIsLoading(true);
+        setErrorMessage('');
+
+        if (firstName === '' || lastName === '' || email === '' || password === '' || confirmPassword === '' || dateOfBirth === '' || gender === '') {
+            setErrorMessage('Please fill in all fields');
+            setIsLoading(false);
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            setErrorMessage('Passwords do not match');
+            setIsLoading(false);
+            return;
+        }
+
+        onRegister(firstName, lastName, dateOfBirth, gender, email, password)
+            .then((result) => {
+                if (!result.success && result.errorMsg) {
+                    setErrorMessage(result.errorMsg[0]);
+                    setIsLoading(false);
+                    return;
+                }
+
+                // set token in local storage
+                localStorage.setItem('token', result.data!);
+
+                // redirect to success page
+                redirect('/auth/register/successful');
+            })
+    }
+
     return (
         <div>
             <div className="register">
@@ -16,24 +61,60 @@ export default function RegisterPage() {
 
                     <div className="container-right-register">
                         <div className="row-container">
-                            <input type="text" placeholder="First Name"/>
-                            <input type="text" placeholder="Last Name"/>
+                            <input type="text"
+                                   placeholder="First Name"
+                                   onChange={(e) => {
+                                       setFirstName(e.target.value)
+                                   }}
+                            />
+                            <input type="text"
+                                   placeholder="Last Name"
+                                   onChange={(e) => {
+                                       setLastName(e.target.value)
+                                   }}
+                            />
                         </div>
-                        <input type="email" placeholder="Email Address"/>
+                        <input type="email"
+                               placeholder="Email Address"
+                               onChange={(e) => {
+                                   setEmail(e.target.value)
+                               }}
+                        />
 
-                        <input type="password" placeholder="Password"/>
-                        <input type="password" placeholder="Confirm Password"/>
+                        <input type="password"
+                               placeholder="Password"
+                               onChange={(e) => {
+                                   setPassword(e.target.value)
+                               }}
+                        />
+                        <input type="password"
+                               placeholder="Confirm Password"
+                               onChange={(e) => {
+                                   setConfirmPassword(e.target.value)
+                               }}
+                        />
 
-                        <input type="date" placeholder="Date of Birth"/>
+                        <input type="date"
+                               placeholder="Date of Birth"
+                               onChange={(e) => {
+                                   setDateOfBirth(e.target.value)
+                               }}
+                        />
 
-                        <select>
+                        <select onChange={(e) => {
+                            setGender(e.target.value)
+                        }}>
                             <option value="">Gender</option>
                             <option value="female">Female</option>
                             <option value="male">Male</option>
                             <option value="other">Other</option>
                         </select>
 
-                        <button className="register-button">Sign Up</button>
+                        {errorMessage && <div className="error-message">{errorMessage}</div>}
+                        <button className="register-button"
+                                onClick={onRegisterClick}>
+                            {isLoading ? 'Loading...' : 'Sign Up'}
+                        </button>
 
                         <hr className="divider"/>
 
@@ -46,3 +127,25 @@ export default function RegisterPage() {
         </div>
     );
 };
+
+export function RegisterSuccessfulPage() {
+    return (
+        <div>
+            <div className="account-recovery">
+                <div className="container-recovery">
+                    <h2>Registration Successful</h2>
+                    <hr className="divider"/>
+                    <p>
+                        An email has been sent to your email address. Please click on the link in the email to activate
+                        your account.
+                    </p>
+
+                    <hr className="divider"/>
+
+                    <Link to={'/auth/login'} className="cancel-button">Okay</Link>
+                </div>
+            </div>
+            <FooterComponent/>
+        </div>
+    )
+}

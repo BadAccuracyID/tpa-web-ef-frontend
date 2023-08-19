@@ -259,3 +259,8 @@ html {
     @include link-style;
   }
 }
+
+.error-message {
+  color: red;
+  font-weight: 350;
+}

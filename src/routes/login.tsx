@@ -11,7 +11,7 @@ export default function LoginPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
-    const onLoginClick = async () => {
+    const onLoginClick = () => {
         setIsLoading(true);
         setErrorMessage('');
 
@@ -61,11 +61,11 @@ export default function LoginPage() {
                                }}
                         />
 
+                        {errorMessage && <div className="error-message">{errorMessage}</div>}
                         <button className="login-button"
                                 onClick={onLoginClick}>
                             {isLoading ? 'Loading...' : 'Log In'}
                         </button>
-                        {errorMessage && <div>{errorMessage}</div>}
                         <Link to={'/auth/account-recovery'} className="forgot-link">Forgotten password?</Link>
 
                         <hr className="divider"/>

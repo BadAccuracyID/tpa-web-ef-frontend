@@ -297,4 +297,9 @@ html {
   color: #1464aa;
 }
 
+.error-message {
+  color: red;
+  font-weight: 350;
+}
+
 /*# sourceMappingURL=auth.css.map */

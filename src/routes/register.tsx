@@ -154,7 +154,7 @@ export function RegisterSuccessfulPage() {
 
                     <hr className="divider"/>
 
-                    <Link to={'/auth/login'} className="cancel-button">Okay</Link>
+                    <Link to={'/auth/login'} className="search-button">Okay</Link>
                 </div>
             </div>
             <FooterComponent/>

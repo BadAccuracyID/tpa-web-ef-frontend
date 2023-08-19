@@ -7,13 +7,13 @@ import AccountRecoveryPage from "./routes/account-recovery.tsx";
 import ActivateAccountPage from "./routes/activate-account-page.tsx";
 import {ApolloClient, createHttpLink, InMemoryCache} from "@apollo/client";
 import {setContext} from "@apollo/client/link/context";
-import {authLoader, rootLoader} from "./lib/controllers/router/root-loader.ts";
+import {activateAccountLoader, authLoader, rootLoader} from "./lib/controllers/router/root-loader.ts";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <Outlet/>,
-        loader: ({ request }) => {
+        loader: ({request}) => {
             return rootLoader(request);
         },
         children: [
@@ -42,8 +42,17 @@ const router = createBrowserRouter([
                         element: <AccountRecoveryPage/>,
                     },
                     {
-                        path: "activate-account/:token",
-                        element: <ActivateAccountPage/>,
+                        path: "activate-account",
+                        element: <Outlet/>,
+                        loader: ({request}) => {
+                            return activateAccountLoader(request);
+                        },
+                        children: [
+                            {
+                                path: ":token",
+                                element: <ActivateAccountPage/>,
+                            }
+                        ]
                     },
                     {
                         path: "reset-password/:token",

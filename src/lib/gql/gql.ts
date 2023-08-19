@@ -15,6 +15,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "\n    query login($input: LoginInput!) {\n        login(input: $input) {\n            id,\n            jwtToken,\n        }\n    }\n": types.LoginDocument,
     "\n    mutation register($input: RegisterInput!) {\n        register(input: $input) {\n            id,\n            jwtToken,\n        }\n    }\n": types.RegisterDocument,
+    "\n    mutation activateUser($request: String!) {\n        activateUser(request: $request) {\n            id\n        }\n    }\n": types.ActivateUserDocument,
     "\n    query getCurrentUser {\n        getCurrentUser {\n            id,\n            email,\n            firstName,\n            lastName,\n            activated,\n            username,\n            gender,\n            dateOfBirth,\n            relations {\n                user {\n                    id,\n                    email,\n                    firstName,\n                    lastName,\n                    activated,\n                    username,\n                    gender,\n                    dateOfBirth,\n                },\n                status,\n            },\n        }\n    }\n": types.GetCurrentUserDocument,
 };
 
@@ -40,6 +41,10 @@ export function graphql(source: "\n    query login($input: LoginInput!) {\n     
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n    mutation register($input: RegisterInput!) {\n        register(input: $input) {\n            id,\n            jwtToken,\n        }\n    }\n"): (typeof documents)["\n    mutation register($input: RegisterInput!) {\n        register(input: $input) {\n            id,\n            jwtToken,\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation activateUser($request: String!) {\n        activateUser(request: $request) {\n            id\n        }\n    }\n"): (typeof documents)["\n    mutation activateUser($request: String!) {\n        activateUser(request: $request) {\n            id\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

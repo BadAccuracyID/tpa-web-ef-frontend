@@ -42,3 +42,22 @@ export const authLoader = async (request: Request) => {
 
     return null;
 }
+
+export const activateAccountLoader = async (request: Request) => {
+    const url = trimUrl(request.url);
+
+    const isAuth = await getCurrentAccount();
+    if (url.endsWith('/activate-account')) {
+        if (isAuth.success) {
+            return redirect('/home');
+        }
+
+        return redirect('/auth/login');
+    }
+
+    if (isAuth.success) {
+        return redirect('/home');
+    }
+
+    return null;
+}

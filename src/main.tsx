@@ -1,42 +1,57 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import LoginPage from "./routes/login.tsx";
 import RegisterPage from "./routes/register.tsx";
 import AccountRecoveryPage from "./routes/account-recovery.tsx";
 import ActivateAccountPage from "./routes/ActivateAccountPage.tsx";
 import {ApolloClient, createHttpLink, InMemoryCache} from "@apollo/client";
 import {setContext} from "@apollo/client/link/context";
+import {authLoader, rootLoader} from "./lib/controllers/router/root-loader.ts";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <LoginPage/>,
+        element: <Outlet/>,
+        loader: ({ request }) => {
+            return rootLoader(request);
+        },
+        children: [
+            {
+                path: "auth",
+                element: <Outlet/>,
+                loader: ({request}) => {
+                    return authLoader(request);
+                },
+                children: [
+                    {
+                        path: "login",
+                        element: <LoginPage/>,
+                    },
+                    {
+                        path: "register",
+                        element: <RegisterPage/>,
+                    },
+                    {
+                        path: "account-recovery",
+                        element: <AccountRecoveryPage/>,
+                    },
+                    {
+                        path: "activate-account/:token",
+                        element: <ActivateAccountPage/>,
+                    },
+                    {
+                        path: "reset-password/:token",
+                        element: <div>Reset Password</div>,
+                    }
+                ]
+            },
+            {
+                path: "home",
+                element: <div>Hello world</div>,
+            }
+        ]
     },
-    {
-        path: "/login",
-        element: <LoginPage/>,
-    },
-    {
-        path: "/register",
-        element: <RegisterPage/>,
-    },
-    {
-        path: "/account-recovery",
-        element: <AccountRecoveryPage/>,
-    },
-    {
-        path: "/activate-account/:token",
-        element: <ActivateAccountPage/>,
-    },
-    {
-        path: "/reset-password/:token",
-        element: <div>Reset Password</div>,
-    },
-    {
-        path: "/home",
-        element: <div>Hello world</div>,
-    }
 ]);
 
 const httpLink = createHttpLink({
@@ -64,5 +79,4 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <RouterProvider router={router}/>
     </React.StrictMode>,
-
 )

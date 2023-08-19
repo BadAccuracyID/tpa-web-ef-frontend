@@ -66,11 +66,11 @@ export default function LoginPage() {
                             {isLoading ? 'Loading...' : 'Log In'}
                         </button>
                         {errorMessage && <div>{errorMessage}</div>}
-                        <Link to={'/account-recovery'} className="forgot-link">Forgotten password?</Link>
+                        <Link to={'/auth/account-recovery'} className="forgot-link">Forgotten password?</Link>
 
                         <hr className="divider"/>
 
-                        <Link to={'/register'} className="create-account-button">Create new account</Link>
+                        <Link to={'/auth/register'} className="create-account-button">Create new account</Link>
                     </div>
                 </div>
             </div>

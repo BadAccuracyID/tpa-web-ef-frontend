@@ -37,7 +37,7 @@ export default function RegisterPage() {
 
                         <hr className="divider"/>
 
-                        <Link to={'/login'} className="login-redirect-button">Already have an account?</Link>
+                        <Link to={'/auth/login'} className="login-redirect-button">Already have an account?</Link>
                     </div>
 
                 </div>

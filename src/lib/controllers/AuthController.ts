@@ -20,11 +20,19 @@ export async function onLogin(email: string, password: string): Promise<Controll
         });
 
         if (errors) {
-            throw new Error(errors.map(e => e.message).join(', '));
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            }
         }
 
         if (!data?.login) {
-            throw new Error('Invalid response from server');
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
         }
 
         return {

@@ -16,12 +16,24 @@ export function RegisterPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
-    const onRegisterClick = async () => {
+    const onRegisterClick = () => {
         setIsLoading(true);
         setErrorMessage('');
 
         if (firstName === '' || lastName === '' || email === '' || password === '' || confirmPassword === '' || dateOfBirth === '' || gender === '') {
             setErrorMessage('Please fill in all fields');
+            setIsLoading(false);
+            return;
+        }
+
+        if (!email.endsWith('@gmail.com')) {
+            setErrorMessage('Please enter a valid email address');
+            setIsLoading(false);
+            return;
+        }
+
+        if (new Date(dateOfBirth) > new Date()) {
+            setErrorMessage('Please enter a valid date of birth');
             setIsLoading(false);
             return;
         }
@@ -126,7 +138,7 @@ export function RegisterPage() {
             <FooterComponent/>
         </div>
     );
-};
+}
 
 export function RegisterSuccessfulPage() {
     return (

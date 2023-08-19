@@ -21,6 +21,12 @@ export default function LoginPage() {
             return;
         }
 
+        if (!email.endsWith('@gmail.com')) {
+            setErrorMessage('Please enter a valid email address');
+            setIsLoading(false);
+            return;
+        }
+
         onLogin(email, password)
             .then((result) => {
                 if (!result.success && result.errorMsg) {

@@ -17,7 +17,7 @@ export default function AccountRecoveryPage() {
                     <hr className="divider"/>
 
                     <div className="row-container">
-                        <Link to={'/login'} className="cancel-button">Cancel</Link>
+                        <Link to={'/auth/login'} className="cancel-button">Cancel</Link>
                         <button className="search-button">Search</button>
                     </div>
                 </div>

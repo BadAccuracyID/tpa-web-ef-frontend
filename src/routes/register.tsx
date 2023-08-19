@@ -2,7 +2,7 @@ import "../styles/auth.scss";
 import {Link, redirect} from "react-router-dom";
 import FooterComponent from "../components/Footer.tsx";
 import {useState} from "react";
-import {onRegister} from "../lib/controllers/AuthController.ts";
+import {onRegister} from "../lib/controllers/auth-controller.ts";
 
 export function RegisterPage() {
     const [firstName, setFirstName] = useState('')

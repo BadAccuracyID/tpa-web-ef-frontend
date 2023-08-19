@@ -2,7 +2,7 @@ import "../styles/auth.scss";
 import {Link, redirect} from "react-router-dom";
 import {useState} from "react";
 import FooterComponent from "../components/Footer.tsx";
-import {onLogin} from "../lib/controllers/AuthController.ts";
+import {onLogin} from "../lib/controllers/auth-controller.ts";
 
 export default function LoginPage() {
     const [email, setEmail] = useState('')

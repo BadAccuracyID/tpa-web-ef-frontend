@@ -4,7 +4,7 @@ import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import LoginPage from "./routes/login.tsx";
 import {RegisterPage, RegisterSuccessfulPage} from "./routes/register.tsx";
 import AccountRecoveryPage from "./routes/account-recovery.tsx";
-import ActivateAccountPage from "./routes/ActivateAccountPage.tsx";
+import ActivateAccountPage from "./routes/activate-account-page.tsx";
 import {ApolloClient, createHttpLink, InMemoryCache} from "@apollo/client";
 import {setContext} from "@apollo/client/link/context";
 import {authLoader, rootLoader} from "./lib/controllers/router/root-loader.ts";

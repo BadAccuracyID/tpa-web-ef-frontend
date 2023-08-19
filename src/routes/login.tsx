@@ -1,8 +1,43 @@
 import "../styles/auth.scss";
-import {Link} from "react-router-dom";
-import Footer from "../components/footer.tsx";
+import {Link, redirect} from "react-router-dom";
+import {useState} from "react";
+import FooterComponent from "../components/Footer.tsx";
+import {onLogin} from "../lib/controllers/AuthController.ts";
 
 export default function LoginPage() {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const onLoginClick = async () => {
+        setIsLoading(true);
+        setErrorMessage('');
+
+        if (email === '' || password === '') {
+            setErrorMessage('Please fill in all fields');
+            setIsLoading(false);
+            return;
+        }
+
+        onLogin(email, password)
+            .then((result) => {
+                if (!result.success && result.errorMsg) {
+                    setErrorMessage(result.errorMsg[0]);
+                    setIsLoading(false);
+                    return;
+                }
+
+                // set token in local storage
+                localStorage.setItem('token', result.data!);
+
+                // redirect to home page
+                redirect('/home');
+            })
+    }
+
+
     return (
         <div>
             <div className="login">
@@ -14,10 +49,23 @@ export default function LoginPage() {
                     </div>
 
                     <div className="container-right-login">
-                        <input type="text" placeholder="Email address"/>
-                        <input type="password" placeholder="Password"/>
+                        <input type="text"
+                               placeholder="Email address"
+                               onChange={(e) => {
+                                   setEmail(e.target.value)
+                               }}/>
+                        <input type="password"
+                               placeholder="Password"
+                               onChange={(e) => {
+                                   setPassword(e.target.value)
+                               }}
+                        />
 
-                        <button className="login-button">Log In</button>
+                        <button className="login-button"
+                                onClick={onLoginClick}>
+                            {isLoading ? 'Loading...' : 'Log In'}
+                        </button>
+                        {errorMessage && <div>{errorMessage}</div>}
                         <Link to={'/account-recovery'} className="forgot-link">Forgotten password?</Link>
 
                         <hr className="divider"/>
@@ -26,7 +74,7 @@ export default function LoginPage() {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <FooterComponent/>
         </div>
     );
 }

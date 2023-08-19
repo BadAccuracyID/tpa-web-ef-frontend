@@ -1,6 +1,6 @@
 import "../styles/auth.scss";
 import {Link} from "react-router-dom";
-import Footer from "../components/footer.tsx";
+import FooterComponent from "../components/Footer.tsx";
 
 export default function RegisterPage() {
     return (
@@ -42,7 +42,7 @@ export default function RegisterPage() {
 
                 </div>
             </div>
-            <Footer/>
+            <FooterComponent/>
         </div>
     );
 };

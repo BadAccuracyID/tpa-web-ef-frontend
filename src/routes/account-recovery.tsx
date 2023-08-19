@@ -1,6 +1,6 @@
 import "../styles/auth.scss";
 import {Link} from "react-router-dom";
-import Footer from "../components/footer.tsx";
+import FooterComponent from "../components/Footer.tsx";
 
 export default function AccountRecoveryPage() {
     return (
@@ -22,7 +22,7 @@ export default function AccountRecoveryPage() {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <FooterComponent/>
         </div>
     )
 }

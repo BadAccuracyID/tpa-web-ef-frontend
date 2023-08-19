@@ -1,7 +1,7 @@
 import "../styles/footer.scss"
 import {Link} from "react-router-dom";
 
-export default function Footer() {
+export default function FooterComponent() {
     return (
         <div className="footer">
             <Link to={'/login'} className="links">Log In</Link>

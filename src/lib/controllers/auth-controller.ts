@@ -35,8 +35,6 @@ export async function onLogin(email: string, password: string): Promise<Controll
                 input: {email, password},
             },
         });
-        console.log(data)
-        console.log(errors)
 
         if (errors) {
             return {
@@ -53,7 +51,6 @@ export async function onLogin(email: string, password: string): Promise<Controll
                 data: null,
             }
         }
-        console.log(data.login.jwtToken)
 
         return {
             success: true,

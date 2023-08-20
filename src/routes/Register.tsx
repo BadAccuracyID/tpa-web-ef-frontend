@@ -39,6 +39,18 @@ export function RegisterPage() {
             return;
         }
 
+        if (password.length < 6) {
+            setErrorMessage('Password must be at least 6 characters long');
+            setIsLoading(false);
+            return;
+        }
+
+        if (!password.match(/^[0-9a-zA-Z]+$/)) {
+            setErrorMessage('Password must be alphanumeric');
+            setIsLoading(false);
+            return;
+        }
+
         if (password !== confirmPassword) {
             setErrorMessage('Passwords do not match');
             setIsLoading(false);

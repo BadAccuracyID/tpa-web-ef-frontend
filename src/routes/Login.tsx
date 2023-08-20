@@ -28,6 +28,12 @@ export default function LoginPage() {
             return;
         }
 
+        if (password.length < 6) {
+            setErrorMessage('Password must be at least 6 characters long');
+            setIsLoading(false);
+            return;
+        }
+
         onLogin(email, password)
             .then((result) => {
                 if (!result.success && result.errorMsg) {

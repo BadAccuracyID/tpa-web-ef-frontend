@@ -1,13 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
-import LoginPage from "./routes/Login.tsx";
-import {RegisterPage, RegisterSuccessfulPage} from "./routes/Register.tsx";
-import AccountRecoveryPage from "./routes/AccountRecovery.tsx";
-import ActivateAccountPage from "./routes/ActivateAccount.tsx";
+import LoginPage from "./routes/auth/Login.tsx";
+import {RegisterPage, RegisterSuccessfulPage} from "./routes/auth/Register.tsx";
+import AccountRecoveryPage from "./routes/auth/AccountRecovery.tsx";
+import ActivateAccountPage from "./routes/auth/ActivateAccount.tsx";
 import {ApolloClient, createHttpLink, InMemoryCache} from "@apollo/client";
 import {setContext} from "@apollo/client/link/context";
 import {activateAccountLoader, authLoader, rootLoader} from "./lib/controllers/router/root-loader.ts";
+import {userLoader} from "./lib/controllers/router/user-loader.ts";
+import HomePage from "./routes/home/Home.tsx";
 
 const router = createBrowserRouter([
     {
@@ -75,7 +77,10 @@ const router = createBrowserRouter([
             },
             {
                 path: "home",
-                element: <div>Hello world</div>,
+                loader: () => {
+                    return userLoader();
+                },
+                element: <HomePage/>,
             }
         ]
     },

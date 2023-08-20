@@ -1,8 +1,8 @@
-import "../styles/auth.scss";
+import "../../styles/auth.scss";
 import {Link, useNavigate} from "react-router-dom";
-import FooterComponent from "../components/Footer.tsx";
+import FooterComponent from "../../components/Footer.tsx";
 import {useState} from "react";
-import {onRegister} from "../lib/controllers/auth-controller.ts";
+import {onRegister} from "../../lib/controllers/auth-controller.ts";
 
 export function RegisterPage() {
     const navigate = useNavigate();

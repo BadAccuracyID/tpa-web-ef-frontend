@@ -1,6 +1,6 @@
-import "../styles/auth.scss";
+import "../../styles/auth.scss";
 import {Link} from "react-router-dom";
-import FooterComponent from "../components/Footer.tsx";
+import FooterComponent from "../../components/Footer.tsx";
 
 export default function AccountRecoveryPage() {
     return (

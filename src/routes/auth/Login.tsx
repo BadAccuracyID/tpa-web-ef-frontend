@@ -1,8 +1,8 @@
-import "../styles/auth.scss";
+import "../../styles/auth.scss";
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
-import FooterComponent from "../components/Footer.tsx";
-import {onLogin} from "../lib/controllers/auth-controller.ts";
+import FooterComponent from "../../components/Footer.tsx";
+import {onLogin} from "../../lib/controllers/auth-controller.ts";
 
 export default function LoginPage() {
     const navigate = useNavigate();

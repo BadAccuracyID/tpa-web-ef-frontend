@@ -1,8 +1,8 @@
 import {Await, Link, redirect, useParams} from "react-router-dom";
 import {Suspense} from "react";
-import {FullPageCircularLoading} from "../components/loading/LoadingComponents.tsx";
-import {onActivateAccount} from "../lib/controllers/auth-controller.ts";
-import FooterComponent from "../components/Footer.tsx";
+import {FullPageCircularLoading} from "../../components/loading/LoadingComponents.tsx";
+import {onActivateAccount} from "../../lib/controllers/auth-controller.ts";
+import FooterComponent from "../../components/Footer.tsx";
 
 export default function ActivateAccountPage() {
     const {token} = useParams();

@@ -1,10 +1,11 @@
 import "../styles/auth.scss";
-import {Link, redirect} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import FooterComponent from "../components/Footer.tsx";
 import {useState} from "react";
 import {onRegister} from "../lib/controllers/auth-controller.ts";
 
 export function RegisterPage() {
+    const navigate = useNavigate();
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
@@ -26,7 +27,7 @@ export function RegisterPage() {
             return;
         }
 
-        if (!email.endsWith('@gmail.com')) {
+        if (!email.match("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
             setErrorMessage('Please enter a valid email address');
             setIsLoading(false);
             return;
@@ -55,8 +56,12 @@ export function RegisterPage() {
                 // set token in local storage
                 localStorage.setItem('token', result.data!);
 
+                // reset error message
+                setErrorMessage('');
+                setIsLoading(false);
+
                 // redirect to success page
-                redirect('/auth/register/successful');
+                navigate('/auth/register/successful')
             })
     }
 

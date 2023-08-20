@@ -1,10 +1,11 @@
 import "../styles/auth.scss";
-import {Link, redirect} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import FooterComponent from "../components/Footer.tsx";
 import {onLogin} from "../lib/controllers/auth-controller.ts";
 
 export default function LoginPage() {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -21,7 +22,7 @@ export default function LoginPage() {
             return;
         }
 
-        if (!email.endsWith('@gmail.com')) {
+        if (!email.match("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
             setErrorMessage('Please enter a valid email address');
             setIsLoading(false);
             return;
@@ -34,12 +35,17 @@ export default function LoginPage() {
                     setIsLoading(false);
                     return;
                 }
+                console.log("successful login")
 
                 // set token in local storage
                 localStorage.setItem('token', result.data!);
 
+                // reset error message
+                setErrorMessage('');
+                setIsLoading(false);
+
                 // redirect to home page
-                redirect('/home');
+                navigate('/home');
             })
     }
 

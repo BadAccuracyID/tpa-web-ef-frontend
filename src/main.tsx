@@ -55,6 +55,19 @@ const router = createBrowserRouter([
                         ]
                     },
                     {
+                        path: "reset-password",
+                        element: <Outlet/>,
+                        loader: ({request}) => {
+                            return activateAccountLoader(request);
+                        },
+                        children: [
+                            {
+                                path: ":token",
+                                element: <div>Reset Password</div>,
+                            }
+                        ]
+                    },
+                    {
                         path: "reset-password/:token",
                         element: <div>Reset Password</div>,
                     }
@@ -69,7 +82,7 @@ const router = createBrowserRouter([
 ]);
 
 const httpLink = createHttpLink({
-    uri: 'http://localhost:4000/graphql',
+    uri: 'http://localhost:7778/query',
 });
 
 const authLink = setContext((_, {headers}) => {
@@ -86,6 +99,7 @@ const authLink = setContext((_, {headers}) => {
 
 export const client = new ApolloClient({
     link: authLink.concat(httpLink),
+    // uri: 'http://localhost:7778/query',
     cache: new InMemoryCache()
 });
 

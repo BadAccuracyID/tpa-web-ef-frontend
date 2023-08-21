@@ -43,7 +43,8 @@ export default function HomePosts({user}: { user: User }) {
             textContent: "This is a mock post.",
             videoContent: null,
             imageContent: [
-                "https://student-activity.binus.ac.id/himmat/wp-content/uploads/sites/14/2023/03/jere-pp.jpg",
+                // "https://student-activity.binus.ac.id/himmat/wp-content/uploads/sites/14/2023/03/jere-pp.jpg",
+                // "https://student-activity.binus.ac.id/himmat/wp-content/uploads/sites/14/2023/03/jere-pp.jpg",
             ],
         }
 
@@ -87,6 +88,11 @@ function PostComponent({post}: { post: Post }) {
         audienceLogo = <FaUsers className="post-header-info-sub-info-privacy"/>;
     }
 
+    let hasMoreThanOneMedia = false;
+    if ((post.imageContent && post.imageContent.length > 1) || (post.videoContent && post.videoContent.length > 1) || (post.imageContent && post.videoContent)) {
+        hasMoreThanOneMedia = true;
+    }
+
     return (
         <div className="post">
             <div className="post-header">
@@ -109,8 +115,22 @@ function PostComponent({post}: { post: Post }) {
                 <p className="post-content-text">
                     {post.textContent}
                 </p>
-                <div className="post-content-media">
-                    <img className="post-content-media-image" src={post.imageContent![0]!}/>
+
+                <div className={hasMoreThanOneMedia ? "post-content-media-overflow" : "post-content-media"}>
+                    {
+                        post.imageContent?.map((value) => {
+                            return (
+                                <img className="post-content-media-image" src={value!}/>
+                            );
+                        })
+                    }
+                    {
+                        post.videoContent?.map((value) => {
+                            return (
+                                <video className="post-content-media-video" src={value!} controls/>
+                            );
+                        })
+                    }
                 </div>
             </div>
         </div>

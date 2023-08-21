@@ -1,0 +1,92 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.home {
+  padding-top: 80px;
+  padding-left: 10px;
+  padding-right: 10px;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.home .left {
+  display: flex;
+  flex-direction: column;
+  justify-items: flex-start;
+  align-items: end;
+}
+.home .left .subLeft {
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  justify-items: flex-start;
+  align-items: start;
+  justify-content: start;
+}
+.home .left .user-info {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  justify-items: flex-start;
+  text-decoration: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  transition: 0.2s ease;
+}
+.home .left .user-info .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  color: gray;
+}
+.home .left .user-info .name {
+  font-weight: 600;
+  font-size: 18px;
+  color: black;
+  text-decoration: none;
+}
+.home .left .user-info:hover {
+  background-color: #e4e6eb;
+  border-radius: 10px;
+}
+.home .left .other-navigation {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  justify-items: flex-start;
+  text-decoration: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  transition: 0.2s ease;
+}
+.home .left .other-navigation-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  color: deepskyblue;
+}
+.home .left .other-navigation-text {
+  font-weight: 500;
+  font-size: 18px;
+  color: black;
+  text-decoration: none;
+}
+.home .left .other-navigation:hover {
+  background-color: #e4e6eb;
+  border-radius: 10px;
+}
+
+/*# sourceMappingURL=home.css.map */

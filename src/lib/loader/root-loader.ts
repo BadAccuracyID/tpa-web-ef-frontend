@@ -1,6 +1,6 @@
 import {redirect} from "react-router-dom";
-import {getCurrentAccount} from "../user-controller.ts";
-import {trimUrl} from "../../utils/utils.ts";
+import {getCurrentAccount} from "../controllers/user-controller.ts";
+import {trimUrl} from "../utils/utils.ts";
 
 export const rootLoader = async (request: Request) => {
     const url = trimUrl(request.url);

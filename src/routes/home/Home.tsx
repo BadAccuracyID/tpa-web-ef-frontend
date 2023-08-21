@@ -8,6 +8,7 @@ import {AiFillShop} from "react-icons/ai";
 import {PiVideoFill} from "react-icons/pi";
 import {BsCameraVideoFill, BsEmojiSmileFill, BsFillBookmarkFill} from "react-icons/bs";
 import {HiPhoto} from "react-icons/hi2";
+import HomePosts from "../../components/home/HomePosts.tsx";
 
 export default function HomePage() {
     const user = useLoaderData() as User;
@@ -89,7 +90,12 @@ export default function HomePage() {
                             </Link>
                         </div>
                     </div>
+
+                    <div className="post-list">
+                        <HomePosts user={user}/>
+                    </div>
                 </div>
+
             </div>
 
         </div>

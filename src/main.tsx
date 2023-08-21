@@ -7,8 +7,8 @@ import AccountRecoveryPage from "./routes/auth/AccountRecovery.tsx";
 import ActivateAccountPage from "./routes/auth/ActivateAccount.tsx";
 import {ApolloClient, createHttpLink, InMemoryCache} from "@apollo/client";
 import {setContext} from "@apollo/client/link/context";
-import {activateAccountLoader, authLoader, rootLoader} from "./lib/controllers/router/root-loader.ts";
-import {userLoader} from "./lib/controllers/router/user-loader.ts";
+import {activateAccountLoader, authLoader, rootLoader} from "./lib/loader/root-loader.ts";
+import {userLoader} from "./lib/loader/user-loader.ts";
 import HomePage from "./routes/home/Home.tsx";
 
 const router = createBrowserRouter([

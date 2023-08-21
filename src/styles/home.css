@@ -11,9 +11,7 @@ html {
 }
 
 .home {
-  padding-top: 80px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 80px 10px 10px;
   min-height: 100vh;
   background-color: #f0f2f5;
   display: grid;
@@ -155,6 +153,11 @@ html {
 }
 .home .middle .create-post .create-post-footer .footer-item .smile-icon {
   color: orange;
+}
+.home .middle .post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 /*# sourceMappingURL=home.css.map */

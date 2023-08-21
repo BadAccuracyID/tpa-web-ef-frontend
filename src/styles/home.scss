@@ -24,9 +24,7 @@ html {
 }
 
 .home {
-  padding-top: 80px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 80px 10px 10px;
 
   min-height: 100vh;
   background-color: $color-light;
@@ -194,6 +192,12 @@ html {
           }
         }
       }
+    }
+
+    .post-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
   }
 }

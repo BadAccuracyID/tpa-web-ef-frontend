@@ -1,4 +1,4 @@
-import {getCurrentAccount} from "../user-controller.ts";
+import {getCurrentAccount} from "../controllers/user-controller.ts";
 import {redirect} from "react-router-dom";
 
 export const userLoader = async () => {

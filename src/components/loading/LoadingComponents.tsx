@@ -13,3 +13,9 @@ export function FullPageCircularLoading() {
     )
 }
 
+export function PostLoadingComponent() {
+    return (
+        <div className="post-loading"/>
+    )
+}
+

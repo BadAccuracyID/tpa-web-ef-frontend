@@ -122,7 +122,7 @@ html {
       background-color: white;
       border-radius: 8px;
       padding: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 25px;
 
       .create-post-header {
         display: flex;
@@ -192,12 +192,6 @@ html {
           }
         }
       }
-    }
-
-    .post-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
     }
   }
 }

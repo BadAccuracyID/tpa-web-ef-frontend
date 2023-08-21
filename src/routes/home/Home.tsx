@@ -91,9 +91,7 @@ export default function HomePage() {
                         </div>
                     </div>
 
-                    <div className="post-list">
-                        <HomePosts user={user}/>
-                    </div>
+                    <HomePosts user={user}/>
                 </div>
 
             </div>

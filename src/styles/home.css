@@ -95,7 +95,7 @@ html {
   background-color: white;
   border-radius: 8px;
   padding: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
 }
 .home .middle .create-post .create-post-header {
   display: flex;
@@ -153,11 +153,6 @@ html {
 }
 .home .middle .create-post .create-post-footer .footer-item .smile-icon {
   color: orange;
-}
-.home .middle .post-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
 }
 
 /*# sourceMappingURL=home.css.map */

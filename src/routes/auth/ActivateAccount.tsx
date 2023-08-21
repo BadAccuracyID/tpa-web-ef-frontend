@@ -13,7 +13,9 @@ export default function ActivateAccountPage() {
             return false;
         }
 
-        const response = await onActivateAccount(token);
+        const encodedToken = encodeURIComponent(token);
+
+        const response = await onActivateAccount(encodedToken);
         return response.success;
     }
 

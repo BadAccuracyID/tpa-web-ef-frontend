@@ -5,10 +5,17 @@ import {BsChatDotsFill, BsPeople} from "react-icons/bs";
 import {IoPeopleCircleOutline} from "react-icons/io5";
 import {IoMdNotifications} from "react-icons/io";
 import {BiSolidUserCircle} from "react-icons/bi";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 export default function NavigationBar({user}: { user: User }) {
+    const navigate = useNavigate();
     const profilePicture = user.profilePicture;
+
+    function onLogout() {
+        // temporary
+        localStorage.removeItem("token");
+        navigate("/auth/login");
+    }
 
     return (
         <div className="navbar">
@@ -44,10 +51,10 @@ export default function NavigationBar({user}: { user: User }) {
                     <IoMdNotifications className="icon"/>
                 </Link>
 
-                <Link to="/home">
+                <div onClick={onLogout}>
                     {profilePicture ? <img className="profile" src={profilePicture}/> :
                         <BiSolidUserCircle className="profile-null"/>}
-                </Link>
+                </div>
             </div>
         </div>
     )

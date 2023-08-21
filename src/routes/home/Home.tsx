@@ -9,14 +9,28 @@ import {PiVideoFill} from "react-icons/pi";
 import {BsCameraVideoFill, BsEmojiSmileFill, BsFillBookmarkFill} from "react-icons/bs";
 import {HiPhoto} from "react-icons/hi2";
 import HomePosts from "../../components/home/HomePosts.tsx";
+import CreatePostComponent from "../../components/home/CreatePost.tsx";
+import {useState} from "react";
 
 export default function HomePage() {
     const user = useLoaderData() as User;
     const profilePicture = user.profilePicture;
+    const [createPost, setCreatePost] = useState(false);
+
+    function openCreatePost() {
+        setCreatePost(true);
+    }
+
+    function closeCreatePost() {
+        setCreatePost(false);
+        console.log(createPost)
+    }
 
     return (
         <div>
             <NavigationBar user={user}/>
+            {createPost ? <CreatePostComponent user={user} onClose={closeCreatePost}/> : null}
+
             <div className="home">
                 <div className="left">
                     <div className="subLeft">
@@ -70,30 +84,43 @@ export default function HomePage() {
                                 {profilePicture ? < img className="avatar" src={profilePicture}/> :
                                     <BiSolidUserCircle className="avatar"/>}
                             </Link>
-                            <input type="text" placeholder={`What's on your mind, ${user.firstName}?`}/>
+                            <input type="text"
+                                   placeholder={`What's on your mind, ${user.firstName}?`}
+                                   onClick={e => {
+                                       e.preventDefault();
+                                       openCreatePost()
+                                   }}/>
                         </div>
 
                         <br/>
 
                         <div className="create-post-footer">
-                            <Link to="/" className="footer-item">
+                            <div className="footer-item" onClick={e => {
+                                e.preventDefault();
+                                openCreatePost()
+                            }}>
                                 <BsCameraVideoFill className="camera-icon"/>
                                 <p>Live Video</p>
-                            </Link>
-                            <Link to="/" className="footer-item">
+                            </div>
+                            <div className="footer-item" onClick={e => {
+                                e.preventDefault();
+                                openCreatePost()
+                            }}>
                                 <HiPhoto className="photo-icon"/>
                                 <p>Photo/Video</p>
-                            </Link>
-                            <Link to="/" className="footer-item">
+                            </div>
+                            <div className="footer-item" onClick={e => {
+                                e.preventDefault();
+                                openCreatePost()
+                            }}>
                                 <BsEmojiSmileFill className="smile-icon"/>
                                 <p>Feeling/Activity</p>
-                            </Link>
+                            </div>
                         </div>
                     </div>
 
                     <HomePosts user={user}/>
                 </div>
-
             </div>
 
         </div>

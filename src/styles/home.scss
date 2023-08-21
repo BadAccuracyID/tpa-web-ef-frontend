@@ -32,13 +32,14 @@ html {
   background-color: $color-light;
 
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1.5fr 1fr;
 
   .left {
     display: flex;
     flex-direction: column;
     justify-items: flex-start;
     align-items: end;
+    margin-right: 100px;
 
     .subLeft {
       width: max-content;
@@ -111,6 +112,87 @@ html {
       &:hover {
         background-color: #e4e6eb;
         border-radius: 10px;
+      }
+    }
+  }
+
+  .middle {
+    display: flex;
+    flex-direction: column;
+
+    .create-post {
+      background-color: white;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+
+      .create-post-header {
+        display: flex;
+        flex-direction: row;
+
+        .avatar {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          margin-right: 10px;
+          color: gray;
+        }
+
+        input {
+          width: 100%;
+          padding: 0 10px;
+          outline: none;
+          background-color: $color-light;
+          transition: $transition;
+          border-radius: 20px;
+          border: none;
+          font-size: 15px;
+        }
+      }
+
+      .create-post-footer {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+
+        .footer-item {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          text-decoration: none;
+          transition: $transition;
+
+          p {
+            color: black;
+            font-size: 16px;
+          }
+
+          &:hover {
+            cursor: pointer;
+            background-color: $color-light;
+          }
+
+          .camera-icon,
+          .photo-icon,
+          .smile-icon {
+            width: 25px;
+            height: 25px;
+
+          }
+
+          .camera-icon {
+            color: red;
+          }
+
+          .photo-icon {
+            color: green;
+          }
+
+          .smile-icon {
+            color: orange;
+          }
+        }
       }
     }
   }

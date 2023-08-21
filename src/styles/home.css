@@ -17,13 +17,14 @@ html {
   min-height: 100vh;
   background-color: #f0f2f5;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1.5fr 1fr;
 }
 .home .left {
   display: flex;
   flex-direction: column;
   justify-items: flex-start;
   align-items: end;
+  margin-right: 100px;
 }
 .home .left .subLeft {
   width: max-content;
@@ -87,6 +88,73 @@ html {
 .home .left .other-navigation:hover {
   background-color: #e4e6eb;
   border-radius: 10px;
+}
+.home .middle {
+  display: flex;
+  flex-direction: column;
+}
+.home .middle .create-post {
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.home .middle .create-post .create-post-header {
+  display: flex;
+  flex-direction: row;
+}
+.home .middle .create-post .create-post-header .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  color: gray;
+}
+.home .middle .create-post .create-post-header input {
+  width: 100%;
+  padding: 0 10px;
+  outline: none;
+  background-color: #f0f2f5;
+  transition: 0.2s ease;
+  border-radius: 20px;
+  border: none;
+  font-size: 15px;
+}
+.home .middle .create-post .create-post-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.home .middle .create-post .create-post-footer .footer-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+.home .middle .create-post .create-post-footer .footer-item p {
+  color: black;
+  font-size: 16px;
+}
+.home .middle .create-post .create-post-footer .footer-item:hover {
+  cursor: pointer;
+  background-color: #f0f2f5;
+}
+.home .middle .create-post .create-post-footer .footer-item .camera-icon,
+.home .middle .create-post .create-post-footer .footer-item .photo-icon,
+.home .middle .create-post .create-post-footer .footer-item .smile-icon {
+  width: 25px;
+  height: 25px;
+}
+.home .middle .create-post .create-post-footer .footer-item .camera-icon {
+  color: red;
+}
+.home .middle .create-post .create-post-footer .footer-item .photo-icon {
+  color: green;
+}
+.home .middle .create-post .create-post-footer .footer-item .smile-icon {
+  color: orange;
 }
 
 /*# sourceMappingURL=home.css.map */

@@ -6,7 +6,8 @@ import {BiDetail, BiSolidUserCircle} from "react-icons/bi";
 import {FaClock, FaUserFriends, FaUsers} from "react-icons/fa";
 import {AiFillShop} from "react-icons/ai";
 import {PiVideoFill} from "react-icons/pi";
-import {BsFillBookmarkFill} from "react-icons/bs";
+import {BsCameraVideoFill, BsEmojiSmileFill, BsFillBookmarkFill} from "react-icons/bs";
+import {HiPhoto} from "react-icons/hi2";
 
 export default function HomePage() {
     const user = useLoaderData() as User;
@@ -58,6 +59,35 @@ export default function HomePage() {
                             <BsFillBookmarkFill className="other-navigation-icon"/>
                             <p className="other-navigation-text">Saved</p>
                         </Link>
+                    </div>
+                </div>
+
+                <div className="middle">
+                    <div className="create-post">
+                        <div className="create-post-header">
+                            <Link to="/" className="user-info">
+                                {profilePicture ? < img className="avatar" src={profilePicture}/> :
+                                    <BiSolidUserCircle className="avatar"/>}
+                            </Link>
+                            <input type="text" placeholder={`What's on your mind, ${user.firstName}?`}/>
+                        </div>
+
+                        <br/>
+
+                        <div className="create-post-footer">
+                            <Link to="/" className="footer-item">
+                                <BsCameraVideoFill className="camera-icon"/>
+                                <p>Live Video</p>
+                            </Link>
+                            <Link to="/" className="footer-item">
+                                <HiPhoto className="photo-icon"/>
+                                <p>Photo/Video</p>
+                            </Link>
+                            <Link to="/" className="footer-item">
+                                <BsEmojiSmileFill className="smile-icon"/>
+                                <p>Feeling/Activity</p>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,92 +1,30 @@
-import {Audience, Post, User} from "../../lib/gql/graphql.ts";
+import {Audience, Post} from "../../lib/gql/graphql.ts";
 import {Suspense} from "react";
 import {Await} from "react-router-dom";
-// import {getPosts} from "../../lib/controllers/post-controller.ts";
+import {getPosts} from "../../lib/controllers/post-controller.ts";
 import "../../styles/post.scss";
 import {BsPeopleFill} from "react-icons/bs";
 import {MdPublic} from "react-icons/md";
 import {AiFillStar} from "react-icons/ai";
 import {FaUsers} from "react-icons/fa";
 import {PostLoadingComponent} from "../loading/LoadingComponents.tsx";
+import {BiSolidUserCircle} from "react-icons/bi";
 
-export default function HomePosts({user}: { user: User }) {
+export default function HomePosts() {
 
-    // async function fetchPosts(): Promise<Post[]> {
-    //     const fetched = await getPosts(1, 5);
-    //     if (!fetched.success) {
-    //         return [];
-    //     }
-    //
-    //     return fetched.data!;
-    // }
+    async function fetchPosts(): Promise<Post[]> {
+        const fetched = await getPosts(1, 5);
+        if (!fetched.success) {
+            return [];
+        }
 
-    async function mockFetchPosts(): Promise<Post[]> {
-        const post: Post = {
-            id: "001",
-            title: "Mock Post",
-            audience: Audience.Public,
-            author: {
-                id: user.id,
-                email: user.email,
-                username: user.username,
-                dateOfBirth: user.dateOfBirth,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                gender: user.gender,
-                activated: user.activated,
-            },
-            comments: null,
-            createdAt: new Date().toDateString(),
-            hashtags: null,
-            likedBy: null,
-            sharedBy: null,
-            taggedUsers: null,
-            textContent: "This is a mock post.",
-            videoContent: null,
-            imageContent: [
-                "https://student-activity.binus.ac.id/himmat/wp-content/uploads/sites/14/2023/03/jere-pp.jpg",
-                "https://student-activity.binus.ac.id/himmat/wp-content/uploads/sites/14/2023/03/jere-pp.jpg",
-            ],
-        };
-
-        const post2: Post = {
-            id: "001",
-            title: "Mock Post",
-            audience: Audience.Public,
-            author: {
-                id: user.id,
-                email: user.email,
-                username: user.username,
-                dateOfBirth: user.dateOfBirth,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                gender: user.gender,
-                activated: user.activated,
-            },
-            comments: null,
-            createdAt: new Date().toDateString(),
-            hashtags: null,
-            likedBy: null,
-            sharedBy: null,
-            taggedUsers: null,
-            textContent: "This is a mock post.",
-            videoContent: null,
-            imageContent: [
-                // "https://student-activity.binus.ac.id/himmat/wp-content/uploads/sites/14/2023/03/jere-pp.jpg",
-                // "https://student-activity.binus.ac.id/himmat/wp-content/uploads/sites/14/2023/03/jere-pp.jpg",
-            ],
-        };
-
-        // sleep for 1 second
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        return [post, post2];
+        return fetched.data!;
     }
 
     return (
         <div>
             <Suspense fallback={<PostSkeletonComponent/>}>
-                <Await resolve={mockFetchPosts()}>
+                <Await resolve={fetchPosts()}>
                     {(posts: Post[]) => {
                         return (
                             <div className="post-list">
@@ -105,7 +43,7 @@ export default function HomePosts({user}: { user: User }) {
 }
 
 function PostComponent({post}: { post: Post }) {
-    const profilePicture = "https://student-activity.binus.ac.id/himmat/wp-content/uploads/sites/14/2023/03/jere-pp.jpg";
+    const profilePicture = post.author.profilePicture;
 
     let audienceLogo;
     if (post.audience === Audience.Public) {
@@ -126,7 +64,9 @@ function PostComponent({post}: { post: Post }) {
     return (
         <div className="post">
             <div className="post-header">
-                <img className="post-header-profile-picture" src={profilePicture}/>
+                {profilePicture ? <img className="post-header-profile-picture" src={profilePicture}/> :
+                    <BiSolidUserCircle className="post-header-profile-picture-null"/>}
+
                 <div className="post-header-info">
                     <p className="post-header-info-user-name">
                         {post.author.firstName} {post.author.lastName}

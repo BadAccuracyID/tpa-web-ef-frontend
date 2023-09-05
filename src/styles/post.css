@@ -35,11 +35,24 @@ html {
   justify-content: start;
   position: relative;
 }
-.post-header-profile-picture {
+.post-header-profile-picture, .post-header-profile-picture-null {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   margin-right: 10px;
+  transition: 0.2s ease;
+}
+.post-header-profile-picture:hover, .post-header-profile-picture-null:hover {
+  background-color: white;
+  opacity: 0.8;
+}
+.post-header-profile-picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.post-header-profile-picture-null {
+  color: black;
 }
 .post-header-info {
   display: flex;

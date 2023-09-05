@@ -95,11 +95,26 @@ html {
             justify-content: start;
             width: 100%;
 
-            &-profile-picture {
+            &-profile-picture,
+            &-profile-picture-null {
                 width: 40px;
                 height: 40px;
                 border-radius: 50%;
                 margin-right: 10px;
+                transition: $transition;
+
+                &:hover {
+                    background-color: white;
+                    opacity: 0.8;
+                }
+            }
+
+            &-profile-picture {
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
             }
 
             &-sub-info {
@@ -146,6 +161,105 @@ html {
         }
 
         &-footer {
+            width: 100%;
+
+            input {
+                display: none;
+            }
+
+            &-container {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                cursor: pointer;
+                transition: $transition;
+                padding: 16px;
+                border: $input-border;
+                border-radius: 8px;
+
+                &-button {
+                    width: 100%;
+                    border: none;
+                    outline: none;
+                    background-color: transparent;
+                    color: black;
+                    font-size: 1.2rem;
+                    font-weight: bold;
+                    cursor: pointer;
+                    transition: $transition;
+                }
+
+                &-icons {
+                    &-container {
+                        margin-left: auto;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    &-icon-photo,
+                    &-icon-camera {
+                        width: 30px;
+                        height: 30px;
+                        margin-right: 10px;
+                        cursor: pointer;
+                        transition: $transition;
+                    }
+
+                    &-icon-photo {
+                        color: green;
+                    }
+
+                    &-icon-camera {
+                        color: red;
+                    }
+                }
+            }
+
+            &-preview {
+                margin-top: 16px;
+                overflow-y: auto;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+                width: 100%;
+                max-height: 200px;
+
+                .photo-container {
+                    position: relative;
+                    width: 150px;
+                    height: 150px;
+                    margin-right: 10px;
+                    flex-shrink: 0;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+
+                    .delete-button {
+                        width: 30px;
+                        height: 30px;
+                        border: none;
+                        outline: none;
+                        color: red;
+                        background: none;
+                        font-size: 1.2rem;
+                        font-weight: bold;
+                        cursor: pointer;
+                        transition: $transition;
+
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                    }
+                }
+            }
 
         }
 

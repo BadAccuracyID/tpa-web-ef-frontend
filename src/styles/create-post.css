@@ -70,11 +70,21 @@ html {
   justify-content: start;
   width: 100%;
 }
-.create-post-popup-container-user-profile-picture {
+.create-post-popup-container-user-profile-picture, .create-post-popup-container-user-profile-picture-null {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   margin-right: 10px;
+  transition: 0.2s ease;
+}
+.create-post-popup-container-user-profile-picture:hover, .create-post-popup-container-user-profile-picture-null:hover {
+  background-color: white;
+  opacity: 0.8;
+}
+.create-post-popup-container-user-profile-picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .create-post-popup-container-user-sub-info {
   display: flex;
@@ -109,6 +119,92 @@ html {
   padding: 16px 0;
   resize: none;
   transition: 0.2s ease;
+}
+.create-post-popup-container-footer {
+  width: 100%;
+}
+.create-post-popup-container-footer input {
+  display: none;
+}
+.create-post-popup-container-footer-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: 0.2s ease;
+  padding: 16px;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+}
+.create-post-popup-container-footer-container-button {
+  width: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: black;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.create-post-popup-container-footer-container-icons-container {
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.create-post-popup-container-footer-container-icons-icon-photo, .create-post-popup-container-footer-container-icons-icon-camera {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.create-post-popup-container-footer-container-icons-icon-photo {
+  color: green;
+}
+.create-post-popup-container-footer-container-icons-icon-camera {
+  color: red;
+}
+.create-post-popup-container-footer-preview {
+  margin-top: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-height: 200px;
+}
+.create-post-popup-container-footer-preview .photo-container {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+.create-post-popup-container-footer-preview .photo-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.create-post-popup-container-footer-preview .photo-container .delete-button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  outline: none;
+  color: red;
+  background: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s ease;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 .create-post-popup-container-button-unavailable, .create-post-popup-container-button-available {
   width: 100%;

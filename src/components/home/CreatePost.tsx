@@ -21,6 +21,14 @@ export default function CreatePostComponent({user, onClose}: { user: User, onClo
         if (event.target.files) {
             const files = Array.from(event.target.files);
             if (files.length > 10) {
+                toast.error("You can only upload 10 files at a time!", {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                });
                 return;
             }
 
@@ -44,6 +52,14 @@ export default function CreatePostComponent({user, onClose}: { user: User, onClo
 
     const onCreatePost = async () => {
         if (text === "" || !text) {
+            toast.error("You must enter some text!", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+            });
             return;
         }
 

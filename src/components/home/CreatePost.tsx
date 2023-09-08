@@ -1,14 +1,17 @@
-import {User} from "../../lib/gql/graphql.ts";
+import {Audience, User} from "../../lib/gql/graphql.ts";
 import "../../styles/create-post.scss";
 import {AiFillCloseCircle} from "react-icons/ai";
 import {BiSolidUserCircle} from "react-icons/bi";
 import React, {createRef, useState} from "react";
 import {BsCameraVideoFill} from "react-icons/bs";
 import {HiPhoto} from "react-icons/hi2";
+import {uploadFiles} from "../../lib/controllers/firebase-upload-controller.ts";
+import {createPost} from "../../lib/controllers/post-controller.ts";
 
 export default function CreatePostComponent({user, onClose}: { user: User, onClose: () => void }) {
     const profilePicture = user.profilePicture;
 
+    const [text, setText] = useState<string>("");
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const fileInputRef: React.Ref<HTMLInputElement> = createRef();
 
@@ -36,6 +39,35 @@ export default function CreatePostComponent({user, onClose}: { user: User, onClo
 
         fileInputRef.current.click();
     };
+
+    const onCreatePost = async () => {
+        if (text === "" || !text) {
+            return;
+        }
+
+        // split image and video files
+        const imageFiles = selectedFiles.filter(file => file.type.startsWith("image"));
+        const videoFiles = selectedFiles.filter(file => file.type.startsWith("video"));
+
+        // upload files
+        const imageUrls = await uploadFiles(imageFiles);
+        const videoUrls = await uploadFiles(videoFiles);
+
+        // create post
+        createPost({
+            audience: Audience.Public,
+            group: null,
+            hashtags: null,
+            imageContent: imageUrls,
+            mentionedUsers: null,
+            taggedUsers: null,
+            textContent: text,
+            title: text,
+            videoContent: videoUrls
+        }).then(() => {
+            onClose();
+        })
+    }
 
     return (
         <div className="create-post-popup">
@@ -70,7 +102,10 @@ export default function CreatePostComponent({user, onClose}: { user: User, onClo
                 <div className="create-post-popup-container-body">
                     <textarea
                         className="create-post-popup-container-body-input"
-                        placeholder={`What's on your mind, ${user.firstName}?`}/>
+                        value={text}
+                        onChange={(event) => setText(event.target.value)}
+                        placeholder={`What's on your mind, ${user.firstName}?`}
+                    />
                 </div>
 
                 <div className="create-post-popup-container-footer">
@@ -78,6 +113,7 @@ export default function CreatePostComponent({user, onClose}: { user: User, onClo
                         type="file"
                         onChange={onFileChange}
                         multiple
+                        accept={"image/*, video/*"}
                         ref={fileInputRef}
                     />
 
@@ -110,7 +146,10 @@ export default function CreatePostComponent({user, onClose}: { user: User, onClo
                     </div>
                 </div>
 
-                <div className="create-post-popup-container-button-unavailable">
+                <div
+                    className={text == "" ? "create-post-popup-container-button-unavailable" : "create-post-popup-container-button-available"}
+                    onClick={onCreatePost}
+                >
                     Post
                 </div>
             </div>

@@ -340,7 +340,7 @@ export async function getPosts(pageNumber: number, limit: number): Promise<Contr
     }
 }
 
-export async function createPosts(input: PostInput): Promise<ControllerResponse<Post>> {
+export async function createPost(input: PostInput): Promise<ControllerResponse<Post>> {
     try {
         const {data, errors} = await client.mutate({
             mutation: CREATE_POST_QUERY,

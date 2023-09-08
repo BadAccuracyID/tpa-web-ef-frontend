@@ -8,6 +8,7 @@ import {HiPhoto} from "react-icons/hi2";
 import {uploadFilesWithToast} from "../../lib/controllers/firebase-upload-controller.ts";
 import 'react-toastify/dist/ReactToastify.css';
 import {createPost} from "../../lib/controllers/post-controller.ts";
+import {toast} from "react-toastify";
 
 export default function CreatePostComponent({user, onClose}: { user: User, onClose: () => void }) {
     const profilePicture = user.profilePicture;
@@ -57,15 +58,24 @@ export default function CreatePostComponent({user, onClose}: { user: User, onClo
         // create post
         createPost({
             audience: Audience.Public,
-            group: null,
             hashtags: null,
-            imageContent: imageUrls,
+            imageContent: imageUrls.length > 0 ? imageUrls : null,
             mentionedUsers: null,
             taggedUsers: null,
             textContent: text,
             title: text,
-            videoContent: videoUrls
+            videoContent: videoUrls.length > 0 ? videoUrls : null,
         }).then(() => {
+            toast("Post created successfully!", {
+                position: "top-right",
+                type: "success",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+
             onClose();
         })
     }

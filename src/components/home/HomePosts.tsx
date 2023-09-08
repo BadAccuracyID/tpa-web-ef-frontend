@@ -13,7 +13,7 @@ import {BiSolidUserCircle} from "react-icons/bi";
 export default function HomePosts() {
 
     async function fetchPosts(): Promise<Post[]> {
-        const fetched = await getPosts(1, 5);
+        const fetched = await getPosts(0, 5);
         if (!fetched.success) {
             return [];
         }

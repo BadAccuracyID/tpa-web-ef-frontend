@@ -1,7 +1,6 @@
 import {graphql} from "../gql";
 import {Post, PostInput} from "../gql/graphql.ts";
 import {client} from "../../main.tsx";
-import * as assert from "assert";
 
 // getPosts(pageNumber: Int, limit: Int): PostsPage
 // type Post {
@@ -290,7 +289,9 @@ export async function getPosts(pageNumber: number, limit: number): Promise<Contr
 
         const posts: Post[] = [];
         for (const it of data.getPosts.posts!) {
-            assert(it !== null);
+            if (it === null) {
+                continue;
+            }
 
             const post: Post = {
                 id: it.id,
@@ -366,7 +367,13 @@ export async function createPost(input: PostInput): Promise<ControllerResponse<P
         }
 
         const it = data.createPost;
-        assert(it !== null);
+        if (it === null) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
 
         const post: Post = {
             id: it.id,

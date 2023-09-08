@@ -10,6 +10,7 @@ import {setContext} from "@apollo/client/link/context";
 import {activateAccountLoader, authLoader, rootLoader} from "./lib/loader/root-loader.ts";
 import {userLoader} from "./lib/loader/user-loader.ts";
 import HomePage from "./routes/home/Home.tsx";
+import {ToastContainer} from "react-toastify";
 
 const router = createBrowserRouter([
     {
@@ -111,5 +112,6 @@ export const client = new ApolloClient({
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <RouterProvider router={router}/>
+        <ToastContainer />
     </React.StrictMode>,
 )

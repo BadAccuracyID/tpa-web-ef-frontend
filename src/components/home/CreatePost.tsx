@@ -5,7 +5,8 @@ import {BiSolidUserCircle} from "react-icons/bi";
 import React, {createRef, useState} from "react";
 import {BsCameraVideoFill} from "react-icons/bs";
 import {HiPhoto} from "react-icons/hi2";
-import {uploadFiles} from "../../lib/controllers/firebase-upload-controller.ts";
+import {uploadFilesWithToast} from "../../lib/controllers/firebase-upload-controller.ts";
+import 'react-toastify/dist/ReactToastify.css';
 import {createPost} from "../../lib/controllers/post-controller.ts";
 
 export default function CreatePostComponent({user, onClose}: { user: User, onClose: () => void }) {
@@ -50,8 +51,8 @@ export default function CreatePostComponent({user, onClose}: { user: User, onClo
         const videoFiles = selectedFiles.filter(file => file.type.startsWith("video"));
 
         // upload files
-        const imageUrls = await uploadFiles(imageFiles);
-        const videoUrls = await uploadFiles(videoFiles);
+        const imageUrls = await uploadFilesWithToast(imageFiles);
+        const videoUrls = await uploadFilesWithToast(videoFiles);
 
         // create post
         createPost({

@@ -119,7 +119,7 @@ export default function HomePage() {
                         </div>
                     </div>
 
-                    <HomePosts/>
+                    <HomePosts user={user}/>
                 </div>
             </div>
 

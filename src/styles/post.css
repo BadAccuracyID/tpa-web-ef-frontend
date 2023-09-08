@@ -34,6 +34,43 @@ html {
   align-items: center;
   justify-content: start;
   position: relative;
+  width: 100%;
+}
+.post-header-left {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  position: relative;
+}
+.post-header-right {
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  position: relative;
+  gap: 6px;
+}
+.post-header-right-icon-edit {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  transition: 0.2s ease;
+}
+.post-header-right-icon-edit:hover {
+  color: #1877f2;
+}
+.post-header-right-icon-delete {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  color: red;
+  transition: 0.2s ease;
+}
+.post-header-right-icon-delete:hover {
+  color: darkred;
 }
 .post-header-profile-picture, .post-header-profile-picture-null {
   width: 50px;

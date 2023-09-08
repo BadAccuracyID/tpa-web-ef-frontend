@@ -261,6 +261,118 @@ const CREATE_POST_QUERY = graphql(`
     }
 `);
 
+//deletePost(id: ID!): Post
+const DELETE_POST_MUTATION = graphql(`
+    mutation deletePost($id: ID!) {
+        deletePost(id: $id) {
+            id
+            title
+            audience
+            author {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+
+            sharedBy {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            likedBy {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            comments {
+                id
+                postId
+                author {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+                textContent
+                replies {
+                    id
+                    postId
+                    author {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        gender
+                    }
+                    textContent
+                    likedBy {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        gender
+                    }
+                    createdAt
+                }
+                likedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+                createdAt
+            }
+
+            textContent
+            imageContent
+            videoContent
+
+            taggedUsers {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            hashtags
+
+            createdAt
+        }
+    }
+`);
+
 export async function getPosts(pageNumber: number, limit: number): Promise<ControllerResponse<Post[]>> {
     try {
         const {data, errors} = await client.query({
@@ -410,6 +522,86 @@ export async function createPost(input: PostInput): Promise<ControllerResponse<P
         let errorMsg = 'Error executing createPosts';
         if (error instanceof Error) {
             console.error('Error executing createPosts:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
+    }
+}
+
+export async function deletePost(id: string): Promise<ControllerResponse<Post>> {
+    try {
+        const {data, errors} = await client.mutate({
+            mutation: DELETE_POST_MUTATION,
+            variables: {
+                id,
+            },
+        });
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            }
+        }
+
+        if (!data?.deletePost) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        const it = data.deletePost;
+        if (it === null) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        const post: Post = {
+            id: it.id,
+            title: it.title,
+            audience: it.audience,
+            author: {
+                id: it.author.id,
+                email: it.author.email,
+                username: it.author.username,
+                dateOfBirth: it.author.dateOfBirth,
+                firstName: it.author.firstName,
+                lastName: it.author.lastName,
+                gender: it.author.gender,
+                activated: it.author.activated,
+            },
+            comments: it.comments,
+            createdAt: it.createdAt,
+            hashtags: it.hashtags,
+            imageContent: it.imageContent,
+            likedBy: it.likedBy,
+            sharedBy: it.sharedBy,
+            taggedUsers: it.taggedUsers,
+            textContent: it.textContent,
+            videoContent: it.videoContent,
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: post,
+        }
+
+    } catch (error) {
+        let errorMsg = 'Error executing deletePosts';
+        if (error instanceof Error) {
+            console.error('Error executing deletePosts:', error);
             errorMsg = error.message;
         }
 

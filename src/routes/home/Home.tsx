@@ -16,6 +16,7 @@ export default function HomePage() {
     const user = useLoaderData() as User;
     const profilePicture = user.profilePicture;
     const [createPost, setCreatePost] = useState(false);
+    const [reload, setReload] = useState(false);
 
     function openCreatePost() {
         setCreatePost(true);

@@ -12,19 +12,20 @@ import {toast} from "react-toastify";
 
 export default function HomePosts({user}: { user: User }) {
     const [posts, setPosts] = useState<Post[]>([]);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(-1);
     const [loading, setLoading] = useState(false);
     const [anyMore, setAnyMore] = useState(true);
 
     const loadPosts = useCallback(async () => {
-        if (loading || !anyMore) {
+        if (!anyMore) {
             return;
         }
 
         setLoading(true);
-        setPage(prevPage => prevPage + 1);
-        const fetched = await getPosts(page, 5);
-        console.log("page: " + page)
+
+        const nextPage = page + 1;
+        const fetched = await getPosts(nextPage, 5);
+        setPage(nextPage);
 
         if (fetched.success) {
             if (fetched.data!.length === 0) {
@@ -56,7 +57,7 @@ export default function HomePosts({user}: { user: User }) {
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
-                // loadPosts();
+                loadPosts();
             }
         }
 
@@ -66,11 +67,15 @@ export default function HomePosts({user}: { user: User }) {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [loadPosts]);
 
+    const onRemovePost = (postId: string) => {
+        setPosts((prev) => prev.filter((v) => v.id !== postId));
+    }
+
     return (
         <div>
             <div className="post-list">
                 {posts.map((post) => (
-                    <PostComponent key={post.id} post={post} user={user}/>
+                    <PostComponent key={post.id} post={post} user={user} onRemovePost={onRemovePost}/>
                 ))}
             </div>
             {(loading && !anyMore) && <PostSkeletonComponent/>}
@@ -78,7 +83,7 @@ export default function HomePosts({user}: { user: User }) {
     );
 }
 
-function PostComponent({post, user}: { post: Post, user: User }) {
+function PostComponent({post, user, onRemovePost}: { post: Post, user: User, onRemovePost: (postId: string) => void }) {
     const profilePicture = post.author.profilePicture;
 
     let audienceLogo;
@@ -117,6 +122,7 @@ function PostComponent({post, user}: { post: Post, user: User }) {
                 closeOnClick: true,
                 draggable: true,
             });
+            onRemovePost(post.id);
         })
     }
 

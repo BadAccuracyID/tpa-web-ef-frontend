@@ -93,6 +93,7 @@ export default function CreatePostComponent({user, onClose}: { user: User, onClo
             });
 
             onClose();
+            window.location.reload();
         })
     }
 

@@ -23,7 +23,6 @@ export default function HomePage() {
 
     function closeCreatePost() {
         setCreatePost(false);
-        console.log(createPost)
     }
 
     return (

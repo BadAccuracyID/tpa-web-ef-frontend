@@ -41,7 +41,6 @@ export default function LoginPage() {
                     setIsLoading(false);
                     return;
                 }
-                console.log("successful login")
 
                 // set token in local storage
                 localStorage.setItem('token', result.data!);

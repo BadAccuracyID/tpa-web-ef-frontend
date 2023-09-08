@@ -1,6 +1,5 @@
 import {Audience, Post, User} from "../../lib/gql/graphql.ts";
-import {Suspense} from "react";
-import {Await} from "react-router-dom";
+import {useCallback, useEffect, useState} from "react";
 import {deletePost, getPosts} from "../../lib/controllers/post-controller.ts";
 import "../../styles/post.scss";
 import {BsPeopleFill, BsTrashFill} from "react-icons/bs";
@@ -12,35 +11,71 @@ import {BiSolidUserCircle} from "react-icons/bi";
 import {toast} from "react-toastify";
 
 export default function HomePosts({user}: { user: User }) {
+    const [posts, setPosts] = useState<Post[]>([]);
+    const [page, setPage] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [anyMore, setAnyMore] = useState(true);
 
-    async function fetchPosts(): Promise<Post[]> {
-        const fetched = await getPosts(0, 5);
-        if (!fetched.success) {
-            return [];
+    const loadPosts = useCallback(async () => {
+        if (loading || !anyMore) {
+            return;
         }
 
-        return fetched.data!;
-    }
+        setLoading(true);
+        setPage(prevPage => prevPage + 1);
+        const fetched = await getPosts(page, 5);
+        console.log("page: " + page)
+
+        if (fetched.success) {
+            if (fetched.data!.length === 0) {
+                setAnyMore(false);
+                return;
+            }
+
+            setPosts((prev) => [...prev, ...fetched.data!]);
+
+            // remove duplicates
+            setPosts((prev) => prev.filter((v, i, a) => a.findIndex(t => (t.id === v.id)) === i));
+        } else {
+            toast.error("Failed to fetch posts", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+        }
+
+        setLoading(false);
+    }, [page]); // Put dependencies here
+
+    useEffect(() => {
+        loadPosts();
+    }, []);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
+                // loadPosts();
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll);
+
+        // Clean up event listener
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [loadPosts]);
 
     return (
         <div>
-            <Suspense fallback={<PostSkeletonComponent/>}>
-                <Await resolve={fetchPosts()}>
-                    {(posts: Post[]) => {
-                        return (
-                            <div className="post-list">
-                                {posts.map((post: Post) => {
-                                    return (
-                                        <PostComponent post={post} user={user}/>
-                                    )
-                                })}
-                            </div>
-                        );
-                    }}
-                </Await>
-            </Suspense>
+            <div className="post-list">
+                {posts.map((post) => (
+                    <PostComponent key={post.id} post={post} user={user}/>
+                ))}
+            </div>
+            {(loading && !anyMore) && <PostSkeletonComponent/>}
         </div>
-    )
+    );
 }
 
 function PostComponent({post, user}: { post: Post, user: User }) {
@@ -84,10 +119,6 @@ function PostComponent({post, user}: { post: Post, user: User }) {
             });
         })
     }
-
-    console.log(user.id)
-    console.log(post.author.id)
-    console.log(user.id === post.author.id)
 
     return (
         <div className="post">

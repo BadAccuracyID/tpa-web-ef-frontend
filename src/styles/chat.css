@@ -64,6 +64,7 @@ html {
   padding: 10px;
   margin-right: 10px;
   margin-left: 10px;
+  margin-bottom: 10px;
   outline: none;
   background-color: #f0f2f5;
   transition: 0.2s ease;
@@ -74,6 +75,45 @@ html {
   background-color: white;
   border-radius: 10px;
   width: 100%;
+}
+
+.conversation-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.conversation-card {
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.conversation-card-picture {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  margin: 5px;
+}
+.conversation-card-right {
+  display: flex;
+  flex-direction: column;
+}
+.conversation-card-right-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+.conversation-card-right-last-message {
+  font-size: 14px;
+  margin-left: 10px;
+  color: slategray;
+}
+.conversation-card:hover {
+  background-color: #ccc;
 }
 
 /*# sourceMappingURL=chat.css.map */

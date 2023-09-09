@@ -61,6 +61,7 @@ html {
       outline: none;
       background-color: $color-light;
       transition: $transition;
+      font-size: 14px;
 
       &:focus {
         border-color: $color-primary;

@@ -1,3 +1,6 @@
+/* eslint-disable no-var */
+// noinspection ES6ConvertVarToLetConst
+
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
@@ -5,12 +8,13 @@ import LoginPage from "./routes/auth/Login.tsx";
 import {RegisterPage, RegisterSuccessfulPage} from "./routes/auth/Register.tsx";
 import AccountRecoveryPage from "./routes/auth/AccountRecovery.tsx";
 import ActivateAccountPage from "./routes/auth/ActivateAccount.tsx";
-import {ApolloClient, createHttpLink, InMemoryCache} from "@apollo/client";
+import {ApolloClient, createHttpLink, InMemoryCache, NormalizedCacheObject} from "@apollo/client";
 import {setContext} from "@apollo/client/link/context";
 import {activateAccountLoader, authLoader, rootLoader} from "./lib/loader/root-loader.ts";
 import {userLoader} from "./lib/loader/user-loader.ts";
 import HomePage from "./routes/home/Home.tsx";
 import {ToastContainer} from "react-toastify";
+import ChatPage from "./routes/chat/Chat.tsx";
 
 const router = createBrowserRouter([
     {
@@ -82,36 +86,48 @@ const router = createBrowserRouter([
                     return userLoader();
                 },
                 element: <HomePage/>,
-            }
+            },
+            {
+                path: "chat",
+                loader: () => {
+                    return userLoader();
+                },
+                element: <ChatPage/>,
+            },
         ]
     },
 ]);
 
-const httpLink = createHttpLink({
-    uri: 'http://localhost:7778/query',
-});
+var cachedApolloClient: ApolloClient<NormalizedCacheObject> | null = null;
 
-const authLink = setContext((_, {headers}) => {
-    // get the authentication token from local storage if it exists
-    const token = localStorage.getItem('token');
-    return {
-        headers: {
-            ...headers,
-            authorization: token ? token : "",
+export function getApolloClient() {
+    const httpLink = createHttpLink({
+        uri: 'http://localhost:7778/query',
+    });
+
+    const authLink = setContext((_, {headers}) => {
+        const token = localStorage.getItem('token');
+        return {
+            headers: {
+                ...headers,
+                authorization: token ? token : "",
+            }
         }
+    });
+
+    if (cachedApolloClient === null) {
+        cachedApolloClient = new ApolloClient({
+            link: authLink.concat(httpLink),
+            cache: new InMemoryCache(),
+        });
     }
-});
 
-
-export const client = new ApolloClient({
-    link: authLink.concat(httpLink),
-    // uri: 'http://localhost:7778/query',
-    cache: new InMemoryCache()
-});
+    return cachedApolloClient;
+}
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <RouterProvider router={router}/>
-        <ToastContainer />
+        <ToastContainer/>
     </React.StrictMode>,
 )

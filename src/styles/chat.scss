@@ -1,0 +1,101 @@
+// Define variables
+$font-family-main: 'Roboto', sans-serif;
+$color-primary: #1877f2;
+$color-primary-dark: #1464aa;
+$color-secondary: #42b72a;
+$color-secondary-dark: #36a420;
+$color-dark: #000000;
+$color-light: #f0f2f5;
+$color-grey: #ccc;
+$input-border: 1px solid #cccccc;
+$transition: 0.2s ease;
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: $font-family-main;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+.chat {
+    padding-top: 60px;
+    min-height: 100vh;
+    background-color: $color-light;
+
+    display: flex;
+    flex-direction: row;
+
+    &-left {
+        width: 25%;
+        background-color: white;
+
+        display: flex;
+        flex-direction: column;
+
+        &-header {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            &-text {
+                margin: 20px;
+                font-size: 25px;
+                font-weight: bold;
+            }
+
+            &-icons {
+                margin: 20px 20px 20px auto;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+
+                &-chat {
+                    padding: 5px;
+                    background-color: $color-light;
+                    border-radius: 50%;
+                    width: 35px;
+                    height: 35px;
+                    color: black;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: $color-grey;
+                        border-radius: 50%;
+                        width: 35px;
+                        height: 35px;
+                        color: black;
+                    }
+                }
+            }
+        }
+
+        &-search {
+            height: 40px;
+            border-radius: 20px;
+            border: none;
+            padding: 10px;
+            margin-right: 10px;
+            margin-left: 10px;
+            outline: none;
+            background-color: $color-light;
+            transition: $transition;
+            font-size: 14px;
+        }
+    }
+
+    &-right {
+        margin: 10px;
+        background-color: white;
+        border-radius: 10px;
+
+        width: 100%;
+    }
+
+}

@@ -1,5 +1,5 @@
 import {graphql} from "../gql";
-import {client} from "../../main.tsx";
+import {getApolloClient} from "../../main.tsx";
 
 const LOGIN_QUERY = graphql(`
     query login($input: LoginInput!) {
@@ -29,7 +29,7 @@ const ACTIVATE_USER_MUTATION = graphql(`
 
 export async function onLogin(email: string, password: string): Promise<ControllerResponse<string>> {
     try {
-        const {data, errors} = await client.query({
+        const {data, errors} = await getApolloClient().query({
             query: LOGIN_QUERY,
             variables: {
                 input: {email, password},
@@ -74,7 +74,7 @@ export async function onLogin(email: string, password: string): Promise<Controll
 
 export async function onRegister(firstName: string, lastName: string, dateOfBirth: string, gender: string, email: string, password: string): Promise<ControllerResponse<string>> {
     try {
-        const {data, errors} = await client.mutate({
+        const {data, errors} = await getApolloClient().mutate({
             mutation: REGISTER_MUTATION,
             variables: {
                 input: {email, firstName, lastName, dateOfBirth, gender, password},
@@ -120,7 +120,7 @@ export async function onRegister(firstName: string, lastName: string, dateOfBirt
 
 export async function onActivateAccount(token: string): Promise<ControllerResponse<string>> {
     try {
-        const {data, errors} = await client.mutate({
+        const {data, errors} = await getApolloClient().mutate({
             mutation: ACTIVATE_USER_MUTATION,
             variables: {
                 request: token

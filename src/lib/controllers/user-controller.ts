@@ -1,5 +1,5 @@
 import {graphql} from "../gql";
-import {client} from "../../main.tsx";
+import {getApolloClient} from "../../main.tsx";
 import {User} from "../gql/graphql.ts";
 
 const GET_CURRENT_USER_QUERY = graphql(`
@@ -41,8 +41,13 @@ export async function getCurrentAccount(): Promise<ControllerResponse<User>> {
         }
     }
 
+    // await until client is initialized, maaf ya jadi blocking :(
+    while (!getApolloClient()) {
+        await new Promise(resolve => setTimeout(resolve, 50));
+    }
+
     try {
-        const {data, errors} = await client.query({
+        const {data, errors} = await getApolloClient().query({
             query: GET_CURRENT_USER_QUERY,
 
         });
@@ -83,7 +88,13 @@ export async function getCurrentAccount(): Promise<ControllerResponse<User>> {
         }
     } catch (error) {
         let errorMsg = 'Error executing getCurrentUser';
-        if (error instanceof Error) {
+        if (error instanceof ReferenceError) {
+            return {
+                success: false,
+                errorMsg: ["ReferenceError: client is not defined"],
+                data: null,
+            }
+        } else if (error instanceof Error) {
             console.error('Error executing getCurrentUser:', error);
             errorMsg = error.message;
         }

@@ -17,6 +17,10 @@ export const rootLoader = async (request: Request) => {
 
     // if url is not auth, check if logged in
     if (!isAuth.success) {
+        if (isAuth.errorMsg![0] === 'ReferenceError: client is not defined') {
+            return null;
+        }
+
         return redirect('/auth/login');
     }
 

@@ -1,6 +1,6 @@
 import {graphql} from "../gql";
 import {Post, PostInput} from "../gql/graphql.ts";
-import {client} from "../../main.tsx";
+import {getApolloClient} from "../../main.tsx";
 
 // getPosts(pageNumber: Int, limit: Int): PostsPage
 // type Post {
@@ -375,7 +375,7 @@ const DELETE_POST_MUTATION = graphql(`
 
 export async function getPosts(pageNumber: number, limit: number): Promise<ControllerResponse<Post[]>> {
     try {
-        const {data, errors} = await client.query({
+        const {data, errors} = await getApolloClient().query({
             query: GET_POSTS_QUERY,
             variables: {
                 pageNumber,
@@ -455,7 +455,7 @@ export async function getPosts(pageNumber: number, limit: number): Promise<Contr
 
 export async function createPost(input: PostInput): Promise<ControllerResponse<Post>> {
     try {
-        const {data, errors} = await client.mutate({
+        const {data, errors} = await getApolloClient().mutate({
             mutation: CREATE_POST_QUERY,
             variables: {
                 input,
@@ -535,7 +535,7 @@ export async function createPost(input: PostInput): Promise<ControllerResponse<P
 
 export async function deletePost(id: string): Promise<ControllerResponse<Post>> {
     try {
-        const {data, errors} = await client.mutate({
+        const {data, errors} = await getApolloClient().mutate({
             mutation: DELETE_POST_MUTATION,
             variables: {
                 id,

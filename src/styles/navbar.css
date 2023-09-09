@@ -47,6 +47,7 @@ html {
   outline: none;
   background-color: #f0f2f5;
   transition: 0.2s ease;
+  font-size: 14px;
 }
 .navbar .left .searchBar:focus {
   border-color: #1877f2;

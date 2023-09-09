@@ -14,9 +14,15 @@ import {useState} from "react";
 
 export default function HomePage() {
     const user = useLoaderData() as User;
+    if (user === null) {
+        return (
+            <div>
+            </div>
+        );
+    }
+
     const profilePicture = user.profilePicture;
     const [createPost, setCreatePost] = useState(false);
-    const [reload, setReload] = useState(false);
 
     function openCreatePost() {
         setCreatePost(true);

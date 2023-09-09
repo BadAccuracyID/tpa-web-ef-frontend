@@ -22,7 +22,7 @@ html {
     box-sizing: inherit;
 }
 
-.chat {
+.messenger {
     padding-top: 60px;
     min-height: 100vh;
     background-color: $color-light;
@@ -56,7 +56,7 @@ html {
                 align-items: center;
                 justify-content: center;
 
-                &-chat {
+                &-new {
                     padding: 5px;
                     background-color: $color-light;
                     border-radius: 50%;

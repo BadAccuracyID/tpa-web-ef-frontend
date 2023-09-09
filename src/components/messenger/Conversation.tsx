@@ -1,6 +1,6 @@
 import {Conversation, MessageContentType, User} from "../../lib/gql/graphql.ts";
 import {useEffect, useState} from "react";
-import "../../styles/chat.scss";
+import "../../styles/messenger.scss";
 
 export default function Conversations({user}: { user: User }) {
     const [conversations, setConversations] = useState<Conversation[]>([]);

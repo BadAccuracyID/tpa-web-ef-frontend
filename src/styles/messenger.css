@@ -10,38 +10,38 @@ html {
   box-sizing: inherit;
 }
 
-.chat {
+.messenger {
   padding-top: 60px;
   min-height: 100vh;
   background-color: #f0f2f5;
   display: flex;
   flex-direction: row;
 }
-.chat-left {
+.messenger-left {
   width: 25%;
   background-color: white;
   display: flex;
   flex-direction: column;
 }
-.chat-left-header {
+.messenger-left-header {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
 }
-.chat-left-header-text {
+.messenger-left-header-text {
   margin: 20px;
   font-size: 25px;
   font-weight: bold;
 }
-.chat-left-header-icons {
+.messenger-left-header-icons {
   margin: 20px 20px 20px auto;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
 }
-.chat-left-header-icons-chat {
+.messenger-left-header-icons-new {
   padding: 5px;
   background-color: #f0f2f5;
   border-radius: 50%;
@@ -50,14 +50,14 @@ html {
   color: black;
   cursor: pointer;
 }
-.chat-left-header-icons-chat:hover {
+.messenger-left-header-icons-new:hover {
   background-color: #ccc;
   border-radius: 50%;
   width: 35px;
   height: 35px;
   color: black;
 }
-.chat-left-search {
+.messenger-left-search {
   height: 40px;
   border-radius: 20px;
   border: none;
@@ -70,7 +70,7 @@ html {
   transition: 0.2s ease;
   font-size: 14px;
 }
-.chat-right {
+.messenger-right {
   margin: 10px;
   background-color: white;
   border-radius: 10px;
@@ -116,4 +116,4 @@ html {
   background-color: #ccc;
 }
 
-/*# sourceMappingURL=chat.css.map */
+/*# sourceMappingURL=messenger.css.map */

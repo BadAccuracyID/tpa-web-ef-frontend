@@ -14,7 +14,7 @@ import {activateAccountLoader, authLoader, rootLoader} from "./lib/loader/root-l
 import {userLoader} from "./lib/loader/user-loader.ts";
 import HomePage from "./routes/home/Home.tsx";
 import {ToastContainer} from "react-toastify";
-import ChatPage from "./routes/chat/Chat.tsx";
+import MessengerPage from "./routes/messenger/Messenger.tsx";
 
 const router = createBrowserRouter([
     {
@@ -88,11 +88,11 @@ const router = createBrowserRouter([
                 element: <HomePage/>,
             },
             {
-                path: "chat",
+                path: "messenger",
                 loader: () => {
                     return userLoader();
                 },
-                element: <ChatPage/>,
+                element: <MessengerPage/>,
             },
         ]
     },

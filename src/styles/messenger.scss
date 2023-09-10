@@ -24,14 +24,14 @@ html {
 
 .messenger {
     padding-top: 60px;
-    min-height: 100vh;
+    //min-height: 100vh;
     background-color: $color-light;
 
     display: flex;
     flex-direction: row;
 
     &-left {
-        width: 25%;
+        flex: 0 0 20%;
         background-color: white;
 
         display: flex;
@@ -96,7 +96,8 @@ html {
         background-color: white;
         border-radius: 10px;
 
-        width: 100%;
+        flex-grow: 1;
+        height: calc(100vh - 75px);
     }
 
 }
@@ -146,6 +147,42 @@ html {
         &:hover {
             background-color: $color-grey;
         }
+    }
+}
 
+.chat {
+    position: relative;
+    box-sizing: border-box;
+
+    width: 100%;
+    height: calc(100vh - 100px);
+    padding-bottom: 60px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    overflow-y: auto;
+
+    &-input {
+        position: fixed;
+        box-sizing: border-box;
+        bottom: 10px;
+        right: 10px;
+
+        height: 40px;
+        width: 78%;
+
+        padding: 10px;
+        margin: 10px;
+
+        border-radius: 20px;
+        border: none;
+
+        outline: none;
+        background-color: $color-light;
+        transition: $transition;
+        font-size: 14px;
     }
 }

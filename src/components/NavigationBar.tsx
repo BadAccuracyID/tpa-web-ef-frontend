@@ -43,7 +43,7 @@ export default function NavigationBar({user}: { user: User }) {
             </div>
 
             <div className="right">
-                <Link to="/home">
+                <Link to="/messenger">
                     <BsChatDotsFill className="icon"/>
                 </Link>
 

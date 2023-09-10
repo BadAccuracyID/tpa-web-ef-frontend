@@ -6,6 +6,14 @@ export const rootLoader = async (request: Request) => {
     const url = trimUrl(request.url);
 
     const isAuth = await getCurrentAccount();
+    if (url === "" || url === "/") {
+        if (isAuth.success) {
+            return redirect('/home');
+        }
+
+        return redirect('/auth/login');
+    }
+
     // if url is auth, check if logged in
     if (url.startsWith('/auth')) {
         if (isAuth.success) {
@@ -17,10 +25,6 @@ export const rootLoader = async (request: Request) => {
 
     // if url is not auth, check if logged in
     if (!isAuth.success) {
-        if (isAuth.errorMsg![0] === 'ReferenceError: client is not defined') {
-            return null;
-        }
-
         return redirect('/auth/login');
     }
 

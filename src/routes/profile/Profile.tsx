@@ -4,7 +4,10 @@ import {RelationshipStatus, User} from "../../lib/gql/graphql.ts";
 import {getUserById} from "../../lib/controllers/user-controller.ts";
 import NavigationBar from "../../components/NavigationBar.tsx";
 import "../../styles/profile.scss";
-import {BiSolidUserCircle} from "react-icons/bi";
+import {BiBlock, BiSolidUserCircle, BiSolidUserPlus} from "react-icons/bi";
+import {FullPageLoading} from "../../components/loading/LoadingComponents.tsx";
+import {AiFillMessage, AiFillStar} from "react-icons/ai";
+import {BsPencilFill} from "react-icons/bs";
 
 const nullUser: User = {
     id: '',
@@ -63,7 +66,7 @@ export default function ProfilePage() {
 
     return (
         <div>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<FullPageLoading/>}>
                 <Await resolve={getUser()}>
                     {(user: User) => {
                         return (
@@ -84,21 +87,23 @@ export default function ProfilePage() {
                                             }
 
                                             <div className="profile-header-info">
-                                                <div className="profile-header-info">
-                                                    <div className="profile-header-info-name">
-                                                        {user.firstName} {user.lastName}
-                                                    </div>
+                                                <div className="profile-header-info-name">
+                                                    {user.firstName} {user.lastName}
+                                                </div>
 
-                                                    <div className="profile-header-info-username">
-                                                        {user.username}
-                                                    </div>
+                                                <div className="profile-header-info-username">
+                                                    {user.username}
+                                                </div>
 
-                                                    <div className="profile-header-info-friends">
-                                                        {getFriends(user).length} friends
-                                                        | {getMutualFriends(user).length} mutual friends
-                                                    </div>
+                                                <div className="profile-header-info-friends">
+                                                    {getFriends(user).length} friends
+                                                    | {getMutualFriends(user).length} mutual friends
                                                 </div>
                                             </div>
+
+                                            <Buttons friends={getFriends(user)}
+                                                     currentUser={currentUser}
+                                                     user={user}/>
                                         </div>
                                     </div>
                                 </div>
@@ -107,6 +112,95 @@ export default function ProfilePage() {
                     }}
                 </Await>
             </Suspense>
+        </div>
+    );
+}
+
+function Buttons({friends, currentUser, user}: {
+    friends: User[],
+    currentUser: User,
+    user: User
+}) {
+
+    function isSelf(): boolean {
+        return user.id === currentUser.id;
+    }
+
+    function isFriends(): boolean {
+        if (!user.relations) {
+            return false;
+        }
+
+        if (isSelf()) {
+            return true;
+        }
+
+        return friends.includes(currentUser);
+    }
+
+    function isFavorite(): boolean {
+        if (!user.relations) {
+            return false;
+        }
+
+        if (isSelf()) {
+            return true;
+        }
+
+        return user.relations
+            .filter(relation => {
+                return relation.status === RelationshipStatus.Favorite;
+            }).map(relation => {
+                return relation.user!;
+            }).includes(currentUser);
+    }
+
+    return (
+        <div className="profile-header-buttons">
+            {(!isFriends() && !isSelf()) &&
+                <div className="profile-header-buttons-add">
+                    <BiSolidUserPlus className="profile-header-buttons-icon"/>
+                    <div>
+                        Add Friend
+                    </div>
+                </div>
+            }
+
+            {(isFriends() && !isFavorite()) &&
+                <div className="profile-header-buttons-cf">
+                    <AiFillStar className="profile-header-buttons-icon"/>
+                    <div>
+                        Add to Favorites
+                    </div>
+                </div>
+            }
+
+            {isFriends() &&
+                <div className="profile-header-buttons-message">
+                    <AiFillMessage className="profile-header-buttons-icon"/>
+                    <div>
+                        Message
+                    </div>
+                </div>
+            }
+
+            {isSelf() &&
+                <div className="profile-header-buttons-edit">
+                    <BsPencilFill className="profile-header-buttons-icon"/>
+                    <div>
+                        Edit Profile
+                    </div>
+                </div>
+            }
+
+            {isFriends() &&
+                <div className="profile-header-buttons-block">
+                    <BiBlock className="profile-header-buttons-icon"/>
+                    <div>
+                        Block
+                    </div>
+                </div>
+            }
         </div>
     );
 }

@@ -35,24 +35,20 @@ html {
   justify-content: start;
   align-items: center;
 }
-.profile-header-picture {
-  width: 100%;
-  height: 100%;
-  max-width: 200px;
-  max-height: 200px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1px solid white;
-}
-.profile-header-null-picture {
+.profile-header-picture, .profile-header-null-picture {
   width: 100%;
   height: 100%;
   max-width: 175px;
   max-height: 175px;
   border-radius: 50%;
   object-fit: cover;
-  color: #cccccc;
   border: 1px solid white;
+}
+.profile-header-picture:hover, .profile-header-null-picture:hover {
+  cursor: pointer;
+}
+.profile-header-null-picture {
+  color: #cccccc;
 }
 .profile-header-info {
   display: flex;
@@ -73,6 +69,64 @@ html {
   color: slategray;
   margin-bottom: 0;
   font-size: 0.75rem;
+}
+.profile-header-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: 20px;
+  color: white;
+  font-weight: bold;
+  align-items: center;
+  justify-items: center;
+  cursor: pointer;
+}
+.profile-header-buttons-icon {
+  width: 17px;
+  height: 17px;
+  margin-right: 10px;
+}
+.profile-header-buttons-add, .profile-header-buttons-cf, .profile-header-buttons-message, .profile-header-buttons-edit, .profile-header-buttons-block {
+  padding: 7px 10px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: center;
+  transition: 0.2s ease;
+}
+.profile-header-buttons-add {
+  background-color: #1877f2;
+}
+.profile-header-buttons-add:hover {
+  background-color: #1464aa;
+}
+.profile-header-buttons-cf {
+  background-color: #42b72a;
+}
+.profile-header-buttons-cf:hover {
+  background-color: #36a420;
+}
+.profile-header-buttons-message {
+  background-color: #1877f2;
+}
+.profile-header-buttons-message:hover {
+  background-color: #1464aa;
+}
+.profile-header-buttons-edit {
+  color: black;
+  background-color: #E6E6EA;
+}
+.profile-header-buttons-edit:hover {
+  background-color: gray;
+}
+.profile-header-buttons-block {
+  background-color: red;
+}
+.profile-header-buttons-block:hover {
+  background-color: darkred;
 }
 
 /*# sourceMappingURL=profile.css.map */

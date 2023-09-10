@@ -52,17 +52,7 @@ html {
             align-items: center;
         }
 
-        &-picture {
-            width: 100%;
-            height: 100%;
-            max-width: 200px;
-            max-height: 200px;
-            border-radius: 50%;
-            object-fit: cover;
-
-            border: 1px solid white;
-        }
-
+        &-picture,
         &-null-picture {
             width: 100%;
             height: 100%;
@@ -70,9 +60,18 @@ html {
             max-height: 175px;
             border-radius: 50%;
             object-fit: cover;
-            color: #cccccc;
-
             border: 1px solid white;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        &-picture {
+        }
+
+        &-null-picture {
+            color: #cccccc;
         }
 
         &-info {
@@ -97,7 +96,86 @@ html {
                 margin-bottom: 0;
                 font-size: 0.75rem;
             }
+        }
 
+        &-buttons {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+
+            margin-left: auto;
+            margin-top: auto;
+            margin-bottom: 20px;
+            color: white;
+            font-weight: bold;
+
+            align-items: center;
+            justify-items: center;
+
+            cursor: pointer;
+
+            &-icon {
+                width: 17px;
+                height: 17px;
+                margin-right: 10px;
+            }
+
+            &-add,
+            &-cf,
+            &-message,
+            &-edit,
+            &-block {
+                padding: 7px 10px;
+                border-radius: 10px;
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-items: center;
+
+                transition: $transition;
+            }
+
+            &-add {
+                background-color: $color-primary;
+
+                &:hover {
+                    background-color: $color-primary-dark;
+                }
+            }
+
+            &-cf {
+                background-color: $color-secondary;
+
+                &:hover {
+                    background-color: $color-secondary-dark;
+                }
+            }
+
+            &-message {
+                background-color: $color-primary;
+
+                &:hover {
+                    background-color: $color-primary-dark;
+                }
+            }
+
+            &-edit {
+                color: black;
+                background-color: #E6E6EA;
+
+                &:hover {
+                    background-color: gray;
+                }
+            }
+
+            &-block {
+                background-color: red;
+
+                &:hover {
+                    background-color: darkred;
+                }
+            }
         }
 
     }

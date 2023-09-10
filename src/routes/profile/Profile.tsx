@@ -1,5 +1,5 @@
 import {Await, useLoaderData, useParams} from "react-router-dom";
-import {Suspense, useEffect} from "react";
+import {Suspense, useEffect, useState} from "react";
 import {RelationshipStatus, User} from "../../lib/gql/graphql.ts";
 import {getUserById} from "../../lib/controllers/user-controller.ts";
 import NavigationBar from "../../components/NavigationBar.tsx";
@@ -8,6 +8,13 @@ import {BiBlock, BiSolidUserCircle, BiSolidUserPlus} from "react-icons/bi";
 import {FullPageLoading} from "../../components/loading/LoadingComponents.tsx";
 import {AiFillMessage, AiFillStar} from "react-icons/ai";
 import {BsPencilFill} from "react-icons/bs";
+import {
+    acceptFriendRequest,
+    getFriendRequests,
+    sendFriendRequest
+} from "../../lib/controllers/relationship-controller.ts";
+import {toast} from "react-toastify";
+import {HiXMark} from "react-icons/hi2";
 
 const nullUser: User = {
     id: '',
@@ -121,6 +128,7 @@ function Buttons({friends, currentUser, user}: {
     currentUser: User,
     user: User
 }) {
+    const [pending, setPending] = useState<boolean>(false);
 
     function isSelf(): boolean {
         return user.id === currentUser.id;
@@ -155,13 +163,117 @@ function Buttons({friends, currentUser, user}: {
             }).includes(currentUser);
     }
 
+    async function isPending(): Promise<boolean> {
+        const result = await getFriendRequests();
+        if (!result.success) {
+            return false;
+        }
+
+        return result.data!.some((it) => {
+            return it.to === user.id;
+        })
+    }
+
+    useEffect(() => {
+        isPending().then((result) => {
+            setPending(result);
+        });
+    }, []);
+
+    async function onSendFriendRequest() {
+        const result = await sendFriendRequest(user.id);
+        if (!result.success) {
+            toast.error('Failed to send friend request', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            return;
+        }
+
+        toast.success('Friend request sent', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+        });
+        window.location.reload();
+    }
+
+    async function onAcceptFriendRequest() {
+        const result = await acceptFriendRequest(user.id);
+        if (!result.success) {
+            toast.error('Failed to accept friend request', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            return;
+        }
+
+        toast.success('Friend request accepted', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+        });
+        window.location.reload();
+    }
+
+    async function onRejectFriendRequest() {
+        const result = await acceptFriendRequest(user.id);
+        if (!result.success) {
+            toast.error('Failed to reject friend request', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            return;
+        }
+
+        toast.success('Friend request rejected', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+        });
+        window.location.reload();
+    }
+
     return (
         <div className="profile-header-buttons">
-            {(!isFriends() && !isSelf()) &&
-                <div className="profile-header-buttons-add">
+            {(!isFriends() && !isSelf() && !pending) &&
+                <div className="profile-header-buttons-add" onClick={onSendFriendRequest}>
                     <BiSolidUserPlus className="profile-header-buttons-icon"/>
                     <div>
                         Add Friend
+                    </div>
+                </div>
+            }
+
+            {(!isFriends() && !isSelf() && pending) &&
+                <div className="profile-header-buttons-add" onClick={onAcceptFriendRequest}>
+                    <BiSolidUserPlus className="profile-header-buttons-icon"/>
+                    <div>
+                        Accept Friend Request
+                    </div>
+                </div>
+            }
+
+            {(!isFriends() && !isSelf() && pending) &&
+                <div className="profile-header-buttons-block" onClick={onRejectFriendRequest}>
+                    <HiXMark className="profile-header-buttons-icon"/>
+                    <div>
+                        Reject Friend Request
                     </div>
                 </div>
             }

@@ -466,8 +466,7 @@ export async function createPost(input: PostInput): Promise<ControllerResponse<P
             success: true,
             errorMsg: null,
             data: post,
-        }
-
+        };
     } catch (error) {
         let errorMsg = 'Error executing createPosts';
         if (error instanceof Error) {

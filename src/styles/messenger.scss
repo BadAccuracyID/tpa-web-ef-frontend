@@ -156,14 +156,15 @@ html {
 
     width: 100%;
     height: calc(100vh - 100px);
-    padding-bottom: 60px;
+    padding-bottom: 20px;
 
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-items: center;
 
     overflow-y: auto;
+    overflow-x: hidden;
 
     &-header {
         width: 100%;

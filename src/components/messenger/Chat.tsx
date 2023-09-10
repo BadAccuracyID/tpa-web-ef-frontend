@@ -118,8 +118,33 @@ export default function ChatComponent({user, conversation}: { user: User, conver
         },
     ]
 
+    function getMemberNames() {
+        let names = "";
+        conversation.members.forEach((member) => {
+            names += member.firstName + " " + member.lastName + ", ";
+        });
+
+        return names.slice(0, -2);
+    }
+
     return (
         <div className="chat">
+            <div className="chat-header">
+                <img className="chat-header-picture"
+                     src={conversation.members[0].profilePicture!}
+                     alt=""/>
+
+                <div className="chat-header-right">
+                    <div className="chat-header-right-title">
+                        {conversation.title}
+                    </div>
+
+                    <div className="chat-header-right-members">
+                        {getMemberNames()}
+                    </div>
+                </div>
+            </div>
+
             <div className="chat">
                 {
                     mockMessages.map((message) => {

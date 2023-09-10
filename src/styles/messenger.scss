@@ -186,3 +186,54 @@ html {
         font-size: 14px;
     }
 }
+
+// chat bubble
+.bubble {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+
+    &-picture {
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+        margin: 5px;
+    }
+
+    &-right {
+        display: flex;
+        flex-direction: column;
+
+        &-name {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        &-blue,
+        &-grey {
+            position: relative;
+            box-sizing: border-box;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            word-wrap: break-word;
+        }
+
+        &-blue {
+            background-color: $color-primary;
+            color: white;
+            align-self: flex-end;
+        }
+
+        &-grey {
+            background-color: $color-grey;
+            color: black;
+            align-self: flex-start;
+        }
+    }
+
+}

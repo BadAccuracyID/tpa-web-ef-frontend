@@ -1,58 +1,40 @@
 import {useLoaderData} from "react-router-dom";
-import {Conversation, MessageContentType, User} from "../../lib/gql/graphql.ts";
+import {Conversation, User} from "../../lib/gql/graphql.ts";
 import NavigationBar from "../../components/NavigationBar.tsx";
 import "../../styles/messenger.scss";
 import {BiSolidPlusCircle} from "react-icons/bi";
 import Conversations from "../../components/messenger/Conversation.tsx";
 import ChatComponent from "../../components/messenger/Chat.tsx";
+import {useCallback, useEffect, useState} from "react";
+import {getUserConversations} from "../../lib/controllers/messanger-controller.ts";
+import {toast} from "react-toastify";
 
 export default function MessengerPage() {
     const user = useLoaderData() as User;
+    const [conversations, setConversations] = useState<Conversation[]>([]);
+    const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
 
-    const mockConversation: Conversation = {
-        id: "1",
-        members: [
-            {
-                id: "1",
-                firstName: "John",
-                lastName: "Doe",
-                profilePicture: "https://picsum.photos/200/300",
-                username: "johndoe",
-                email: "",
-                activated: false,
-                dateOfBirth: "",
-                gender: ""
-            },
-            {
-                id: "2",
-                firstName: "Jane",
-                lastName: "Doe",
-                profilePicture: "https://picsum.photos/200/300",
-                username: "janedoe",
-                email: "",
-                activated: false,
-                dateOfBirth: "",
-                gender: ""
-            }
-        ],
-        messages: [{
-            id: "1",
-            content: "Hello",
-            contentType: MessageContentType.Text,
-            sender: {
-                id: "1",
-                firstName: "John",
-                lastName: "Doe",
-                profilePicture: "https://picsum.photos/200/300",
-                username: "johndoe",
-                email: "",
-                activated: false,
-                dateOfBirth: "",
-                gender: ""
-            },
-            conversation: ""
-        }],
-        title: "John Doe, Jane Doe"
+    const loadConversations = useCallback(async () => {
+        const fetched = await getUserConversations();
+        if (fetched.success) {
+            setConversations(fetched.data!);
+        } else {
+            toast.error("Failed to fetch conversations", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+        }
+    }, []);
+
+    useEffect(() => {
+        loadConversations();
+    }, []);
+
+    function selectConversation(conversation: Conversation) {
+        setSelectedConversation(conversation);
     }
 
     return (
@@ -73,11 +55,11 @@ export default function MessengerPage() {
 
                     <input className="messenger-left-search" placeholder="Search Chats"/>
 
-                    <Conversations user={user}/>
+                    <Conversations conversations={conversations} onSelectConversation={selectConversation}/>
                 </div>
 
                 <div className="messenger-right">
-                    <ChatComponent user={user} conversation={mockConversation}/>
+                    {selectedConversation && <ChatComponent user={user} conversation={selectedConversation}/>}
                 </div>
             </div>
         </div>

@@ -176,8 +176,7 @@ export default function CreatePostComponent({user, onClose}: { user: User, onClo
 
                 <div
                     className={text == "" ? "create-post-popup-container-button-unavailable" : "create-post-popup-container-button-available"}
-                    onClick={onCreatePost}
-                >
+                    onClick={onCreatePost}>
                     Post
                 </div>
             </div>

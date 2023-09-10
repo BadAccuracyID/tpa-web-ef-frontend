@@ -78,12 +78,12 @@ html {
                 right: 16px;
                 width: 35px;
                 height: 35px;
-                color: $color-grey;
+                color: red;
                 cursor: pointer;
                 transition: $transition;
 
                 &:hover {
-                    color: $color-primary;
+                    color: darkred;
                 }
             }
         }

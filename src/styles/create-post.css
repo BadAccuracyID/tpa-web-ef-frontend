@@ -56,12 +56,12 @@ html {
   right: 16px;
   width: 35px;
   height: 35px;
-  color: #ccc;
+  color: red;
   cursor: pointer;
   transition: 0.2s ease;
 }
 .create-post-popup-container-header-close:hover {
-  color: #1877f2;
+  color: darkred;
 }
 .create-post-popup-container-user {
   display: flex;

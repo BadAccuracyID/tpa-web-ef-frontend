@@ -1,8 +1,10 @@
 import {Await, useLoaderData, useParams} from "react-router-dom";
 import {Suspense, useEffect} from "react";
-import {User} from "../../lib/gql/graphql.ts";
+import {RelationshipStatus, User} from "../../lib/gql/graphql.ts";
 import {getUserById} from "../../lib/controllers/user-controller.ts";
 import NavigationBar from "../../components/NavigationBar.tsx";
+import "../../styles/profile.scss";
+import {BiSolidUserCircle} from "react-icons/bi";
 
 const nullUser: User = {
     id: '',
@@ -36,6 +38,29 @@ export default function ProfilePage() {
         getUser();
     }, []);
 
+    function getFriends(user: User): User[] {
+        if (!user.relations) {
+            return [];
+        }
+
+        return user.relations
+            .filter(relation => {
+                return relation.status === RelationshipStatus.Friends || relation.status === RelationshipStatus.Favorite;
+            }).map(relation => {
+                return relation.user!;
+            }) ?? [];
+    }
+
+    function getMutualFriends(user: User): User[] {
+        if (!user.relations || !currentUser.relations) {
+            return [];
+        }
+
+        return getFriends(user).filter(friend => {
+            return getFriends(currentUser).includes(friend);
+        });
+    }
+
     return (
         <div>
             <Suspense fallback={<div>Loading...</div>}>
@@ -45,8 +70,38 @@ export default function ProfilePage() {
                             <div>
                                 <NavigationBar user={currentUser}/>
 
-                                <h1>Profile</h1>
-                                <p>{user.username}</p>
+                                <div className="profile">
+                                    <div className="profile-header">
+                                        <div className="profile-header-container">
+                                            {user.profilePicture ?
+                                                <img
+                                                    src={user.profilePicture!}
+                                                    className="profile-header-picture"
+                                                    alt="Profile picture"
+                                                />
+                                                :
+                                                <BiSolidUserCircle className="profile-header-null-picture"/>
+                                            }
+
+                                            <div className="profile-header-info">
+                                                <div className="profile-header-info">
+                                                    <div className="profile-header-info-name">
+                                                        {user.firstName} {user.lastName}
+                                                    </div>
+
+                                                    <div className="profile-header-info-username">
+                                                        {user.username}
+                                                    </div>
+
+                                                    <div className="profile-header-info-friends">
+                                                        {getFriends(user).length} friends
+                                                        | {getMutualFriends(user).length} mutual friends
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         )
                     }}

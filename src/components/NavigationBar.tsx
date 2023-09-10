@@ -22,7 +22,9 @@ export default function NavigationBar({user}: { user: User }) {
             <div className="left">
                 <Link to="/home">
                     <img className="logo"
-                         src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"/>
+                         src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
+                         alt="Logo"
+                    />
                 </Link>
 
                 <input className="searchBar" placeholder="Search faRebook"/>

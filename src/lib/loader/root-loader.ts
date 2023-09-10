@@ -69,3 +69,13 @@ export const activateAccountLoader = async (request: Request) => {
 
     return null;
 }
+
+export const profileLoader = async (request: Request) => {
+    const url = trimUrl(request.url);
+
+    if (url.endsWith('/profile')) {
+        return redirect('/auth/login');
+    }
+
+    return null;
+}

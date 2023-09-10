@@ -30,6 +30,35 @@ const GET_CURRENT_USER_QUERY = graphql(`
     }
 `);
 
+// getUser(id: ID!): User!
+const GET_USER_BY_ID_QUERY = graphql(`
+    query getUser($id: ID!) {
+        getUser(id: $id) {
+            id,
+            email,
+            firstName,
+            lastName,
+            activated,
+            username,
+            gender,
+            dateOfBirth,
+            relations {
+                user {
+                    id,
+                    email,
+                    firstName,
+                    lastName,
+                    activated,
+                    username,
+                    gender,
+                    dateOfBirth,
+                },
+                status,
+            },
+        }
+    }
+`);
+
 export async function getCurrentAccount(): Promise<ControllerResponse<User>> {
     // before querying the server, check for local storage token
     const token = localStorage.getItem('token');
@@ -49,7 +78,6 @@ export async function getCurrentAccount(): Promise<ControllerResponse<User>> {
     try {
         const {data, errors} = await getApolloClient().query({
             query: GET_CURRENT_USER_QUERY,
-
         });
 
         if (errors) {
@@ -69,22 +97,10 @@ export async function getCurrentAccount(): Promise<ControllerResponse<User>> {
         }
 
         const fetchedUser = data.getCurrentUser!;
-        const user: User = {
-            activated: fetchedUser.activated,
-            dateOfBirth: fetchedUser.dateOfBirth,
-            email: fetchedUser.email,
-            firstName: fetchedUser.firstName,
-            gender: fetchedUser.gender,
-            lastName: fetchedUser.lastName,
-            relations: fetchedUser.relations,
-            username: fetchedUser.username,
-            id: fetchedUser.id
-        }
-
         return {
             success: true,
             errorMsg: null,
-            data: user,
+            data: fetchedUser,
         }
     } catch (error) {
         let errorMsg = 'Error executing getCurrentUser';
@@ -96,6 +112,58 @@ export async function getCurrentAccount(): Promise<ControllerResponse<User>> {
             }
         } else if (error instanceof Error) {
             console.error('Error executing getCurrentUser:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        }
+    }
+}
+
+export async function getUserById(id: string): Promise<ControllerResponse<User>> {
+    try {
+        const {data, errors} = await getApolloClient().query({
+            query: GET_USER_BY_ID_QUERY,
+            variables: {
+                id,
+            }
+        });
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            }
+        }
+
+        if (!data?.getUser) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        const fetchedUser = data.getUser!;
+        return {
+            success: true,
+            errorMsg: null,
+            data: fetchedUser,
+        };
+    } catch (error) {
+        let errorMsg = 'Error executing getUserById';
+        if (error instanceof ReferenceError) {
+            return {
+                success: false,
+                errorMsg: ["ReferenceError: client is not defined"],
+                data: null,
+            }
+        } else if (error instanceof Error) {
+            console.error('Error executing getUserById:', error);
             errorMsg = error.message;
         }
 

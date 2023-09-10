@@ -10,11 +10,12 @@ import AccountRecoveryPage from "./routes/auth/AccountRecovery.tsx";
 import ActivateAccountPage from "./routes/auth/ActivateAccount.tsx";
 import {ApolloClient, createHttpLink, InMemoryCache, NormalizedCacheObject} from "@apollo/client";
 import {setContext} from "@apollo/client/link/context";
-import {activateAccountLoader, authLoader, rootLoader} from "./lib/loader/root-loader.ts";
+import {activateAccountLoader, authLoader, profileLoader, rootLoader} from "./lib/loader/root-loader.ts";
 import {userLoader} from "./lib/loader/user-loader.ts";
 import HomePage from "./routes/home/Home.tsx";
 import {ToastContainer} from "react-toastify";
 import MessengerPage from "./routes/messenger/Messenger.tsx";
+import ProfilePage from "./routes/profile/Profile.tsx";
 
 const router = createBrowserRouter([
     {
@@ -86,6 +87,22 @@ const router = createBrowserRouter([
                     return userLoader();
                 },
                 element: <HomePage/>,
+            },
+            {
+                path: "profile",
+                loader: ({request}) => {
+                    return profileLoader(request);
+                },
+                element: <Outlet/>,
+                children: [
+                    {
+                        path: ":id",
+                        loader: () => {
+                            return userLoader();
+                        },
+                        element: <ProfilePage/>,
+                    }
+                ]
             },
             {
                 path: "messenger",

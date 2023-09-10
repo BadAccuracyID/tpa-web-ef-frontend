@@ -40,8 +40,13 @@ export default function HomePage() {
             <div className="home">
                 <div className="left">
                     <div className="subLeft">
-                        <Link to="/" className="user-info">
-                            {profilePicture ? <img className="avatar" src={profilePicture}/> :
+                        <Link to={'/profile/' + user.id} className="user-info">
+                            {profilePicture ?
+                                <img
+                                    className="avatar"
+                                    src={profilePicture}
+                                    alt="profile picture"
+                                /> :
                                 <BiSolidUserCircle className="avatar"/>}
                             <p className="name">{user.firstName} {user.lastName}</p>
                         </Link>

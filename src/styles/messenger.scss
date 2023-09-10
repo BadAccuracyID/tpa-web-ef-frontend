@@ -187,13 +187,12 @@ html {
     }
 }
 
-// chat bubble
 .bubble {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: flex-start;
     width: 100%;
+    margin-top: 15px;
 
     &-picture {
         height: 30px;
@@ -205,35 +204,57 @@ html {
     &-right {
         display: flex;
         flex-direction: column;
+        max-width: 90%;
 
         &-name {
             font-size: 12px;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-left: 5px;
+            margin-right: 5px;
         }
 
-        &-blue,
-        &-grey {
+        &-content {
             position: relative;
             box-sizing: border-box;
+
             padding: 10px;
-            margin: 10px;
+
+            margin-top: 5px;
+            margin-right: 5px;
+            margin-left: 5px;
+
             border-radius: 10px;
             font-size: 14px;
             word-wrap: break-word;
-        }
-
-        &-blue {
-            background-color: $color-primary;
-            color: white;
             align-self: flex-end;
         }
+    }
+}
 
-        &-grey {
-            background-color: $color-grey;
-            color: black;
-            align-self: flex-start;
-        }
+.bubble-blue {
+    justify-content: flex-end;
+    margin-right: 20px;
+
+    &-right-name {
+        text-align: end;
     }
 
+    &-right-content {
+        background-color: $color-primary;
+        color: white;
+    }
+}
+
+.bubble-gray {
+    justify-content: flex-start;
+    margin-left: 20px;
+
+    &-right-name {
+        text-align: start;
+    }
+
+    &-right-content {
+        background-color: $color-light;
+        color: black;
+    }
 }

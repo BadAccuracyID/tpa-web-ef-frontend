@@ -46,6 +46,76 @@ export default function ChatComponent({user, conversation}: { user: User, conver
             },
             conversation: "",
         },
+        {
+            id: "1",
+            content: "Hello again, this is a quite long text message, I wonder how it will look like in the chat bubble.",
+            contentType: MessageContentType.Text,
+            sender: {
+
+                id: "1",
+                firstName: "John",
+                lastName: "Doe",
+                profilePicture: "https://picsum.photos/200/300",
+                username: "johndoe",
+                email: "",
+                activated: false,
+                dateOfBirth: "",
+                gender: ""
+            },
+            conversation: "",
+        },
+        {
+            id: "2",
+            content: "Sup, this is a quite long text message, I wonder how it will look like in the chat bubble.",
+            contentType: MessageContentType.Text,
+            sender: {
+                id: "69",
+                firstName: "Totally",
+                lastName: "User",
+                profilePicture: "https://picsum.photos/200/300",
+                username: "tu",
+                email: "",
+                activated: false,
+                dateOfBirth: "",
+                gender: ""
+            },
+            conversation: "",
+        },
+        {
+            id: "1",
+            content: "and again, this is a quite long text message, I wonder how it will look like in the chat bubble. But this time it's even longer than before. Hopefully it will look good. and again, this is a quite long text message, I wonder how it will look like in the chat bubble. But this time it's even longer than before. Hopefully it will look good.",
+            contentType: MessageContentType.Text,
+            sender: {
+
+                id: "1",
+                firstName: "John",
+                lastName: "Doe",
+                profilePicture: "https://picsum.photos/200/300",
+                username: "johndoe",
+                email: "",
+                activated: false,
+                dateOfBirth: "",
+                gender: ""
+            },
+            conversation: "",
+        },
+        {
+            id: "2",
+            content: "and again, this is a quite long text message, I wonder how it will look like in the chat bubble. But this time it's even longer than before. Hopefully it will look good. and again, this is a quite long text message, I wonder how it will look like in the chat bubble. But this time it's even longer than before. Hopefully it will look good.",
+            contentType: MessageContentType.Text,
+            sender: {
+                id: "69",
+                firstName: "Totally",
+                lastName: "User",
+                profilePicture: "https://picsum.photos/200/300",
+                username: "tu",
+                email: "",
+                activated: false,
+                dateOfBirth: "",
+                gender: ""
+            },
+            conversation: "",
+        },
     ]
 
     return (
@@ -67,46 +137,43 @@ export default function ChatComponent({user, conversation}: { user: User, conver
     )
 }
 
-// for self/user
 function BlueChatBubble({message}: { message: Message }) {
     return (
-        <div className="bubble">
+        <div className="bubble bubble-blue">
             <div className="bubble-right">
-                <div className="bubble-right-name">
+                <div className="bubble-right-name bubble-blue-right-name">
                     {message.sender.firstName} {message.sender.lastName}
                 </div>
 
-                <div className="bubble-right-blue">
+                <div className="bubble-right-content bubble-blue-right-content">
                     {message.content}
                 </div>
             </div>
 
-            <img
-                className="bubble-picture"
-                src={message.sender.profilePicture!}
-                alt=""/>
+            <img className="bubble-picture"
+                 src={message.sender.profilePicture!}
+                 alt=""/>
         </div>
-    )
+    );
 }
 
-// for other
 function GreyChatBubble({message}: { message: Message }) {
     return (
-        <div className="bubble">
-            <img
-                className="bubble-picture"
-                src={message.sender.profilePicture!}
-                alt=""/>
+        <div className="bubble bubble-gray">
+            <img className="bubble-picture"
+                 src={message.sender.profilePicture!}
+                 alt=""/>
 
             <div className="bubble-right">
-                <div className="bubble-right-name">
+                <div className="bubble-right-name bubble-gray-right-name">
                     {message.sender.firstName} {message.sender.lastName}
                 </div>
 
-                <div className="bubble-right-grey">
+                <div className="bubble-right-content bubble-gray-right-content">
                     {message.content}
                 </div>
             </div>
         </div>
-    )
+    );
 }
+

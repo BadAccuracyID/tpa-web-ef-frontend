@@ -5,6 +5,7 @@ import "../../styles/search.scss";
 import {Suspense} from "react";
 import {searchQuery} from "../../lib/controllers/search-controller.ts";
 import {BiSolidUserCircle} from "react-icons/bi";
+import {FullPageLoading} from "../../components/loading/LoadingComponents.tsx";
 
 export default function SearchPage() {
     const navigate = useNavigate();
@@ -46,11 +47,11 @@ export default function SearchPage() {
                 </div>
 
                 <div className="search-content">
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense fallback={<FullPageLoading/>}>
                         <Await resolve={search()}>
                             {(result) => {
                                 if (!result) {
-                                    return <div>Nothing found</div>
+                                    return <h1>Nothing found</h1>
                                 }
 
                                 return result.map((item: SearchResult) => {

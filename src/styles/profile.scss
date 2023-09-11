@@ -271,8 +271,20 @@ html {
 
                 margin-bottom: 10px;
 
-                &-gender {
+                &-icon {
+                    width: 20px;
+                    height: 20px;
+                    color: gray;
 
+                    margin-right: 5px;
+                }
+
+                &-gender {
+                    display: flex;
+                    flex-direction: row;
+
+                    align-items: center;
+                    justify-items: center;
                 }
             }
         }

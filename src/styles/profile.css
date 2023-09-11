@@ -197,6 +197,18 @@ html {
   gap: 10px;
   margin-bottom: 10px;
 }
+.profile-content-left-info-icon {
+  width: 20px;
+  height: 20px;
+  color: gray;
+  margin-right: 5px;
+}
+.profile-content-left-info-gender {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: center;
+}
 .profile-content-right {
   background-color: white;
   width: 100%;

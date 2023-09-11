@@ -4,9 +4,9 @@ import {RelationshipStatus, User} from "../../lib/gql/graphql.ts";
 import {getUserById} from "../../lib/controllers/user-controller.ts";
 import NavigationBar from "../../components/NavigationBar.tsx";
 import "../../styles/profile.scss";
-import {BiBlock, BiSolidUserCircle, BiSolidUserPlus} from "react-icons/bi";
+import {BiBlock, BiMaleFemale, BiSolidUserCircle, BiSolidUserPlus} from "react-icons/bi";
 import {FullPageLoading} from "../../components/loading/LoadingComponents.tsx";
-import {AiFillMessage, AiFillStar} from "react-icons/ai";
+import {AiFillCalendar, AiFillMessage, AiFillStar} from "react-icons/ai";
 import {BsPencilFill} from "react-icons/bs";
 import {
     acceptFriendRequest,
@@ -134,10 +134,16 @@ export default function ProfilePage() {
 
                                             <div className="profile-content-left-info">
                                                 <div className="profile-content-left-info-gender">
-                                                    Gender: {user.gender}
+                                                    <BiMaleFemale className="profile-content-left-info-icon"/>
+                                                    <div>
+                                                        Gender: {user.gender}
+                                                    </div>
                                                 </div>
                                                 <div className="profile-content-left-info-gender">
-                                                    Date of Birth: {user.dateOfBirth}
+                                                    <AiFillCalendar className="profile-content-left-info-icon"/>
+                                                    <div>
+                                                        Date of Birth: {user.dateOfBirth}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

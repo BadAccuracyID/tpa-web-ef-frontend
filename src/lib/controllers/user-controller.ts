@@ -1,6 +1,6 @@
 import {graphql} from "../gql";
 import {getApolloClient} from "../../main.tsx";
-import {User} from "../gql/graphql.ts";
+import {User, UserInput} from "../gql/graphql.ts";
 
 const GET_CURRENT_USER_QUERY = graphql(`
     query getCurrentUser {
@@ -58,6 +58,36 @@ const GET_USER_BY_ID_QUERY = graphql(`
         }
     }
 `);
+
+// updateCurrentUser(input: UserInput!): User!
+const UPDATE_CURRENT_USER_MUTATION = graphql(`
+    mutation updateCurrentUser($input: UserInput!) {
+        updateCurrentUser(input: $input) {
+            id,
+            email,
+            firstName,
+            lastName,
+            activated,
+            username,
+            gender,
+            dateOfBirth,
+            relations {
+                user {
+                    id,
+                    email,
+                    firstName,
+                    lastName,
+                    activated,
+                    username,
+                    gender,
+                    dateOfBirth,
+                },
+                status,
+            },
+        }
+    }
+`);
+
 
 export async function getCurrentAccount(): Promise<ControllerResponse<User>> {
     // before querying the server, check for local storage token
@@ -164,6 +194,58 @@ export async function getUserById(id: string): Promise<ControllerResponse<User>>
             }
         } else if (error instanceof Error) {
             console.error('Error executing getUserById:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        }
+    }
+}
+
+export async function updateCurrentUser(input: UserInput): Promise<ControllerResponse<User>> {
+    try {
+        const {data, errors} = await getApolloClient().mutate({
+            mutation: UPDATE_CURRENT_USER_MUTATION,
+            variables: {
+                input,
+            }
+        });
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            }
+        }
+
+        if (!data?.updateCurrentUser) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        const fetchedUser = data.updateCurrentUser!;
+        return {
+            success: true,
+            errorMsg: null,
+            data: fetchedUser as User,
+        };
+    } catch (error) {
+        let errorMsg = 'Error executing updateCurrentUser';
+        if (error instanceof ReferenceError) {
+            return {
+                success: false,
+                errorMsg: ["ReferenceError: client is not defined"],
+                data: null,
+            }
+        } else if (error instanceof Error) {
+            console.error('Error executing updateCurrentUser:', error);
             errorMsg = error.message;
         }
 

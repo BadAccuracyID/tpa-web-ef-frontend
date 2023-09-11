@@ -51,6 +51,11 @@ html {
             justify-content: start;
             align-items: center;
 
+        }
+
+        &-input-hidden {
+            display: none;
+
             input {
                 display: none;
             }

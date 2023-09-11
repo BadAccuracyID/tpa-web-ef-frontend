@@ -35,7 +35,10 @@ html {
   justify-content: start;
   align-items: center;
 }
-.profile-header-container input {
+.profile-header-input-hidden {
+  display: none;
+}
+.profile-header-input-hidden input {
   display: none;
 }
 .profile-header-picture, .profile-header-null-picture {

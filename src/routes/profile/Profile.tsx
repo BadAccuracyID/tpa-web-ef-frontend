@@ -1,7 +1,7 @@
 import {Await, useLoaderData, useParams} from "react-router-dom";
 import React, {createRef, Suspense, useEffect, useState} from "react";
 import {RelationshipStatus, User} from "../../lib/gql/graphql.ts";
-import {getUserById} from "../../lib/controllers/user-controller.ts";
+import {getUserById, updateCurrentUser} from "../../lib/controllers/user-controller.ts";
 import NavigationBar from "../../components/NavigationBar.tsx";
 import "../../styles/profile.scss";
 import {BiBlock, BiMaleFemale, BiSolidUserCircle, BiSolidUserPlus} from "react-icons/bi";
@@ -32,6 +32,8 @@ export default function ProfilePage() {
     const currentUser = useLoaderData() as User;
     const {id} = useParams();
 
+    const [passwordAwok, setPasswordAwok] = useState<string>("");
+
     const fileInputRef: React.Ref<HTMLInputElement> = createRef();
 
     async function getUser(): Promise<User> {
@@ -57,8 +59,35 @@ export default function ProfilePage() {
             const file = event.target.files[0];
             const imageUrl = await uploadFilesWithToast([file]);
 
+            const userInput = {
+                email: currentUser.email,
+                username: currentUser.username,
+                firstName: currentUser.firstName,
+                lastName: currentUser.lastName,
+                dateOfBirth: currentUser.dateOfBirth,
+                gender: currentUser.gender,
+                profilePicture: imageUrl[0],
 
-            console.log(imageUrl);
+                password: passwordAwok,
+            }
+
+            updateCurrentUser(userInput).then((result) => {
+                if (!result.success) {
+                    toast.error('Failed to update profile picture', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        draggable: true,
+                    });
+
+                    console.log(userInput.password);
+
+                    console.log(result);
+                    return;
+                }
+                window.location.reload();
+            })
 
 
         }
@@ -76,7 +105,6 @@ export default function ProfilePage() {
 
         fileInputRef.current.click();
     };
-
 
     function getFriends(user: User): User[] {
         if (!user.relations) {
@@ -115,6 +143,7 @@ export default function ProfilePage() {
                                         <div className="profile-header-container">
                                             <input
                                                 type="file"
+                                                className="profile-header-input-hidden"
                                                 onChange={onFileChange}
                                                 accept={"image/*"}
                                                 ref={fileInputRef}
@@ -149,6 +178,16 @@ export default function ProfilePage() {
                                                     | {getMutualFriends(user).length} mutual friends
                                                 </div>
                                             </div>
+
+                                            <input
+                                                type="password"
+                                                className="profile-header-password"
+                                                placeholder="Password"
+                                                value={passwordAwok}
+                                                onChange={(event) => {
+                                                    setPasswordAwok(event.target.value);
+                                                }}
+                                            />
 
                                             <Buttons friends={getFriends(user)}
                                                      currentUser={currentUser}

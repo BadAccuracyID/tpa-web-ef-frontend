@@ -5,16 +5,29 @@ import {BsChatDotsFill, BsPeople} from "react-icons/bs";
 import {IoPeopleCircleOutline} from "react-icons/io5";
 import {IoMdNotifications} from "react-icons/io";
 import {BiSolidUserCircle} from "react-icons/bi";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
+import React from "react";
 
 export default function NavigationBar({user}: { user: User }) {
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
     const profilePicture = user.profilePicture;
 
     function onLogout() {
         // temporary
         localStorage.removeItem("token");
         navigate("/auth/login");
+    }
+
+    function onSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
+        setSearchParams({q: e.target.value});
+    }
+
+    function onSearchEnter(e: React.KeyboardEvent<HTMLInputElement>) {
+        if (e.key === "Enter") {
+            console.log(searchParams.get("q"));
+            navigate("/search?q=" + searchParams.get("q") || "");
+        }
     }
 
     return (
@@ -27,7 +40,12 @@ export default function NavigationBar({user}: { user: User }) {
                     />
                 </Link>
 
-                <input className="searchBar" placeholder="Search faRebook"/>
+                <input className="searchBar"
+                       placeholder="Search faRebook"
+                       value={searchParams.get("q") || ""}
+                       onChange={onSearchChange}
+                       onKeyDown={onSearchEnter}
+                />
             </div>
 
             <div className="middle">

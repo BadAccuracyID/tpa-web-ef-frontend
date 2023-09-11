@@ -146,7 +146,7 @@ const SEARCH_QUERY = graphql(`
     }
 `);
 
-export async function search(query: string): Promise<ControllerResponse<SearchResult[]>> {
+export async function searchQuery(query: string): Promise<ControllerResponse<SearchResult[]>> {
     try {
         const {data, errors} = await getApolloClient().query({
             query: SEARCH_QUERY,
@@ -163,6 +163,39 @@ export async function search(query: string): Promise<ControllerResponse<SearchRe
             }
         }
 
+        if (!data?.search) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
 
+        const searchResult: SearchResult[] = [];
+        for (const it of data.search!) {
+            if (it === null) {
+                continue;
+            }
+
+            searchResult.push(it as SearchResult);
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: searchResult,
+        };
+    } catch (error) {
+        let errorMsg = 'Error executing searchQuery';
+        if (error instanceof Error) {
+            console.error('Error executing searchQuery:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
     }
 }

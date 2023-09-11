@@ -100,7 +100,7 @@ export async function getCurrentAccount(): Promise<ControllerResponse<User>> {
         return {
             success: true,
             errorMsg: null,
-            data: fetchedUser,
+            data: fetchedUser as User,
         }
     } catch (error) {
         let errorMsg = 'Error executing getCurrentUser';
@@ -152,7 +152,7 @@ export async function getUserById(id: string): Promise<ControllerResponse<User>>
         return {
             success: true,
             errorMsg: null,
-            data: fetchedUser,
+            data: fetchedUser as User,
         };
     } catch (error) {
         let errorMsg = 'Error executing getUserById';

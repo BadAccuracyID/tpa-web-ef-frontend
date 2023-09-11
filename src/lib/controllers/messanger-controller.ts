@@ -171,7 +171,7 @@ export async function getUserConversations(): Promise<ControllerResponse<Convers
                 continue;
             }
 
-            conversations.push(it);
+            conversations.push(it as Conversation);
         }
 
         return {
@@ -225,7 +225,7 @@ export async function createConversation(title: string, memberIds: string[]): Pr
         return {
             success: true,
             errorMsg: null,
-            data: data.createConversation,
+            data: data.createConversation as Conversation,
         };
     } catch (error) {
         let errorMsg = "Error executing createConversation ";

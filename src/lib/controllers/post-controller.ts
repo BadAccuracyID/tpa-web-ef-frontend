@@ -405,7 +405,7 @@ export async function getPosts(pageNumber: number, limit: number): Promise<Contr
                 continue;
             }
 
-            posts.push(it);
+            posts.push(it as Post);
         }
 
         return {
@@ -465,7 +465,7 @@ export async function createPost(input: PostInput): Promise<ControllerResponse<P
         return {
             success: true,
             errorMsg: null,
-            data: post,
+            data: post as Post,
         };
     } catch (error) {
         let errorMsg = 'Error executing createPosts';
@@ -507,8 +507,8 @@ export async function deletePost(id: string): Promise<ControllerResponse<Post>> 
             }
         }
 
-        const it = data.deletePost;
-        if (it === null) {
+        const post = data.deletePost;
+        if (post === null) {
             return {
                 success: false,
                 errorMsg: ['Invalid response from server'],
@@ -516,35 +516,10 @@ export async function deletePost(id: string): Promise<ControllerResponse<Post>> 
             }
         }
 
-        const post: Post = {
-            id: it.id,
-            title: it.title,
-            audience: it.audience,
-            author: {
-                id: it.author.id,
-                email: it.author.email,
-                username: it.author.username,
-                dateOfBirth: it.author.dateOfBirth,
-                firstName: it.author.firstName,
-                lastName: it.author.lastName,
-                gender: it.author.gender,
-                activated: it.author.activated,
-            },
-            comments: it.comments,
-            createdAt: it.createdAt,
-            hashtags: it.hashtags,
-            imageContent: it.imageContent,
-            likedBy: it.likedBy,
-            sharedBy: it.sharedBy,
-            taggedUsers: it.taggedUsers,
-            textContent: it.textContent,
-            videoContent: it.videoContent,
-        }
-
         return {
             success: true,
             errorMsg: null,
-            data: post,
+            data: post as Post,
         }
 
     } catch (error) {

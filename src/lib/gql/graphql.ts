@@ -39,6 +39,12 @@ export type CommentInput = {
   textContent: Scalars['String']['input'];
 };
 
+export enum ContentType {
+  Group = 'GROUP',
+  Post = 'POST',
+  User = 'USER'
+}
+
 export type Conversation = {
   __typename?: 'Conversation';
   id: Scalars['ID']['output'];
@@ -60,7 +66,7 @@ export type FriendRequest = {
   to: Scalars['ID']['output'];
 };
 
-export type Group = {
+export type Group = SearchResult & {
   __typename?: 'Group';
   files: Array<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -68,6 +74,7 @@ export type Group = {
   members: Array<User>;
   name: Scalars['String']['output'];
   posts: Array<Post>;
+  type: ContentType;
 };
 
 export type LoginInput = {
@@ -323,7 +330,7 @@ export enum NotificationType {
   UserRelationRequest = 'USER_RELATION_REQUEST'
 }
 
-export type Post = {
+export type Post = SearchResult & {
   __typename?: 'Post';
   audience: Audience;
   author: User;
@@ -338,6 +345,7 @@ export type Post = {
   taggedUsers?: Maybe<Array<User>>;
   textContent?: Maybe<Scalars['String']['output']>;
   title: Scalars['String']['output'];
+  type: ContentType;
   videoContent?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
 };
 
@@ -378,6 +386,7 @@ export type Query = {
   getUserGroupsById: Array<Group>;
   login?: Maybe<User>;
   resetPasswordRequest?: Maybe<User>;
+  search?: Maybe<Array<Maybe<SearchResult>>>;
   verifyResetPasswordToken?: Maybe<Scalars['String']['output']>;
 };
 
@@ -435,6 +444,11 @@ export type QueryResetPasswordRequestArgs = {
 };
 
 
+export type QuerySearchArgs = {
+  query: Scalars['String']['input'];
+};
+
+
 export type QueryVerifyResetPasswordTokenArgs = {
   token: Scalars['String']['input'];
 };
@@ -456,6 +470,11 @@ export enum RelationshipStatus {
   Pending = 'PENDING'
 }
 
+export type SearchResult = {
+  id: Scalars['ID']['output'];
+  type: ContentType;
+};
+
 export type SendMessageInput = {
   content: Scalars['String']['input'];
   contentType: MessageContentType;
@@ -473,7 +492,7 @@ export type SubscriptionSubscribeConversationArgs = {
   conversationId: Scalars['ID']['input'];
 };
 
-export type User = {
+export type User = SearchResult & {
   __typename?: 'User';
   activated: Scalars['Boolean']['output'];
   activationToken?: Maybe<Scalars['String']['output']>;
@@ -486,6 +505,7 @@ export type User = {
   lastName: Scalars['String']['output'];
   profilePicture?: Maybe<Scalars['String']['output']>;
   relations?: Maybe<Array<UserRelationResponse>>;
+  type: ContentType;
   username: Scalars['String']['output'];
 };
 

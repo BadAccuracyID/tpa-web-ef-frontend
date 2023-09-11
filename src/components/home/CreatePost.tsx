@@ -14,6 +14,7 @@ export default function CreatePostComponent({user, onClose}: { user: User, onClo
     const profilePicture = user.profilePicture;
 
     const [text, setText] = useState<string>("");
+    const [audience, setAudience] = useState<string>("public");
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const fileInputRef: React.Ref<HTMLInputElement> = createRef();
 
@@ -71,9 +72,18 @@ export default function CreatePostComponent({user, onClose}: { user: User, onClo
         const imageUrls = await uploadFilesWithToast(imageFiles);
         const videoUrls = await uploadFilesWithToast(videoFiles);
 
+        let postAudience: Audience;
+        if (audience === "friends") {
+            postAudience = Audience.Friends;
+        } else if (audience === "only-me") {
+            postAudience = Audience.Favorites;
+        } else {
+            postAudience = Audience.Public;
+        }
+
         // create post
         createPost({
-            audience: Audience.Public,
+            audience: postAudience,
             hashtags: null,
             imageContent: imageUrls.length > 0 ? imageUrls : null,
             mentionedUsers: null,
@@ -118,11 +128,14 @@ export default function CreatePostComponent({user, onClose}: { user: User, onClo
                         <p className="create-post-popup-container-user-sub-info-name">
                             {user.firstName} {user.lastName}
                         </p>
-                        <select className="create-post-popup-container-user-sub-info-privacy">
+                        <select
+                            className="create-post-popup-container-user-sub-info-privacy"
+                            value={audience}
+                            onChange={(event) => setAudience(event.target.value)}
+                        >
                             <option value="public">Public</option>
                             <option value="friends">Friends</option>
                             <option value="only-me">Favorites</option>
-
                         </select>
                     </div>
                 </div>

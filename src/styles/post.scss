@@ -245,6 +245,11 @@ html {
                 color: $color-primary;
                 border-bottom: 2px solid white;
 
+                &-active {
+                    color: $color-primary;
+                    border-bottom: 2px solid $color-primary;
+                }
+
                 &:hover {
                     border-bottom: 2px solid $color-primary;
                     background-color: $color-light;

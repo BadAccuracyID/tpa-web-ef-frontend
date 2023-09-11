@@ -1,13 +1,14 @@
 import {Audience, Post, User} from "../../lib/gql/graphql.ts";
 import {MdPublic} from "react-icons/md";
 import {BsPeopleFill, BsTrashFill} from "react-icons/bs";
-import {AiFillLike, AiFillStar} from "react-icons/ai";
+import {AiFillLike, AiFillStar, AiOutlineLike} from "react-icons/ai";
 import {FaUsers} from "react-icons/fa";
-import {deletePost} from "../../lib/controllers/post-controller.ts";
+import {deletePost, likePost, unlikePost} from "../../lib/controllers/post-controller.ts";
 import {toast} from "react-toastify";
 import {BiSolidCommentDetail, BiSolidUserCircle} from "react-icons/bi";
 import {PostLoadingComponent} from "../loading/LoadingComponents.tsx";
 import {PiShareFatFill} from "react-icons/pi";
+import {useState} from "react";
 
 export function PostComponent({post, user, onRemovePost}: {
     post: Post,
@@ -15,6 +16,7 @@ export function PostComponent({post, user, onRemovePost}: {
     onRemovePost: (postId: string) => void
 }) {
     const profilePicture = post.author.profilePicture;
+    const [likedBy, setLikedBy] = useState(post.likedBy);
 
     let audienceLogo;
     if (post.audience === Audience.Public) {
@@ -69,6 +71,64 @@ export function PostComponent({post, user, onRemovePost}: {
         }
 
         return count;
+    }
+
+    function isLikedByUser() {
+        if (!likedBy) {
+            return false;
+        }
+
+        return likedBy.some((value) => value.id === user.id);
+    }
+
+    function onLikePost() {
+        likePost(post.id).then((res) => {
+            if (!res || !res.success) {
+                toast.error("Failed to like post", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                });
+                return;
+            }
+
+            toast.success("Post liked successfully", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+
+            setLikedBy(res.data!.likedBy);
+        });
+    }
+
+    function onUnlikePost() {
+        unlikePost(post.id).then((res) => {
+            if (!res || !res.success) {
+                toast.error("Failed to unlike post", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                });
+                return;
+            }
+
+            toast.success("Post unliked successfully", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+
+            setLikedBy(res.data!.likedBy);
+        });
     }
 
     return (
@@ -129,7 +189,7 @@ export function PostComponent({post, user, onRemovePost}: {
 
             <div className="post-statistics">
                 <div className="post-statistics-likes">
-                    {post.likedBy?.length} Likes
+                    {likedBy!.length} Likes
                 </div>
                 <div className="post-statistics-comments">
                     {countComments()} Comments
@@ -140,12 +200,26 @@ export function PostComponent({post, user, onRemovePost}: {
             </div>
 
             <div className="post-buttons">
-                <div className="post-buttons-item post-buttons-item-like">
-                    <AiFillLike className="post-buttons-item-icon"/>
-                    <div>
-                        Like
-                    </div>
-                </div>
+                {
+                    isLikedByUser() ?
+                        (
+                            <div className="post-buttons-item post-buttons-item-like-active" onClick={onUnlikePost}>
+                                <AiFillLike className="post-buttons-item-icon"/>
+                                <div>
+                                    Like
+                                </div>
+                            </div>
+                        ) :
+                        (
+                            <div className="post-buttons-item post-buttons-item-like" onClick={onLikePost}>
+                                <AiOutlineLike className="post-buttons-item-icon"/>
+                                <div>
+                                    Like
+                                </div>
+                            </div>
+                        )
+                }
+
                 <div className="post-buttons-item post-buttons-item-comment">
                     <BiSolidCommentDetail className="post-buttons-item-icon"/>
                     <div>

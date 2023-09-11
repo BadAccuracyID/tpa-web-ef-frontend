@@ -373,6 +373,231 @@ const DELETE_POST_MUTATION = graphql(`
     }
 `);
 
+// likePost(id: ID!): Post
+const LIKE_POST_MUTATION = graphql(`
+    mutation likePost($id: ID!) {
+        likePost(id: $id) {
+            id
+            title
+            audience
+            author {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+
+            sharedBy {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            likedBy {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            comments {
+                id
+                postId
+                author {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+                textContent
+                replies {
+                    id
+                    postId
+                    author {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        gender
+                    }
+                    textContent
+                    likedBy {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        gender
+                    }
+                    createdAt
+                }
+                likedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+                createdAt
+            }
+
+            textContent
+            imageContent
+            videoContent
+
+            taggedUsers {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            hashtags
+
+            createdAt
+        }
+    }
+`);
+
+// unlikePost(id: ID!): Post
+const UNLIKE_POST_MUTATION = graphql(`
+    mutation unlikePost($id: ID!) {
+        unlikePost(id: $id) {
+            id
+            title
+            audience
+            author {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+
+            sharedBy {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            likedBy {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            comments {
+                id
+                postId
+                author {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+                textContent
+                replies {
+                    id
+                    postId
+                    author {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        gender
+                    }
+                    textContent
+                    likedBy {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        gender
+                    }
+                    createdAt
+                }
+                likedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+                createdAt
+            }
+
+            textContent
+            imageContent
+            videoContent
+
+            taggedUsers {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            hashtags
+
+            createdAt
+        }
+    }
+`);
+
+
 export async function getPosts(pageNumber: number, limit: number): Promise<ControllerResponse<Post[]>> {
     try {
         const {data, errors} = await getApolloClient().query({
@@ -526,6 +751,116 @@ export async function deletePost(id: string): Promise<ControllerResponse<Post>> 
         let errorMsg = 'Error executing deletePosts';
         if (error instanceof Error) {
             console.error('Error executing deletePosts:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
+    }
+}
+
+export async function likePost(id: string): Promise<ControllerResponse<Post>> {
+    try {
+        const {data, errors} = await getApolloClient().mutate({
+            mutation: LIKE_POST_MUTATION,
+            variables: {
+                id,
+            },
+        });
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            }
+        }
+
+        if (!data?.likePost) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        const post = data.likePost;
+        if (post === null) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: post as Post,
+        }
+
+    } catch (error) {
+        let errorMsg = 'Error executing likePosts';
+        if (error instanceof Error) {
+            console.error('Error executing likePosts:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
+    }
+}
+
+export async function unlikePost(id: string): Promise<ControllerResponse<Post>> {
+    try {
+        const {data, errors} = await getApolloClient().mutate({
+            mutation: UNLIKE_POST_MUTATION,
+            variables: {
+                id,
+            },
+        });
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            }
+        }
+
+        if (!data?.unlikePost) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        const post = data.unlikePost;
+        if (post === null) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: post as Post,
+        }
+
+    } catch (error) {
+        let errorMsg = 'Error executing unlikePosts';
+        if (error instanceof Error) {
+            console.error('Error executing unlikePosts:', error);
             errorMsg = error.message;
         }
 

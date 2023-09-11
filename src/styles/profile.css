@@ -35,6 +35,9 @@ html {
   justify-content: start;
   align-items: center;
 }
+.profile-header-container input {
+  display: none;
+}
 .profile-header-picture, .profile-header-null-picture {
   width: 100%;
   height: 100%;

@@ -1,5 +1,5 @@
 import {Await, useLoaderData, useParams} from "react-router-dom";
-import {Suspense, useEffect, useState} from "react";
+import React, {createRef, Suspense, useEffect, useState} from "react";
 import {RelationshipStatus, User} from "../../lib/gql/graphql.ts";
 import {getUserById} from "../../lib/controllers/user-controller.ts";
 import NavigationBar from "../../components/NavigationBar.tsx";
@@ -15,6 +15,7 @@ import {
 } from "../../lib/controllers/relationship-controller.ts";
 import {toast} from "react-toastify";
 import {HiXMark} from "react-icons/hi2";
+import {uploadFilesWithToast} from "../../lib/controllers/firebase-upload-controller.ts";
 
 const nullUser: User = {
     id: '',
@@ -30,6 +31,8 @@ const nullUser: User = {
 export default function ProfilePage() {
     const currentUser = useLoaderData() as User;
     const {id} = useParams();
+
+    const fileInputRef: React.Ref<HTMLInputElement> = createRef();
 
     async function getUser(): Promise<User> {
         if (!id) {
@@ -47,6 +50,33 @@ export default function ProfilePage() {
     useEffect(() => {
         getUser();
     }, []);
+
+
+    const onFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            const file = event.target.files[0];
+            const imageUrl = await uploadFilesWithToast([file]);
+
+
+            console.log(imageUrl);
+
+
+        }
+    };
+
+    const onProfilePictureClick = (user: User) => {
+        if (currentUser.id !== user.id) {
+            console.log("Not your profile picture")
+            return;
+        }
+
+        if (!fileInputRef.current) {
+            return;
+        }
+
+        fileInputRef.current.click();
+    };
+
 
     function getFriends(user: User): User[] {
         if (!user.relations) {
@@ -83,14 +113,26 @@ export default function ProfilePage() {
                                 <div className="profile">
                                     <div className="profile-header">
                                         <div className="profile-header-container">
+                                            <input
+                                                type="file"
+                                                onChange={onFileChange}
+                                                accept={"image/*"}
+                                                ref={fileInputRef}
+                                            />
                                             {user.profilePicture ?
                                                 <img
                                                     src={user.profilePicture!}
                                                     className="profile-header-picture"
                                                     alt="Profile picture"
+                                                    onClick={() => {
+                                                        onProfilePictureClick(user)
+                                                    }}
                                                 />
                                                 :
-                                                <BiSolidUserCircle className="profile-header-null-picture"/>
+                                                <BiSolidUserCircle className="profile-header-null-picture"
+                                                                   onClick={() => {
+                                                                       onProfilePictureClick(user)
+                                                                   }}/>
                                             }
 
                                             <div className="profile-header-info">

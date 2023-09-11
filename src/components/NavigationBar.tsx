@@ -7,6 +7,7 @@ import {IoMdNotifications} from "react-icons/io";
 import {BiSolidUserCircle} from "react-icons/bi";
 import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import React from "react";
+import {ImExit} from "react-icons/im";
 
 export default function NavigationBar({user}: { user: User }) {
     const navigate = useNavigate();
@@ -72,9 +73,13 @@ export default function NavigationBar({user}: { user: User }) {
                 </Link>
 
                 <div onClick={onLogout}>
+                    <ImExit className="icon"/>
+                </div>
+
+                <Link to={'/profile/' + user.id}>
                     {profilePicture ? <img className="profile" src={profilePicture}/> :
                         <BiSolidUserCircle className="profile-null"/>}
-                </div>
+                </Link>
             </div>
         </div>
     )

@@ -113,6 +113,40 @@ export default function ProfilePage() {
                                                      user={user}/>
                                         </div>
                                     </div>
+
+                                    <div className="profile-buttons">
+                                        <div className="profile-buttons-icon-active">
+                                            Posts
+                                        </div>
+                                        <div className="profile-buttons-icon">
+                                            About
+                                        </div>
+                                        <div className="profile-buttons-icon">
+                                            Friends
+                                        </div>
+                                    </div>
+
+                                    <div className="profile-content">
+                                        <div className="profile-content-left">
+                                            <div className="profile-content-left-title">
+                                                Intro
+                                            </div>
+
+                                            <div className="profile-content-left-info">
+                                                <div className="profile-content-left-info-gender">
+                                                    Gender: {user.gender}
+                                                </div>
+                                                <div className="profile-content-left-info-gender">
+                                                    Date of Birth: {user.dateOfBirth}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="profile-content-right">
+                                            <div className="profile-content-left-title">
+                                                Posts
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         )

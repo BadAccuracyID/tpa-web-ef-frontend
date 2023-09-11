@@ -91,7 +91,7 @@ export default function HomePage() {
                 <div className="middle">
                     <div className="create-post">
                         <div className="create-post-header">
-                            <Link to="/" className="user-info">
+                            <Link to={'/profile/' + user.id} className="user-info">
                                 {profilePicture ? < img className="avatar" src={profilePicture}/> :
                                     <BiSolidUserCircle className="avatar"/>}
                             </Link>

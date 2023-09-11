@@ -1,0 +1,93 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.search {
+  margin-top: 60px;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  display: flex;
+  flex-direction: row;
+}
+.search-left {
+  flex: 0 0 20%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+.search-left-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+}
+.search-left-header-text {
+  margin: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+.search-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.search-content-user {
+  margin: 15px;
+  max-width: 80%;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  background-color: white;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.search-content-user-picture, .search-content-user-null-picture {
+  width: 100%;
+  height: 100%;
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.search-content-user-picture:hover, .search-content-user-null-picture:hover {
+  cursor: pointer;
+}
+.search-content-user-null-picture {
+  color: #cccccc;
+}
+.search-content-user-info {
+  display: flex;
+  flex-direction: column;
+}
+.search-content-user-info-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+.search-content-user-info-username {
+  font-size: 1rem;
+  font-weight: 400;
+  color: slategray;
+  margin-bottom: 0;
+}
+.search-content-user:hover {
+  scale: 1.01;
+  background-color: white;
+  opacity: 0.8;
+}
+
+/*# sourceMappingURL=search.css.map */

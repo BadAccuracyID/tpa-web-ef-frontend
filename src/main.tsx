@@ -114,6 +114,9 @@ const router = createBrowserRouter([
             },
             {
                 path: "search",
+                loader: () => {
+                    return userLoader();
+                },
                 element: <SearchPage/>,
             },
         ]

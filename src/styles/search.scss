@@ -1,0 +1,133 @@
+// Define variables
+$font-family-main: 'Roboto', sans-serif;
+$color-primary: #1877f2;
+$color-primary-dark: #1464aa;
+$color-secondary: #42b72a;
+$color-secondary-dark: #36a420;
+$color-dark: #000000;
+$color-light: #f0f2f5;
+$color-grey: #ccc;
+$input-border: 1px solid #cccccc;
+$transition: 0.2s ease;
+
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: $font-family-main;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+.search {
+    margin-top: 60px;
+
+    min-height: 100vh;
+    background-color: $color-light;
+
+    display: flex;
+    flex-direction: row;
+
+    &-left {
+        flex: 0 0 20%;
+        background-color: white;
+
+        display: flex;
+        flex-direction: column;
+
+        &-header {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: start;
+
+            &-text {
+                margin: 20px;
+                font-size: 24px;
+                font-weight: bold;
+            }
+        }
+
+    }
+
+    &-content {
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: center;
+
+        &-user {
+            margin: 15px;
+            max-width: 80%;
+            padding: 20px;
+
+            border-radius: 10px;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: start;
+            background-color: white;
+
+            cursor: pointer;
+            transition: $transition;
+
+            &-picture,
+            &-null-picture {
+                width: 100%;
+                height: 100%;
+                max-width: 150px;
+                max-height: 150px;
+                border-radius: 50%;
+                object-fit: cover;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+
+            &-picture {
+            }
+
+            &-null-picture {
+                color: #cccccc;
+            }
+
+            &-info {
+                display: flex;
+                flex-direction: column;
+
+                &-name {
+                    font-size: 1.5rem;
+                    font-weight: 600;
+                    margin-bottom: 0;
+                }
+
+                &-username {
+                    font-size: 1rem;
+                    font-weight: 400;
+                    color: slategray;
+                    margin-bottom: 0;
+                }
+            }
+
+            &:hover {
+                scale: 1.01;
+
+                background-color: white;
+                opacity: 0.8;
+            }
+
+        }
+
+    }
+
+}

@@ -5,7 +5,6 @@ import {getApolloClient} from "../../main.tsx";
 const SEARCH_QUERY = graphql(`
     query search($query: String!) {
         search(query: $query) {
-            id
             type
 
             ... on User {
@@ -30,6 +29,7 @@ const SEARCH_QUERY = graphql(`
                     },
                     status,
                 },
+                type
             }
 
             ... on Post {
@@ -137,10 +137,12 @@ const SEARCH_QUERY = graphql(`
                 hashtags
 
                 createdAt
+                type
             }
 
             ... on Group {
                 id
+                type
             }
         }
     }

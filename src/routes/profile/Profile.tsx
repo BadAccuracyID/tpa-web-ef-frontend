@@ -81,15 +81,18 @@ export default function ProfilePage() {
                         draggable: true,
                     });
 
-                    console.log(userInput.password);
-
-                    console.log(result);
                     return;
                 }
+
+                toast.success('Profile picture updated', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                });
                 window.location.reload();
             })
-
-
         }
     };
 

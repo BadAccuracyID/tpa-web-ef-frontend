@@ -141,5 +141,66 @@ html {
   justify-items: flex-start;
   overflow: scroll;
 }
+.post-statistics {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+.post-statistics-likes, .post-statistics-comments, .post-statistics-shares {
+  font-size: 0.8rem;
+  color: gray;
+}
+.post-buttons {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column: 3;
+  justify-content: center;
+  align-items: center;
+}
+.post-buttons-item {
+  width: 100%;
+  max-height: 45px;
+  box-sizing: border-box;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.post-buttons-item-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+.post-buttons-item-like {
+  color: #1877f2;
+  border-bottom: 2px solid white;
+}
+.post-buttons-item-like:hover {
+  border-bottom: 2px solid #1877f2;
+  background-color: #f0f2f5;
+}
+.post-buttons-item-comment {
+  color: #42b72a;
+  border-bottom: 2px solid white;
+}
+.post-buttons-item-comment:hover {
+  border-bottom: 2px solid #42b72a;
+  background-color: #f0f2f5;
+}
+.post-buttons-item-share {
+  color: orange;
+  border-bottom: 2px solid white;
+}
+.post-buttons-item-share:hover {
+  border-bottom: 2px solid orange;
+  background-color: #f0f2f5;
+}
 
 /*# sourceMappingURL=post.css.map */

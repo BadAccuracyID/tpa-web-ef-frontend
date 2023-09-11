@@ -1,12 +1,13 @@
 import {Audience, Post, User} from "../../lib/gql/graphql.ts";
 import {MdPublic} from "react-icons/md";
 import {BsPeopleFill, BsTrashFill} from "react-icons/bs";
-import {AiFillStar} from "react-icons/ai";
+import {AiFillLike, AiFillStar} from "react-icons/ai";
 import {FaUsers} from "react-icons/fa";
 import {deletePost} from "../../lib/controllers/post-controller.ts";
 import {toast} from "react-toastify";
-import {BiSolidUserCircle} from "react-icons/bi";
+import {BiSolidCommentDetail, BiSolidUserCircle} from "react-icons/bi";
 import {PostLoadingComponent} from "../loading/LoadingComponents.tsx";
+import {PiShareFatFill} from "react-icons/pi";
 
 export function PostComponent({post, user, onRemovePost}: {
     post: Post,
@@ -53,6 +54,21 @@ export function PostComponent({post, user, onRemovePost}: {
             });
             onRemovePost(post.id);
         })
+    }
+
+    function countComments() {
+        let count = 0;
+        if (post.comments) {
+            post.comments.forEach((comment) => {
+                if (comment.replies) {
+                    count += comment.replies.length;
+                } else {
+                    count++;
+                }
+            })
+        }
+
+        return count;
     }
 
     return (
@@ -108,6 +124,39 @@ export function PostComponent({post, user, onRemovePost}: {
                             );
                         })
                     }
+                </div>
+            </div>
+
+            <div className="post-statistics">
+                <div className="post-statistics-likes">
+                    {post.likedBy?.length} Likes
+                </div>
+                <div className="post-statistics-comments">
+                    {countComments()} Comments
+                </div>
+                <div className="post-statistics-shares">
+                    {post.sharedBy?.length} Shares
+                </div>
+            </div>
+
+            <div className="post-buttons">
+                <div className="post-buttons-item post-buttons-item-like">
+                    <AiFillLike className="post-buttons-item-icon"/>
+                    <div>
+                        Like
+                    </div>
+                </div>
+                <div className="post-buttons-item post-buttons-item-comment">
+                    <BiSolidCommentDetail className="post-buttons-item-icon"/>
+                    <div>
+                        Comment
+                    </div>
+                </div>
+                <div className="post-buttons-item post-buttons-item-share">
+                    <PiShareFatFill className="post-buttons-item-icon"/>
+                    <div>
+                        Share
+                    </div>
                 </div>
             </div>
         </div>

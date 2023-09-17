@@ -11,6 +11,7 @@ import {BsPencilFill} from "react-icons/bs";
 import {
     acceptFriendRequest,
     getFriendRequests,
+    rejectFriendRequest,
     sendFriendRequest
 } from "../../lib/controllers/relationship-controller.ts";
 import {toast} from "react-toastify";
@@ -267,7 +268,13 @@ function Buttons({friends, currentUser, user}: {
             return true;
         }
 
-        return friends.includes(currentUser);
+        console.log("chceking friend")
+        console.log(friends)
+        console.log(friends.includes(currentUser))
+
+        return friends.map(friend => {
+            return friend.id;
+        }).includes(currentUser.id);
     }
 
     function isFavorite(): boolean {
@@ -351,7 +358,7 @@ function Buttons({friends, currentUser, user}: {
     }
 
     async function onRejectFriendRequest() {
-        const result = await acceptFriendRequest(user.id);
+        const result = await rejectFriendRequest(user.id);
         if (!result.success) {
             toast.error('Failed to reject friend request', {
                 position: "top-right",

@@ -10,6 +10,30 @@ html {
   box-sizing: inherit;
 }
 
+.friends {
+  margin-top: 60px;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  display: flex;
+  flex-direction: row;
+}
+.friends-left {
+  flex: 0 0 20%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+.friends-left-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+}
+.friends-left-header-text {
+  margin: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
 .recommendation {
   display: flex;
   flex-direction: column;

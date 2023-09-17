@@ -4,12 +4,13 @@ import "../../styles/friends.scss";
 import {
     changeFriendshipStatus,
     getFriendRecommendations,
+    getFriendRequests,
     sendFriendRequest
 } from "../../lib/controllers/relationship-controller.ts";
 import {BiBlock, BiSolidUserCircle, BiSolidUserPlus} from "react-icons/bi";
 import {toast} from "react-toastify";
 
-export default function FriendRecommendationComponent() {
+export function FriendRecommendationComponent() {
     const [friends, setFriends] = useState<User[]>([])
 
     const loadRecommendations = useCallback(async () => {
@@ -48,11 +49,48 @@ export default function FriendRecommendationComponent() {
                 })}
             </div>
         </div>
-
     )
 }
 
-function FriendCard({user}: { user: User }) {
+export function FriendRequestsComponent() {
+    const [friends, setFriends] = useState<User[]>([])
+
+    const loadRequests = useCallback(async () => {
+        const fetched = await getFriendRequests();
+        if (!fetched.success) {
+            return
+        }
+
+        const recommendations = fetched.data!
+            .map(it => it.fromUser!)
+            .filter(it => it.activated);
+
+        setFriends(recommendations);
+    }, []);
+
+    useEffect(() => {
+        loadRequests();
+    }, []);
+
+    if (friends.length == 0) {
+        return <></>
+    }
+
+    return (
+        <div className="recommendation">
+            <div className="recommendation-text">
+                Friend Requests
+            </div>
+            <div className="recommendation-list">
+                {friends.map((it) => {
+                    return <FriendCard user={it}/>
+                })}
+            </div>
+        </div>
+    )
+}
+
+export function FriendCard({user}: { user: User }) {
     const profilePicture = user.profilePicture;
 
     async function onAddFriend() {

@@ -16,6 +16,16 @@ const GET_FRIEND_REQUESTS_QUERY = graphql(`
             to
             status
             createdAt
+            fromUser {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
         }
     }
 `)

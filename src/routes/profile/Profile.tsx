@@ -19,7 +19,7 @@ import {toast} from "react-toastify";
 import {HiXMark} from "react-icons/hi2";
 import {uploadFilesWithToast} from "../../lib/controllers/firebase-upload-controller.ts";
 import ProfilePosts from "../../components/profile/ProfilePosts.tsx";
-import FriendRecommendationComponent from "../../components/friends/FriendRecommendation.tsx";
+import {FriendRecommendationComponent} from "../../components/friends/FriendComponent.tsx";
 
 const nullUser: User = {
     id: '',

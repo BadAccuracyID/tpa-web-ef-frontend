@@ -33,6 +33,10 @@ export default function FriendRecommendationComponent() {
         loadRecommendations();
     }, []);
 
+    if (friends.length == 0) {
+        return <></>
+    }
+
     return (
         <div className="recommendation">
             <div className="recommendation-text">

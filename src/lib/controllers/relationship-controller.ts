@@ -72,6 +72,25 @@ const REJECT_FRIEND_REQUEST_MUTATION = graphql(`
     }
 `)
 
+//changeFriendshipStatus(to: ID!, status: String!): FriendRequest!
+// enum RelationshipStatus {
+//     PENDING,
+//     FRIENDS,
+//     DECLINED,
+//     BLOCKED,
+//     FAVORITE
+// }
+const CHANGE_FRIENDSHIP_STATUS_MUTATION = graphql(`
+    mutation changeFriendshipStatus($to: ID!, $status: String!) {
+        changeFriendshipStatus(to: $to, status: $status) {
+            from
+            to
+            status
+            createdAt
+        }
+    }
+`)
+
 export async function getFriendRequests(): Promise<ControllerResponse<FriendRequest[]>> {
     try {
         const {data, errors} = await getApolloClient().query({
@@ -326,6 +345,61 @@ export async function rejectFriendRequest(id: string) {
         let errorMsg = 'Error executing rejectFriendRequest';
         if (error instanceof Error) {
             console.error('Error executing rejectFriendRequest:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
+    }
+}
+
+export async function changeFriendshipStatus(id: string, status: string) {
+    try {
+        const {data, errors} = await getApolloClient().mutate({
+            mutation: CHANGE_FRIENDSHIP_STATUS_MUTATION,
+            variables: {
+                to: id,
+                status: status
+            }
+        });
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            }
+        }
+
+        if (!data?.changeFriendshipStatus) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null
+            }
+        }
+
+        const request: FriendRequest = data.changeFriendshipStatus;
+        if (!request) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null
+            }
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: request
+        };
+    } catch (error) {
+        let errorMsg = 'Error executing changeFriendshipStatus';
+        if (error instanceof Error) {
+            console.error('Error executing changeFriendshipStatus:', error);
             errorMsg = error.message;
         }
 

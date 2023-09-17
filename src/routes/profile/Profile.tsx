@@ -10,6 +10,7 @@ import {AiFillCalendar, AiFillMessage, AiFillStar} from "react-icons/ai";
 import {BsPencilFill} from "react-icons/bs";
 import {
     acceptFriendRequest,
+    changeFriendshipStatus,
     getFriendRequests,
     rejectFriendRequest,
     sendFriendRequest
@@ -271,17 +272,13 @@ function Buttons({friends, currentUser, user}: {
             return true;
         }
 
-        console.log("chceking friend")
-        console.log(friends)
-        console.log(friends.includes(currentUser))
-
         return friends.map(friend => {
             return friend.id;
         }).includes(currentUser.id);
     }
 
     function isFavorite(): boolean {
-        if (!user.relations) {
+        if (!currentUser.relations) {
             return false;
         }
 
@@ -289,12 +286,29 @@ function Buttons({friends, currentUser, user}: {
             return true;
         }
 
-        return user.relations
+        return currentUser.relations
             .filter(relation => {
                 return relation.status === RelationshipStatus.Favorite;
             }).map(relation => {
-                return relation.user!;
-            }).includes(currentUser);
+                return relation.user!.id;
+            }).includes(user.id);
+    }
+
+    function isBlocked(): boolean {
+        if (!currentUser.relations) {
+            return false;
+        }
+
+        if (isSelf()) {
+            return true;
+        }
+
+        return currentUser.relations
+            .filter(relation => {
+                return relation.status === RelationshipStatus.Blocked;
+            }).map(relation => {
+                return relation.user!.id;
+            }).includes(user.id);
     }
 
     async function isPending(): Promise<boolean> {
@@ -383,6 +397,75 @@ function Buttons({friends, currentUser, user}: {
         window.location.reload();
     }
 
+    async function onAddToFavorite() {
+        const result = await changeFriendshipStatus(user.id, RelationshipStatus.Favorite);
+        if (!result.success) {
+            toast.error('Failed to add to favorites', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            return;
+        }
+
+        toast.success('Added to favorites', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+        });
+        window.location.reload();
+    }
+
+    async function onSetToJustFriends() {
+        const result = await changeFriendshipStatus(user.id, RelationshipStatus.Friends);
+        if (!result.success) {
+            toast.error('Failed to remove from favorites', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            return;
+        }
+
+        toast.success('Removed from favorites', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+        });
+        window.location.reload();
+    }
+
+    async function onBlock() {
+        const result = await changeFriendshipStatus(user.id, RelationshipStatus.Blocked);
+        if (!result.success) {
+            toast.error('Failed to block user', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            return;
+        }
+
+        toast.success('Blocked user', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+        });
+        window.location.reload();
+    }
+
     return (
         <div className="profile-header-buttons">
             {(!isFriends() && !isSelf() && !pending) &&
@@ -413,10 +496,19 @@ function Buttons({friends, currentUser, user}: {
             }
 
             {(isFriends() && !isFavorite()) &&
-                <div className="profile-header-buttons-cf">
+                <div className="profile-header-buttons-cf" onClick={onAddToFavorite}>
                     <AiFillStar className="profile-header-buttons-icon"/>
                     <div>
                         Add to Favorites
+                    </div>
+                </div>
+            }
+
+            {(isFriends() && isFavorite()) &&
+                <div className="profile-header-buttons-cf" onClick={onSetToJustFriends}>
+                    <AiFillStar className="profile-header-buttons-icon"/>
+                    <div>
+                        Remove from Favorites
                     </div>
                 </div>
             }
@@ -439,11 +531,20 @@ function Buttons({friends, currentUser, user}: {
                 </div>
             }
 
-            {isFriends() &&
-                <div className="profile-header-buttons-block">
+            {(isFriends() && !isBlocked()) &&
+                <div className="profile-header-buttons-block" onClick={onBlock}>
                     <BiBlock className="profile-header-buttons-icon"/>
                     <div>
                         Block
+                    </div>
+                </div>
+            }
+
+            {(isFriends() && isBlocked()) &&
+                <div className="profile-header-buttons-block" onClick={onSetToJustFriends}>
+                    <BiBlock className="profile-header-buttons-icon"/>
+                    <div>
+                        Unblock
                     </div>
                 </div>
             }

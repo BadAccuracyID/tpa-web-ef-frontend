@@ -34,6 +34,16 @@ html {
   font-size: 24px;
   font-weight: bold;
 }
+.friends-content {
+  width: 100%;
+  height: 100%;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+
 .recommendation {
   display: flex;
   flex-direction: column;
@@ -94,7 +104,7 @@ html {
   height: 17px;
   margin-right: 10px;
 }
-.card-buttons-add, .card-buttons-block {
+.card-buttons-add, .card-buttons-cf, .card-buttons-block {
   padding: 7px 10px;
   border-radius: 10px;
   width: 100%;
@@ -113,12 +123,19 @@ html {
 .card-buttons-add:hover {
   background-color: #1464aa;
 }
+.card-buttons-cf {
+  background-color: #42b72a;
+  color: white;
+}
+.card-buttons-cf:hover {
+  background-color: #36a420;
+}
 .card-buttons-block {
-  color: black;
-  background-color: #E6E6EA;
+  background-color: red;
+  color: white;
 }
 .card-buttons-block:hover {
-  background-color: gray;
+  background-color: darkred;
 }
 
 /*# sourceMappingURL=friends.css.map */

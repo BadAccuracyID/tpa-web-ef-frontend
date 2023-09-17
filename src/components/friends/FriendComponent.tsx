@@ -9,8 +9,9 @@ import {
 } from "../../lib/controllers/relationship-controller.ts";
 import {BiBlock, BiSolidUserCircle, BiSolidUserPlus} from "react-icons/bi";
 import {toast} from "react-toastify";
+import {AiFillStar} from "react-icons/ai";
 
-export function FriendRecommendationComponent() {
+export function FriendRecommendationComponent({currentUser}: { currentUser: User }) {
     const [friends, setFriends] = useState<User[]>([])
 
     const loadRecommendations = useCallback(async () => {
@@ -45,14 +46,14 @@ export function FriendRecommendationComponent() {
             </div>
             <div className="recommendation-list">
                 {friends.map((it) => {
-                    return <FriendCard user={it}/>
+                    return <FriendCard user={it} currentUser={currentUser}/>
                 })}
             </div>
         </div>
     )
 }
 
-export function FriendRequestsComponent() {
+export function FriendRequestsComponent({currentUser}: { currentUser: User }) {
     const [friends, setFriends] = useState<User[]>([])
 
     const loadRequests = useCallback(async () => {
@@ -83,15 +84,95 @@ export function FriendRequestsComponent() {
             </div>
             <div className="recommendation-list">
                 {friends.map((it) => {
-                    return <FriendCard user={it}/>
+                    return <FriendCard user={it} currentUser={currentUser}/>
                 })}
             </div>
         </div>
     )
 }
 
-export function FriendCard({user}: { user: User }) {
+export function AllFriendsComponent({user, currentUser}: { user: User, currentUser: User }) {
+    const [friends, setFriends] = useState<User[]>([])
+
+    useEffect(() => {
+        const friendRelations = user.relations!
+            .filter((it) => it.status === RelationshipStatus.Friends || it.status === RelationshipStatus.Favorite)
+            .map((it) => it.user);
+
+        setFriends(friendRelations)
+    }, []);
+
+    if (friends.length == 0) {
+        return <></>
+    }
+
+    return (
+        <div className="recommendation">
+            <div className="recommendation-text">
+                Friends
+            </div>
+            <div className="recommendation-list">
+                {friends.map((it) => {
+                    return <FriendCard user={it} currentUser={currentUser}/>
+                })}
+            </div>
+        </div>
+    )
+}
+
+export function FavoriteFriendsComponent({user, currentUser}: { user: User, currentUser: User }) {
+    const [friends, setFriends] = useState<User[]>([])
+
+    useEffect(() => {
+        const friendRelations = user.relations!
+            .filter((it) => it.status === RelationshipStatus.Favorite)
+            .map((it) => it.user);
+
+        setFriends(friendRelations)
+    }, []);
+
+    if (friends.length == 0) {
+        return <></>
+    }
+
+    return (
+        <div className="recommendation">
+            <div className="recommendation-text">
+                Favorite Friends
+            </div>
+            <div className="recommendation-list">
+                {friends.map((it) => {
+                    return <FriendCard user={it} currentUser={currentUser}/>
+                })}
+            </div>
+        </div>
+    )
+}
+
+export function FriendCard({user, currentUser}: { user: User, currentUser: User }) {
     const profilePicture = user.profilePicture;
+
+    function isFriends() {
+        if (!currentUser.relations) {
+            return false;
+        }
+
+        return currentUser.relations
+            .filter(it => it.status === RelationshipStatus.Friends || it.status === RelationshipStatus.Favorite)
+            .map(it => it.user!.id)
+            .includes(user.id);
+    }
+
+    function isFavorite() {
+        if (!currentUser.relations) {
+            return false;
+        }
+
+        return currentUser.relations
+            .filter(it => it.status === RelationshipStatus.Favorite)
+            .map(it => it.user!.id)
+            .includes(user.id);
+    }
 
     async function onAddFriend() {
         const result = await sendFriendRequest(user.id);
@@ -139,6 +220,52 @@ export function FriendCard({user}: { user: User }) {
         window.location.reload();
     }
 
+    async function onAddToFavorite() {
+        const result = await changeFriendshipStatus(user.id, RelationshipStatus.Favorite);
+        if (!result.success) {
+            toast.error('Failed to add to favorites', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            return;
+        }
+
+        toast.success('Added to favorites', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+        });
+        window.location.reload();
+    }
+
+    async function onSetToJustFriends() {
+        const result = await changeFriendshipStatus(user.id, RelationshipStatus.Friends);
+        if (!result.success) {
+            toast.error('Failed to remove from favorites', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            return;
+        }
+
+        toast.success('Removed from favorites', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+        });
+        window.location.reload();
+    }
+
     return (
         <div className="card">
             <div className="card-container">
@@ -150,17 +277,38 @@ export function FriendCard({user}: { user: User }) {
                 </div>
 
                 <div className="card-buttons">
-                    <div className="card-buttons-add" onClick={onAddFriend}>
-                        <BiSolidUserPlus className="card-buttons-icon"/>
-                        <div>
-                            Add Friend
+                    {!isFriends() ??
+                        <div className="card-buttons-add" onClick={onAddFriend}>
+                            <BiSolidUserPlus className="card-buttons-icon"/>
+                            <div>
+                                Add Friend
+                            </div>
                         </div>
-                    </div>
+                    }
+
+                    {(isFriends() && !isFavorite()) &&
+                        <div className="card-buttons-cf" onClick={onAddToFavorite}>
+                            <AiFillStar className="card-buttons-icon"/>
+                            <div>
+                                Add to Favorites
+                            </div>
+                        </div>
+                    }
+
+                    {(isFriends() && isFavorite()) &&
+                        <div className="card-buttons-cf" onClick={onSetToJustFriends}>
+                            <AiFillStar className="card-buttons-icon"/>
+                            <div>
+                                Remove from Favorites
+                            </div>
+                        </div>
+                    }
+
 
                     <div className="card-buttons-block" onClick={onBlock}>
                         <BiBlock className="card-buttons-icon"/>
                         <div>
-                            Remove
+                            Block
                         </div>
                     </div>
                 </div>

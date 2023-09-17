@@ -215,7 +215,7 @@ export default function ProfilePage() {
                                     </div>
 
                                     <div className="profile-recommendations">
-                                        <FriendRecommendationComponent/>
+                                        <FriendRecommendationComponent currentUser={currentUser}/>
                                     </div>
 
                                     <div className="profile-content">

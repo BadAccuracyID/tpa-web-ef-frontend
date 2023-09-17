@@ -1,7 +1,11 @@
 import {useLoaderData} from "react-router-dom";
 import {User} from "../../lib/gql/graphql.ts";
 import NavigationBar from "../../components/NavigationBar.tsx";
-import {FriendRequestsComponent} from "../../components/friends/FriendComponent.tsx";
+import {
+    AllFriendsComponent, FavoriteFriendsComponent,
+    FriendRecommendationComponent,
+    FriendRequestsComponent
+} from "../../components/friends/FriendComponent.tsx";
 
 export default function FriendsPage() {
     const currentUser = useLoaderData() as User;
@@ -23,7 +27,10 @@ export default function FriendsPage() {
 
 
                 <div className="friends-content">
-                    <FriendRequestsComponent/>
+                    <FriendRecommendationComponent currentUser={currentUser}/>
+                    <FriendRequestsComponent currentUser={currentUser}/>
+                    <AllFriendsComponent user={currentUser} currentUser={currentUser}/>
+                    <FavoriteFriendsComponent user={currentUser} currentUser={currentUser}/>
                 </div>
             </div>
         </div>

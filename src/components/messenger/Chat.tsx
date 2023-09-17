@@ -11,17 +11,16 @@ export default function ChatComponent({user, conversation}: { user: User, conver
 
     useEffect(() => {
         const fetchData = async () => {
-            console.log("Subscribing to conversation")
-            const subscriptionResponse = await subscribeConversation(conversation.id, (message: Message) => {
+            subscribeConversation(conversation.id, (message: Message) => {
                 setMessages([...messages, message]);
-            });
+            }).then((response) => {
+                if (!response.success) {
+                    console.error(response.errorMsg);
+                    return;
+                }
 
-            if (!subscriptionResponse.success) {
-                console.error(subscriptionResponse.errorMsg);
-                return;
-            }
-
-            subscription.current = subscriptionResponse.subscription;
+                subscription.current = response.subscription;
+            })
         };
 
         if (!subscription.current) {
@@ -34,11 +33,6 @@ export default function ChatComponent({user, conversation}: { user: User, conver
                 subscription.current = null;
             }
         };
-    }, [messages]);
-
-    useEffect(() => {
-        console.log("messages changed")
-        console.log("current sub", subscription.current)
     }, [messages]);
 
     function getMemberNames() {

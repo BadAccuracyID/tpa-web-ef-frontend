@@ -17,6 +17,7 @@ import {
 import {toast} from "react-toastify";
 import {HiXMark} from "react-icons/hi2";
 import {uploadFilesWithToast} from "../../lib/controllers/firebase-upload-controller.ts";
+import ProfilePosts from "../../components/profile/ProfilePosts.tsx";
 
 const nullUser: User = {
     id: '',
@@ -236,6 +237,8 @@ export default function ProfilePage() {
                                             <div className="profile-content-left-title">
                                                 Posts
                                             </div>
+
+                                            <ProfilePosts user={user}/>
                                         </div>
                                     </div>
                                 </div>

@@ -136,6 +136,120 @@ const GET_POSTS_QUERY = graphql(`
     }
 `);
 
+// getPostsByUser(id: ID!, pageNumber: Int, limit: Int): PostsPage
+const GET_USER_POSTS_QUERY = graphql(`
+    query getPostsByUser($id: ID!, $pageNumber: Int, $limit: Int) {
+        getPostsByUser(id: $id, pageNumber: $pageNumber, limit: $limit) {
+            posts {
+                id
+                title
+                audience
+                author {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+
+                sharedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+                likedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+                comments {
+                    id
+                    postId
+                    author {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        gender
+                    }
+                    textContent
+                    replies {
+                        id
+                        postId
+                        author {
+                            id
+                            firstName
+                            lastName
+                            activated
+                            username
+                            email
+                            dateOfBirth
+                            gender
+                        }
+                        textContent
+                        likedBy {
+                            id
+                            firstName
+                            lastName
+                            activated
+                            username
+                            email
+                            dateOfBirth
+                            gender
+                        }
+                        createdAt
+                    }
+                    likedBy {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        gender
+                    }
+                    createdAt
+                }
+
+                textContent
+                imageContent
+                videoContent
+
+                taggedUsers {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+                hashtags
+
+                createdAt
+            }
+        }
+    }
+`);
+
 // createPost(input: PostInput!): Post
 // input PostInput {
 //     title: String!
@@ -651,6 +765,63 @@ export async function getPosts(pageNumber: number, limit: number): Promise<Contr
             data: null,
         };
     }
+}
+
+export async function getUserPost(userId: string, pageNumber: number, limit: number): Promise<ControllerResponse<Post[]>> {
+    try {
+        const {data, errors} = await getApolloClient().query({
+            query: GET_USER_POSTS_QUERY,
+            variables: {
+                id: userId,
+                pageNumber,
+                limit,
+            },
+        });
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            }
+        }
+
+        if (!data?.getPostsByUser) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        const posts: Post[] = [];
+        for (const it of data.getPostsByUser.posts!) {
+            if (it === null) {
+                continue;
+            }
+
+            posts.push(it as Post);
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: posts,
+        };
+    } catch (error) {
+        let errorMsg = 'Error executing getPosts';
+        if (error instanceof Error) {
+            console.error('Error executing getPosts:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
+    }
+
 }
 
 export async function createPost(input: PostInput): Promise<ControllerResponse<Post>> {

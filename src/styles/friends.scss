@@ -52,6 +52,61 @@ html {
             }
         }
 
+        &-buttons {
+            display: flex;
+            flex-direction: column;
+            margin-left: 20px;
+            margin-right: 20px;
+
+            align-items: start;
+            justify-content: center;
+
+            gap: 10px;
+
+            cursor: pointer;
+
+            &-container {
+                width: 100%;
+
+                display: flex;
+                flex-direction: row;
+
+                align-items: center;
+                justify-content: start;
+
+                border-radius: 10px;
+                padding: 10px;
+
+                transition: $transition;
+
+                &:hover {
+                    background-color: $color-grey;
+                }
+            }
+
+            &-icon,
+            &-icon-active {
+                width: 30px;
+                height: 30px;
+                margin-right: 10px;
+
+                padding: 3px;
+
+                border-radius: 50%;
+                transition: $transition;
+            }
+
+            &-icon {
+                color: black;
+                background-color: $color-light;
+            }
+
+            &-icon-active {
+                color: white;
+                background-color: $color-primary;
+            }
+        }
+
     }
 
     &-content {

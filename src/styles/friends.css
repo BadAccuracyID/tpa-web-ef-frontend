@@ -34,6 +34,45 @@ html {
   font-size: 24px;
   font-weight: bold;
 }
+.friends-left-buttons {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  margin-right: 20px;
+  align-items: start;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.friends-left-buttons-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  border-radius: 10px;
+  padding: 10px;
+  transition: 0.2s ease;
+}
+.friends-left-buttons-container:hover {
+  background-color: #ccc;
+}
+.friends-left-buttons-icon, .friends-left-buttons-icon-active {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  padding: 3px;
+  border-radius: 50%;
+  transition: 0.2s ease;
+}
+.friends-left-buttons-icon {
+  color: black;
+  background-color: #f0f2f5;
+}
+.friends-left-buttons-icon-active {
+  color: white;
+  background-color: #1877f2;
+}
 .friends-content {
   width: 100%;
   height: 100%;

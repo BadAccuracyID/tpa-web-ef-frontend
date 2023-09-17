@@ -19,6 +19,7 @@ import {toast} from "react-toastify";
 import {HiXMark} from "react-icons/hi2";
 import {uploadFilesWithToast} from "../../lib/controllers/firebase-upload-controller.ts";
 import ProfilePosts from "../../components/profile/ProfilePosts.tsx";
+import FriendRecommendationComponent from "../../components/friends/FriendRecommendation.tsx";
 
 const nullUser: User = {
     id: '',
@@ -211,6 +212,10 @@ export default function ProfilePage() {
                                         <div className="profile-buttons-icon">
                                             Friends
                                         </div>
+                                    </div>
+
+                                    <div className="profile-recommendations">
+                                        <FriendRecommendationComponent/>
                                     </div>
 
                                     <div className="profile-content">

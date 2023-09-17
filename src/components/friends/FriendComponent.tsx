@@ -10,6 +10,7 @@ import {
 import {BiBlock, BiSolidUserCircle, BiSolidUserPlus} from "react-icons/bi";
 import {toast} from "react-toastify";
 import {AiFillStar} from "react-icons/ai";
+import {useNavigate} from "react-router-dom";
 
 export function FriendRecommendationComponent({currentUser}: { currentUser: User }) {
     const [friends, setFriends] = useState<User[]>([])
@@ -150,6 +151,7 @@ export function FavoriteFriendsComponent({user, currentUser}: { user: User, curr
 }
 
 export function FriendCard({user, currentUser}: { user: User, currentUser: User }) {
+    const navigate = useNavigate();
     const profilePicture = user.profilePicture;
 
     function isFriends() {
@@ -172,6 +174,10 @@ export function FriendCard({user, currentUser}: { user: User, currentUser: User 
             .filter(it => it.status === RelationshipStatus.Favorite)
             .map(it => it.user!.id)
             .includes(user.id);
+    }
+
+    function redirectProfile() {
+        navigate('/profile/' + user.id);
     }
 
     async function onAddFriend() {
@@ -268,7 +274,7 @@ export function FriendCard({user, currentUser}: { user: User, currentUser: User 
 
     return (
         <div className="card">
-            <div className="card-container">
+            <div className="card-container" onClick={redirectProfile}>
                 {profilePicture ? <img className="card-profile-picture" src={profilePicture}/> :
                     <BiSolidUserCircle className="card-profile-picture-null"/>}
 

@@ -103,8 +103,11 @@ html {
   padding: 10px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: max-content;
   border-radius: 10px;
+  cursor: pointer;
 }
 .card-profile-picture, .card-profile-picture-null {
   width: 150px;

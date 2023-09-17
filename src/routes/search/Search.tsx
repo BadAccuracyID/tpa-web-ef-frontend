@@ -1,12 +1,13 @@
-import {Await, useLoaderData, useNavigate, useSearchParams} from "react-router-dom";
+import {Await, useLoaderData, useSearchParams} from "react-router-dom";
 import NavigationBar from "../../components/NavigationBar.tsx";
-import {Group, Post, SearchResult, User} from "../../lib/gql/graphql.ts";
+import {Post, SearchResult, User} from "../../lib/gql/graphql.ts";
 import "../../styles/search.scss";
 import {Suspense, useState} from "react";
 import {searchQuery} from "../../lib/controllers/search-controller.ts";
-import {BiSolidUserCircle} from "react-icons/bi";
 import {FullPageLoading} from "../../components/loading/LoadingComponents.tsx";
 import {AiFillHome, AiOutlineUser, AiOutlineUserAdd, AiOutlineUsergroupAdd} from "react-icons/ai";
+import {FriendCard} from "../../components/friends/FriendComponent.tsx";
+import {PostComponent} from "../../components/post/PostComponent.tsx";
 
 enum MenuPage {
     ALL,
@@ -16,7 +17,6 @@ enum MenuPage {
 }
 
 export default function SearchPage() {
-    const navigate = useNavigate();
     const currentUser = useLoaderData() as User;
     const [searchParams] = useSearchParams();
     const [page, setPage] = useState<MenuPage>(MenuPage.ALL);
@@ -37,10 +37,6 @@ export default function SearchPage() {
         }
 
         return result.data!;
-    }
-
-    function redirectProfile(user: User) {
-        navigate('/profile/' + user.id);
     }
 
     return (
@@ -92,70 +88,106 @@ export default function SearchPage() {
                                     return <h1>Nothing found</h1>
                                 }
 
-                                return result
-                                    .filter((item: SearchResult) => {
-                                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                        // @ts-ignore
-                                        const userType: string = item['__typename'];
-                                        if (userType === "User") {
-                                            return page === MenuPage.ALL || page === MenuPage.PROFILE;
-                                        } else if (userType === "Post") {
-                                            return page === MenuPage.ALL || page === MenuPage.POST;
-                                        } else if (userType === "Group") {
-                                            return page === MenuPage.ALL || page === MenuPage.GROUP;
-                                        } else {
-                                            return false;
-                                        }
-                                    })
-                                    .map((item: SearchResult) => {
-                                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                        // @ts-ignore
-                                        const userType: string = item['__typename'];
-                                        if (userType === "User") {
-                                            const user = item as User;
-                                            return (
-                                                <div className="search-content search-content-user" onClick={() => {
-                                                    redirectProfile(user)
-                                                }}>
-                                                    {user.profilePicture ?
-                                                        <img
-                                                            src={user.profilePicture!}
-                                                            className="search-content-user-picture"
-                                                            alt="Profile picture"
-                                                        />
-                                                        :
-                                                        <BiSolidUserCircle
-                                                            className="search-content-user-null-picture"/>
-                                                    }
-                                                    <div className="search-content-user-info">
-                                                        <div className="search-content-user-info-name">
-                                                            {user.firstName} {user.lastName}
-                                                        </div>
+                                const users = result.filter((item: SearchResult) => {
+                                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                    // @ts-ignore
+                                    return item['__typename'] === "User";
+                                });
+                                const posts = result.filter((item: SearchResult) => {
+                                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                    // @ts-ignore
+                                    return item['__typename'] === "Post";
+                                });
+                                const groups = result.filter((item: SearchResult) => {
+                                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                    // @ts-ignore
+                                    return item['__typename'] === "Group";
+                                });
 
-                                                        <div className="search-content-user-info-username">
-                                                            {user.username}
-                                                        </div>
-                                                    </div>
+                                console.log(users.length)
+
+                                switch (page) {
+                                    case MenuPage.ALL:
+                                        return (
+                                            <div>
+                                                {(users.length > 0) ?
+                                                    <div>
+                                                        <h1>Profiles</h1>
+                                                    </div> : <></>
+                                                }
+                                                <div className="search-content-row">
+                                                    {users.map((item: SearchResult) => {
+                                                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                                        // @ts-ignore
+                                                        const user = item as User;
+                                                        return <FriendCard user={user}
+                                                                           currentUser={currentUser}/>
+                                                    })}
                                                 </div>
-                                            )
-                                        } else if (userType === "Post") {
-                                            const post = item as Post;
-                                            return (
-                                                <div>
-                                                    <h1>{post.title}</h1>
+
+                                                {posts.length > 0 ?
+                                                    <div>
+                                                        <h1>Posts</h1>
+                                                    </div> : <></>
+                                                }
+                                                <div className="search-content-row">
+                                                    {posts.map((item: SearchResult) => {
+                                                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                                        // @ts-ignore
+                                                        const post = item as Post;
+                                                        return <PostComponent
+                                                            post={post}
+                                                            user={currentUser}
+                                                            onRemovePost={() => {
+                                                            }}
+                                                        />
+                                                    })}
                                                 </div>
-                                            )
-                                        } else if (userType === "Group") {
-                                            const group = item as Group;
-                                            return (
-                                                <div>
-                                                    <h1>{group.name}</h1>
+
+                                                {groups.length > 0 ?
+                                                    <div>
+                                                        <h1>Groups</h1>
+                                                    </div> : <></>
+                                                }
+                                            </div>
+                                        )
+                                    case MenuPage.PROFILE:
+                                        return (
+                                            <div>
+                                                <h1>Users</h1>
+                                                <div className="search-content-row">
+                                                    {users.map((item: SearchResult) => {
+                                                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                                        // @ts-ignore
+                                                        const user = item as User;
+                                                        return <FriendCard user={user} currentUser={currentUser}/>
+                                                    })}
                                                 </div>
-                                            )
-                                        } else {
-                                            return <div>Null</div>
-                                        }
-                                    });
+                                            </div>
+                                        )
+                                    case MenuPage.POST:
+                                        return (
+                                            <div>
+                                                <h1>Posts</h1>
+                                                <div className="search-content-row">
+                                                    {posts.map((item: SearchResult) => {
+                                                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                                        // @ts-ignore
+                                                        const post = item as Post;
+                                                        return <PostComponent
+                                                            post={post}
+                                                            user={currentUser}
+                                                            onRemovePost={() => {
+                                                            }}
+                                                        />
+                                                    })}
+                                                </div>
+                                            </div>
+                                        )
+                                    case MenuPage.GROUP:
+                                        break;
+                                }
+                                return <></>
                             }}
                         </Await>
                     </Suspense>

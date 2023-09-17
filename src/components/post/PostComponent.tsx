@@ -9,6 +9,7 @@ import {BiSolidCommentDetail, BiSolidUserCircle} from "react-icons/bi";
 import {PostLoadingComponent} from "../loading/LoadingComponents.tsx";
 import {PiShareFatFill} from "react-icons/pi";
 import {useState} from "react";
+import "../../styles/post.scss";
 
 export function PostComponent({post, user, onRemovePost}: {
     post: Post,

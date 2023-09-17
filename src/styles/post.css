@@ -19,7 +19,7 @@ html {
 .post {
   background-color: white;
   height: fit-content;
-  width: 1.5fr;
+  width: 100%;
   padding: 16px;
   border-radius: 8px;
   display: flex;

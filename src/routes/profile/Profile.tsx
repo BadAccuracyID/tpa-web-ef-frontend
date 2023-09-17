@@ -294,7 +294,7 @@ function Buttons({friends, currentUser, user}: {
         }
 
         return result.data!.some((it) => {
-            return it.to === user.id;
+            return it.from === user.id;
         })
     }
 

@@ -1,27 +1,29 @@
-import {Conversation, Message, User} from "../../lib/gql/graphql.ts";
+import {Conversation, Message, MessageContentType, User} from "../../lib/gql/graphql.ts";
 import "../../styles/messenger.scss";
-import {useEffect, useState} from "react";
-import {subscribeConversation} from "../../lib/controllers/messanger-controller.ts";
+import React, {useEffect, useState} from "react";
+import {sendMessage, subscribeConversation} from "../../lib/controllers/messanger-controller.ts";
+import {toast} from "react-toastify";
 
 export default function ChatComponent({user, conversation}: { user: User, conversation: Conversation }) {
 
     const [messages, setMessages] = useState(conversation.messages);
+    const [typedMessage, setTypedMessage] = useState("")
+
+    const fetchData = async () => {
+        console.log("subscribing to conversation")
+        const subscriptionResponse = await subscribeConversation(conversation.id, (message: Message) => {
+            console.log(message)
+            setMessages(oldMessages => [...oldMessages, message]);
+        });
+
+        if (!subscriptionResponse.success) {
+            console.error(subscriptionResponse.errorMsg);
+        }
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            console.log("subscribing to conversation")
-            const subscriptionResponse = await subscribeConversation(conversation.id, (message: Message) => {
-                console.log(message)
-                setMessages(oldMessages => [...oldMessages, message]);
-            });
-
-            if (!subscriptionResponse.success) {
-                console.error(subscriptionResponse.errorMsg);
-            }
-        };
-
         fetchData();
-    }, [conversation.id]);
+    }, [messages]);
 
     function getMemberNames() {
         let names = "";
@@ -30,6 +32,24 @@ export default function ChatComponent({user, conversation}: { user: User, conver
         });
 
         return names.slice(0, -2);
+    }
+
+    async function onSendMessage(e: React.KeyboardEvent<HTMLInputElement>) {
+        if (e.key === "Enter") {
+            const fetched = await sendMessage(user.id, conversation.id, typedMessage, MessageContentType.Text);
+            if (!fetched.success) {
+                toast.error('Failed to send message', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                });
+                return;
+            }
+
+            setTypedMessage("");
+        }
     }
 
     return (
@@ -62,7 +82,13 @@ export default function ChatComponent({user, conversation}: { user: User, conver
                 }
             </div>
 
-            <input className="chat-input" placeholder="Aa"/>
+            <input
+                className="chat-input"
+                placeholder="Aa"
+                value={typedMessage}
+                onChange={(e) => setTypedMessage(e.target.value)}
+                onKeyDown={onSendMessage}
+            />
         </div>
     )
 }

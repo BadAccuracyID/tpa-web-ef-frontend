@@ -182,7 +182,7 @@ html {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: start;
 
         position: relative;
 
@@ -228,8 +228,18 @@ html {
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: center;
+        justify-content: start;
         width: 100%;
+
+        padding: 5px;
+        border-radius: 10px;
+        cursor: pointer;
+
+        transition: $transition;
+
+        &:hover {
+            background-color: #cccccc;
+        }
 
         &-indicator-selected,
         &-indicator-unselected {
@@ -241,6 +251,7 @@ html {
         }
 
         &-indicator-selected {
+            color: white;
             background-color: $color-primary;
             cursor: pointer;
 
@@ -250,14 +261,34 @@ html {
         }
 
         &-indicator-unselected {
+            color: black;
             background-color: $color-light;
         }
 
-        &-picture {
-            height: 50px;
+        &-profile-picture,
+        &-profile-picture-null {
             width: 50px;
+            height: 50px;
             border-radius: 50%;
-            margin: 5px;
+            margin-right: 10px;
+            transition: $transition;
+
+            &:hover {
+                background-color: white;
+                opacity: 0.8;
+            }
+        }
+
+        &-profile-picture {
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        &-profile-picture-null {
+            color: black;
         }
 
         &-right {

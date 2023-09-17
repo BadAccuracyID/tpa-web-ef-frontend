@@ -2,14 +2,14 @@ import {useLoaderData} from "react-router-dom";
 import {Conversation, RelationshipStatus, User} from "../../lib/gql/graphql.ts";
 import NavigationBar from "../../components/NavigationBar.tsx";
 import "../../styles/messenger.scss";
-import {BiSolidPlusCircle} from "react-icons/bi";
+import {BiSolidPlusCircle, BiSolidUserCircle} from "react-icons/bi";
 import Conversations from "../../components/messenger/Conversation.tsx";
 import ChatComponent from "../../components/messenger/Chat.tsx";
 import {useCallback, useEffect, useState} from "react";
 import {createConversation, getUserConversations} from "../../lib/controllers/messanger-controller.ts";
 import {toast} from "react-toastify";
 import {AiFillCloseCircle} from "react-icons/ai";
-import {HiXMark} from "react-icons/hi2";
+import {HiCheck} from "react-icons/hi";
 
 export default function MessengerPage() {
     const user = useLoaderData() as User;
@@ -194,18 +194,17 @@ function UserCard({user, selected, onSelectUser}: {
     selected: boolean
     onSelectUser: (user: User) => void
 }) {
+    const profilePicture = user.profilePicture;
+
     return (
         <div className="create-conversation-card-user" onClick={() => {
             onSelectUser(user);
         }}>
-            {selected ? <HiXMark className="create-conversation-card-user-indicator-selected"/> :
-                <HiXMark className="create-conversation-card-user-indicator-unselected"/>}
+            {selected ? <HiCheck className="create-conversation-card-user-indicator-selected"/> :
+                <HiCheck className="create-conversation-card-user-indicator-unselected"/>}
 
-            <img
-                className="create-conversation-card-user-picture"
-                src={user.profilePicture ?? "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"}
-                alt={user.username}
-            />
+            {profilePicture ? <img className="create-conversation-card-user-profile-picture" src={profilePicture}/> :
+                <BiSolidUserCircle className="create-conversation-card-user-profile-picture-null"/>}
 
             <div className="create-conversation-card-user-right">
                 <div className="create-conversation-card-user-right-name">

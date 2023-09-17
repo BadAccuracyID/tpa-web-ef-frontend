@@ -2,9 +2,11 @@ import {useCallback, useEffect, useState} from "react";
 import {RelationshipStatus, User} from "../../lib/gql/graphql.ts";
 import "../../styles/friends.scss";
 import {
+    acceptFriendRequest,
     changeFriendshipStatus,
     getFriendRecommendations,
     getFriendRequests,
+    rejectFriendRequest,
     sendFriendRequest
 } from "../../lib/controllers/relationship-controller.ts";
 import {BiBlock, BiSolidUserCircle, BiSolidUserPlus} from "react-icons/bi";
@@ -54,7 +56,7 @@ export function FriendRecommendationComponent({currentUser}: { currentUser: User
     )
 }
 
-export function FriendRequestsComponent({currentUser}: { currentUser: User }) {
+export function FriendRequestsComponent() {
     const [friends, setFriends] = useState<User[]>([])
 
     const loadRequests = useCallback(async () => {
@@ -85,7 +87,7 @@ export function FriendRequestsComponent({currentUser}: { currentUser: User }) {
             </div>
             <div className="recommendation-list">
                 {friends.map((it) => {
-                    return <FriendCard user={it} currentUser={currentUser}/>
+                    return <FriendRequestCard user={it}/>
                 })}
             </div>
         </div>
@@ -323,3 +325,89 @@ export function FriendCard({user, currentUser}: { user: User, currentUser: User 
         </div>
     )
 }
+
+export function FriendRequestCard({user}: { user: User }) {
+    const navigate = useNavigate();
+    const profilePicture = user.profilePicture;
+
+    function redirectProfile() {
+        navigate('/profile/' + user.id);
+    }
+
+    async function onAcceptFriendRequest() {
+        const result = await acceptFriendRequest(user.id);
+        if (!result.success) {
+            toast.error('Failed to accept friend request', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            return;
+        }
+
+        toast.success('Friend request accepted', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+        });
+        window.location.reload();
+    }
+
+    async function onRejectFriendRequest() {
+        const result = await rejectFriendRequest(user.id);
+        if (!result.success) {
+            toast.error('Failed to reject friend request', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            return;
+        }
+
+        toast.success('Friend request rejected', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+        });
+        window.location.reload();
+    }
+
+    return (
+        <div className="card">
+            <div className="card-container" onClick={redirectProfile}>
+                {profilePicture ? <img className="card-profile-picture" src={profilePicture}/> :
+                    <BiSolidUserCircle className="card-profile-picture-null"/>}
+
+                <div className="card-name">
+                    {user.firstName} {user.lastName}
+                </div>
+
+                <div className="card-buttons">
+                    <div className="card-buttons-add" onClick={onAcceptFriendRequest}>
+                        <BiSolidUserPlus className="card-buttons-icon"/>
+                        <div>
+                            Accept
+                        </div>
+                    </div>
+
+                    <div className="card-buttons-cf" onClick={onRejectFriendRequest}>
+                        <AiFillStar className="card-buttons-icon"/>
+                        <div>
+                            Decline
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    )
+}
+

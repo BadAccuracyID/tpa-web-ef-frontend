@@ -88,14 +88,14 @@ function PageContent({currentUser, page}: { currentUser: User, page: MenuPage })
         case MenuPage.HOME:
             return (
                 <div>
-                    <FriendRequestsComponent currentUser={currentUser}/>
+                    <FriendRequestsComponent/>
                     <FriendRecommendationComponent currentUser={currentUser}/>
                     <AllFriendsComponent user={currentUser} currentUser={currentUser}/>
                     <FavoriteFriendsComponent user={currentUser} currentUser={currentUser}/>
                 </div>
             )
         case MenuPage.PENDING:
-            return (<FriendRequestsComponent currentUser={currentUser}/>)
+            return (<FriendRequestsComponent/>)
         case MenuPage.RECOMMENDATION:
             return (<FriendRecommendationComponent currentUser={currentUser}/>)
         case MenuPage.FRIENDS:

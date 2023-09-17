@@ -1,28 +1,44 @@
-import {Conversation, Message, MessageContentType, User} from "../../lib/gql/graphql.ts";
+import {Conversation, Message, MessageContentType, Subscription, User} from "../../lib/gql/graphql.ts";
 import "../../styles/messenger.scss";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {sendMessage, subscribeConversation} from "../../lib/controllers/messanger-controller.ts";
 import {toast} from "react-toastify";
 
 export default function ChatComponent({user, conversation}: { user: User, conversation: Conversation }) {
-
     const [messages, setMessages] = useState(conversation.messages);
     const [typedMessage, setTypedMessage] = useState("")
-
-    const fetchData = async () => {
-        console.log("subscribing to conversation")
-        const subscriptionResponse = await subscribeConversation(conversation.id, (message: Message) => {
-            console.log(message)
-            setMessages(oldMessages => [...oldMessages, message]);
-        });
-
-        if (!subscriptionResponse.success) {
-            console.error(subscriptionResponse.errorMsg);
-        }
-    };
+    const subscription = useRef<Subscription | null>(null);
 
     useEffect(() => {
-        fetchData();
+        const fetchData = async () => {
+            console.log("Subscribing to conversation")
+            const subscriptionResponse = await subscribeConversation(conversation.id, (message: Message) => {
+                setMessages([...messages, message]);
+            });
+
+            if (!subscriptionResponse.success) {
+                console.error(subscriptionResponse.errorMsg);
+                return;
+            }
+
+            subscription.current = subscriptionResponse.subscription;
+        };
+
+        if (!subscription.current) {
+            fetchData();
+        }
+
+        return () => {
+            // Clean up the subscription
+            if (subscription.current) {
+                subscription.current = null;
+            }
+        };
+    }, [messages]);
+
+    useEffect(() => {
+        console.log("messages changed")
+        console.log("current sub", subscription.current)
     }, [messages]);
 
     function getMemberNames() {

@@ -1,6 +1,6 @@
 import {Conversation} from "../../lib/gql/graphql.ts";
 import "../../styles/messenger.scss";
-import {BsChatDots} from "react-icons/bs";
+import {BsChatDotsFill} from "react-icons/bs";
 
 export default function Conversations({conversations, onSelectConversation}: {
     conversations: Conversation[],
@@ -27,7 +27,7 @@ function ConversationCard({conversation, onSelect}: {
         <div className="conversation-card" onClick={() => {
             onSelect(conversation);
         }}>
-            <BsChatDots className="conversation-card-picture-null"/>
+            <BsChatDotsFill className="conversation-card-picture-null"/>
 
             <div className="conversation-right">
                 <div className="conversation-card-right-title">

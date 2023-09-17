@@ -3,6 +3,7 @@ import "../../styles/messenger.scss";
 import React, {useEffect, useRef, useState} from "react";
 import {sendMessage, subscribeConversation} from "../../lib/controllers/messanger-controller.ts";
 import {toast} from "react-toastify";
+import {BiSolidUserCircle} from "react-icons/bi";
 
 export default function ChatComponent({user, conversation}: { user: User, conversation: Conversation }) {
     const [messages, setMessages] = useState(conversation.messages);
@@ -104,6 +105,7 @@ export default function ChatComponent({user, conversation}: { user: User, conver
 }
 
 function BlueChatBubble({message}: { message: Message }) {
+    const profilePicture = message.sender.profilePicture;
     return (
         <div className="bubble bubble-blue">
             <div className="bubble-right">
@@ -116,19 +118,18 @@ function BlueChatBubble({message}: { message: Message }) {
                 </div>
             </div>
 
-            <img className="bubble-picture"
-                 src={message.sender.profilePicture!}
-                 alt=""/>
+            {profilePicture ? <img className="bubble-profile-picture" src={profilePicture}/> :
+                <BiSolidUserCircle className="bubble-profile-picture-null"/>}
         </div>
     );
 }
 
 function GreyChatBubble({message}: { message: Message }) {
+    const profilePicture = message.sender.profilePicture;
     return (
         <div className="bubble bubble-gray">
-            <img className="bubble-picture"
-                 src={message.sender.profilePicture!}
-                 alt=""/>
+            {profilePicture ? <img className="bubble-profile-picture" src={profilePicture}/> :
+                <BiSolidUserCircle className="bubble-profile-picture-null"/>}
 
             <div className="bubble-right">
                 <div className="bubble-right-name bubble-gray-right-name">

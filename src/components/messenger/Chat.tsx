@@ -1,7 +1,27 @@
 import {Conversation, Message, User} from "../../lib/gql/graphql.ts";
 import "../../styles/messenger.scss";
+import {useEffect, useState} from "react";
+import {subscribeConversation} from "../../lib/controllers/messanger-controller.ts";
 
 export default function ChatComponent({user, conversation}: { user: User, conversation: Conversation }) {
+
+    const [messages, setMessages] = useState(conversation.messages);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            console.log("subscribing to conversation")
+            const subscriptionResponse = await subscribeConversation(conversation.id, (message: Message) => {
+                console.log(message)
+                setMessages(oldMessages => [...oldMessages, message]);
+            });
+
+            if (!subscriptionResponse.success) {
+                console.error(subscriptionResponse.errorMsg);
+            }
+        };
+
+        fetchData();
+    }, [conversation.id]);
 
     function getMemberNames() {
         let names = "";
@@ -32,7 +52,7 @@ export default function ChatComponent({user, conversation}: { user: User, conver
 
             <div className="chat">
                 {
-                    conversation.messages.map((message) => {
+                    messages.map((message) => {
                         if (message.sender.id === user.id) {
                             return <BlueChatBubble message={message}/>
                         } else {

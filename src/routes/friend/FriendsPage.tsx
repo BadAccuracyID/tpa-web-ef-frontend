@@ -13,7 +13,7 @@ import {AiFillHome, AiFillStar, AiOutlineUser, AiOutlineUserAdd, AiOutlineUsergr
 enum MenuPage {
     HOME,
     PENDING,
-    RECOMENDATION,
+    RECOMMENDATION,
     FRIENDS,
     FAVORITES,
 }
@@ -54,9 +54,9 @@ export default function FriendsPage() {
                             <div>Pending</div>
                         </div>
                         <div className="friends-left-buttons-container"
-                             onClick={() => changePage(MenuPage.RECOMENDATION)}>
+                             onClick={() => changePage(MenuPage.RECOMMENDATION)}>
                             <AiOutlineUsergroupAdd
-                                className={"friends-left-buttons-icon" + (page === MenuPage.RECOMENDATION ? "-active" : "")}/>
+                                className={"friends-left-buttons-icon" + (page === MenuPage.RECOMMENDATION ? "-active" : "")}/>
                             <div>Recommendation</div>
                         </div>
                         <div className="friends-left-buttons-container"
@@ -96,7 +96,7 @@ function PageContent({currentUser, page}: { currentUser: User, page: MenuPage })
             )
         case MenuPage.PENDING:
             return (<FriendRequestsComponent currentUser={currentUser}/>)
-        case MenuPage.RECOMENDATION:
+        case MenuPage.RECOMMENDATION:
             return (<FriendRecommendationComponent currentUser={currentUser}/>)
         case MenuPage.FRIENDS:
             return (<AllFriendsComponent user={currentUser} currentUser={currentUser}/>)

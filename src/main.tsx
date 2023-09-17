@@ -17,6 +17,7 @@ import {ToastContainer} from "react-toastify";
 import MessengerPage from "./routes/messenger/Messenger.tsx";
 import ProfilePage from "./routes/profile/Profile.tsx";
 import SearchPage from "./routes/search/Search.tsx";
+import FriendsPage from "./routes/friend/FriendsPage.tsx";
 
 const router = createBrowserRouter([
     {
@@ -118,6 +119,13 @@ const router = createBrowserRouter([
                     return userLoader();
                 },
                 element: <SearchPage/>,
+            },
+            {
+                path: "friends",
+                loader: () => {
+                    return userLoader();
+                },
+                element: <FriendsPage/>,
             },
         ]
     },

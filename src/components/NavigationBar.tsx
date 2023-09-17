@@ -31,6 +31,18 @@ export default function NavigationBar({user}: { user: User }) {
         }
     }
 
+    function isOnHome() {
+        return window.location.pathname.startsWith("/home");
+    }
+
+    function isOnFriends() {
+        return window.location.pathname.startsWith("/friends");
+    }
+
+    function isOnGroup() {
+        return window.location.pathname.startsWith("/groups");
+    }
+
     return (
         <div className="navbar">
             <div className="left">
@@ -51,15 +63,15 @@ export default function NavigationBar({user}: { user: User }) {
 
             <div className="middle">
                 <Link to="/home">
-                    <AiFillHome className="icon-active"/>
+                    <AiFillHome className={isOnHome() ? "icon-active" : "icon"}/>
+                </Link>
+
+                <Link to="/friends">
+                    <BsPeople className={isOnFriends() ? "icon-active" : "icon"}/>
                 </Link>
 
                 <Link to="/home">
-                    <BsPeople className="icon"/>
-                </Link>
-
-                <Link to="/home">
-                    <IoPeopleCircleOutline className="icon"/>
+                    <IoPeopleCircleOutline className={isOnGroup() ? "icon-active" : "icon"}/>
                 </Link>
             </div>
 

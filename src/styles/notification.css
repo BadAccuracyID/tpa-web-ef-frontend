@@ -35,7 +35,7 @@ html {
   padding: 16px;
   border-radius: 8px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: start;
   justify-content: start;
   position: relative;
@@ -47,6 +47,21 @@ html {
   border-bottom: 2px solid #1877f2;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+.notification-card-left {
+  width: 100%;
+}
+.notification-card-right {
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  position: relative;
+  gap: 6px;
+}
+.notification-card-right-icon {
+  color: orange;
 }
 .notification-card-header {
   display: flex;

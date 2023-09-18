@@ -6,6 +6,7 @@ import {getNotifications, readNotification} from "../../lib/controllers/notifica
 import NavigationBar from "../../components/NavigationBar.tsx";
 import "../../styles/notification.scss";
 import {IoMdNotifications} from "react-icons/io";
+import {AiFillExclamationCircle} from "react-icons/ai";
 
 export default function NotificationPage() {
     const currentUser = useLoaderData() as User;
@@ -31,10 +32,6 @@ export default function NotificationPage() {
         loadNotification();
     }, []);
 
-    function refetch() {
-        loadNotification();
-    }
-
     return (
         <div>
             <NavigationBar user={currentUser}/>
@@ -42,7 +39,7 @@ export default function NotificationPage() {
             <div className="notification">
                 <div className="notification-list">
                     {notifications.map((it) => {
-                        return <NotificationCard notification={it} refetch={refetch}/>
+                        return <NotificationCard notification={it}/>
                     })}
                 </div>
             </div>
@@ -51,7 +48,7 @@ export default function NotificationPage() {
     );
 }
 
-function NotificationCard({notification, refetch}: { notification: Notification, refetch: () => void }) {
+function NotificationCard({notification}: { notification: Notification }) {
 
     async function onRead() {
         const response = await readNotification(notification.id);
@@ -66,29 +63,38 @@ function NotificationCard({notification, refetch}: { notification: Notification,
             return;
         }
 
-        refetch();
+        window.location.reload();
     }
 
     return (
         <div className="notification-card" onClick={onRead}>
-            <div className="notification-card-header">
-                <IoMdNotifications className="notification-card-header-picture"/>
+            <div className="notification-card-left">
+                <div className="notification-card-header">
+                    <IoMdNotifications className="notification-card-header-picture"/>
 
-                <div className="notification-card-header-text">
-                    <div className="notification-card-header-text-name">
-                        {getTypeFriendlyName(notification)}
+                    <div className="notification-card-header-text">
+                        <div className="notification-card-header-text-name">
+                            {getTypeFriendlyName(notification)}
+                        </div>
+                        <div className="notification-card-header-text-date">
+                            {notification.createdAt}
+                        </div>
                     </div>
-                    <div className="notification-card-header-text-date">
-                        {notification.createdAt}
+                </div>
+
+                <div className="notification-card-body">
+                    <div className="notification-card-body-text">
+                        {notification.content}
                     </div>
                 </div>
             </div>
 
-            <div className="notification-card-body">
-                <div className="notification-card-body-text">
-                    {notification.content}
-                </div>
-            </div>
+            {!notification.read ?
+                <div className="notification-card-right">
+                    <AiFillExclamationCircle className="notification-card-right-icon"/>
+                </div> : <></>
+            }
+
         </div>
     )
 }

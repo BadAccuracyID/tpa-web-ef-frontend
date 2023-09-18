@@ -81,46 +81,48 @@ export default function CommentComponent({currentUser, comment, onReplyClick}: {
 
     return (
         <div className="comment">
-            {profilePicture ? <img className="comment-picture" src={profilePicture}/> :
-                <BiSolidUserCircle className="comment-picture-null"/>}
+            <div className="comment-self">
+                {profilePicture ? <img className="comment-picture" src={profilePicture}/> :
+                    <BiSolidUserCircle className="comment-picture-null"/>}
 
-            <div className="comment-right">
-                <div className="comment-right-name">
-                    {author.firstName} {author.lastName}
-                </div>
-                <div className="comment-right-content">
-                    {comment.textContent}
-                </div>
-
-                <div className="comment-right-buttons">
-                    <div className="comment-right-buttons-like" onClick={toggleLike}>
-                        {
-                            isCommentLiked() ?
-                                <AiFillLike/> :
-                                <AiOutlineLike/>
-                        }
-                        Like
+                <div className="comment-right">
+                    <div className="comment-right-name">
+                        {author.firstName} {author.lastName}
                     </div>
-                    <div className="comment-right-buttons-comment" onClick={onReplyClick}>
-                        <BiSolidCommentDetail/>
-                        Comment
+                    <div className="comment-right-content">
+                        {comment.textContent}
+                    </div>
+
+                    <div className="comment-right-buttons">
+                        <div className="comment-right-buttons-like" onClick={toggleLike}>
+                            {
+                                isCommentLiked() ?
+                                    <AiFillLike/> :
+                                    <AiOutlineLike/>
+                            }
+                            Like
+                        </div>
+                        <div className="comment-right-buttons-comment" onClick={onReplyClick}>
+                            <BiSolidCommentDetail/>
+                            Comment
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <div>
-                    {
-                        hasReplies() ?
-                            comment.replies?.map(reply => {
-                                return (
-                                    <CommentComponent
-                                        currentUser={currentUser}
-                                        comment={reply}
-                                        onReplyClick={onReplyClick}
-                                    />
-                                )
-                            }) : <></>
-                    }
-                </div>
+            <div className="comment-sub">
+                {
+                    hasReplies() ?
+                        comment.replies?.map(reply => {
+                            return (
+                                <CommentComponent
+                                    currentUser={currentUser}
+                                    comment={reply}
+                                    onReplyClick={onReplyClick}
+                                />
+                            )
+                        }) : <></>
+                }
             </div>
         </div>
     )

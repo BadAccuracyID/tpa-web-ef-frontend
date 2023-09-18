@@ -319,10 +319,30 @@ html {
     margin-top: 10px;
 
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 
     align-items: center;
     justify-items: center;
+
+    &-self {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+
+        align-items: center;
+        justify-items: center;
+    }
+
+    &-sub {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+
+        align-items: center;
+        justify-items: center;
+
+        margin-bottom: 10px;
+    }
 
     &-picture,
     &-picture-null {

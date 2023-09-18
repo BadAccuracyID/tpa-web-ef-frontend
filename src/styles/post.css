@@ -237,9 +237,24 @@ html {
   margin-left: 20px;
   margin-top: 10px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+}
+.comment-self {
+  width: 100%;
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-items: center;
+}
+.comment-sub {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: center;
+  margin-bottom: 10px;
 }
 .comment-picture, .comment-picture-null {
   width: 35px;

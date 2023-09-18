@@ -71,6 +71,14 @@ export default function CommentComponent({currentUser, comment, onReplyClick}: {
         }
     }
 
+    function hasReplies() {
+        if (!comment.replies) {
+            return false;
+        }
+
+        return comment.replies.length > 0;
+    }
+
     return (
         <div className="comment">
             {profilePicture ? <img className="comment-picture" src={profilePicture}/> :
@@ -97,6 +105,21 @@ export default function CommentComponent({currentUser, comment, onReplyClick}: {
                         <BiSolidCommentDetail/>
                         Comment
                     </div>
+                </div>
+
+                <div>
+                    {
+                        hasReplies() ?
+                            comment.replies?.map(reply => {
+                                return (
+                                    <CommentComponent
+                                        currentUser={currentUser}
+                                        comment={reply}
+                                        onReplyClick={onReplyClick}
+                                    />
+                                )
+                            }) : <></>
+                    }
                 </div>
             </div>
         </div>

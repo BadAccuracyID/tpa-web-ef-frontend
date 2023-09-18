@@ -33,7 +33,21 @@ export default function CreatePostComponent({user, onClose}: { user: User, onClo
                 return;
             }
 
-            setSelectedFiles(files);
+            // append to selected files
+            const newFiles = [...selectedFiles, ...files];
+            if (newFiles.length > 10) {
+                toast.error("You can only upload 10 files at a time!", {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                });
+                return;
+            }
+
+            setSelectedFiles(newFiles);
         }
     };
 

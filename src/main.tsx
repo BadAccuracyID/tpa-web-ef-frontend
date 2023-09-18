@@ -18,6 +18,7 @@ import MessengerPage from "./routes/messenger/Messenger.tsx";
 import ProfilePage from "./routes/profile/Profile.tsx";
 import SearchPage from "./routes/search/Search.tsx";
 import FriendsPage from "./routes/friend/FriendsPage.tsx";
+import NotificationPage from "./routes/notification/Notification.tsx";
 
 const router = createBrowserRouter([
     {
@@ -126,6 +127,13 @@ const router = createBrowserRouter([
                     return userLoader();
                 },
                 element: <FriendsPage/>,
+            },
+            {
+                path: "notifications",
+                loader: () => {
+                    return userLoader();
+                },
+                element: <NotificationPage/>,
             },
         ]
     },

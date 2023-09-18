@@ -1,0 +1,40 @@
+// Define variables
+$font-family-main: 'Roboto', sans-serif;
+$color-primary: #1877f2;
+$color-primary-dark: #1464aa;
+$color-secondary: #42b72a;
+$color-secondary-dark: #36a420;
+$color-dark: #000000;
+$color-light: #f0f2f5;
+$color-grey: #ccc;
+$input-border: 1px solid #cccccc;
+$transition: 0.2s ease;
+
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: $font-family-main;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+.notification {
+    margin-top: 60px;
+
+    min-height: 100vh;
+    background-color: $color-light;
+
+    display: flex;
+    flex-direction: row;
+
+    &-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+}

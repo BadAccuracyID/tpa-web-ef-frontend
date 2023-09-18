@@ -80,7 +80,7 @@ export default function NavigationBar({user}: { user: User }) {
                     <BsChatDotsFill className="icon"/>
                 </Link>
 
-                <Link to="/home">
+                <Link to="/notifications">
                     <IoMdNotifications className="icon"/>
                 </Link>
 

@@ -169,104 +169,111 @@ export default function PostPage() {
 
 
     return (
-        <div className="post">
-            <div className="post-header">
-                <div className="post-header-left">
-                    {profilePicture ? <img className="post-header-profile-picture" src={profilePicture}/> :
-                        <BiSolidUserCircle className="post-header-profile-picture-null"/>}
+        <div>
+            <NavigationBar user={currentUser}/>
+            <div className="post-page">
+                <div className="post-page-container">
+                    <div className="post">
+                        <div className="post-header">
+                            <div className="post-header-left">
+                                {profilePicture ? <img className="post-header-profile-picture" src={profilePicture}/> :
+                                    <BiSolidUserCircle className="post-header-profile-picture-null"/>}
 
-                    <div className="post-header-info">
-                        <p className="post-header-info-user-name">
-                            {post.author.firstName} {post.author.lastName}
-                        </p>
+                                <div className="post-header-info">
+                                    <p className="post-header-info-user-name">
+                                        {post.author.firstName} {post.author.lastName}
+                                    </p>
 
-                        <div className="post-header-info-sub-info">
-                            <p className="post-header-info-sub-info-date">
-                                {post.createdAt}
-                            </p>
-                            {audienceLogo}
+                                    <div className="post-header-info-sub-info">
+                                        <p className="post-header-info-sub-info-date">
+                                            {post.createdAt}
+                                        </p>
+                                        {audienceLogo}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="post-header-right">
+                                {
+                                    currentUser.id === post.author.id && (
+                                        <BsTrashFill
+                                            className="post-header-right-icon-delete"
+                                            onClick={onDeletePost}
+                                        />
+                                    )
+                                }
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <div className="post-header-right">
-                    {
-                        currentUser.id === post.author.id && (
-                            <BsTrashFill
-                                className="post-header-right-icon-delete"
-                                onClick={onDeletePost}
-                            />
-                        )
-                    }
-                </div>
-            </div>
+                        <div className="post-content">
+                            <p className="post-content-text">
+                                {post.textContent}
+                            </p>
 
-            <div className="post-content">
-                <p className="post-content-text">
-                    {post.textContent}
-                </p>
+                            <div className={hasMoreThanOneMedia ? "post-content-media-overflow" : "post-content-media"}>
+                                {
+                                    post.imageContent?.map((value) => {
+                                        return (
+                                            <img className="post-content-media-image" src={value!}/>
+                                        );
+                                    })
+                                }
+                                {
+                                    post.videoContent?.map((value) => {
+                                        return (
+                                            <video className="post-content-media-video" src={value!} controls/>
+                                        );
+                                    })
+                                }
+                            </div>
+                        </div>
 
-                <div className={hasMoreThanOneMedia ? "post-content-media-overflow" : "post-content-media"}>
-                    {
-                        post.imageContent?.map((value) => {
-                            return (
-                                <img className="post-content-media-image" src={value!}/>
-                            );
-                        })
-                    }
-                    {
-                        post.videoContent?.map((value) => {
-                            return (
-                                <video className="post-content-media-video" src={value!} controls/>
-                            );
-                        })
-                    }
-                </div>
-            </div>
+                        <div className="post-statistics">
+                            <div className="post-statistics-likes">
+                                {likedBy!.length} Likes
+                            </div>
+                            <div className="post-statistics-comments">
+                                {countComments()} Comments
+                            </div>
+                            <div className="post-statistics-shares">
+                                {post.sharedBy?.length} Shares
+                            </div>
+                        </div>
 
-            <div className="post-statistics">
-                <div className="post-statistics-likes">
-                    {likedBy!.length} Likes
-                </div>
-                <div className="post-statistics-comments">
-                    {countComments()} Comments
-                </div>
-                <div className="post-statistics-shares">
-                    {post.sharedBy?.length} Shares
-                </div>
-            </div>
+                        <div className="post-buttons">
+                            {
+                                isLikedByUser() ?
+                                    (
+                                        <div className="post-buttons-item post-buttons-item-like-active" onClick={onUnlikePost}>
+                                            <AiFillLike className="post-buttons-item-icon"/>
+                                            <div>
+                                                Like
+                                            </div>
+                                        </div>
+                                    ) :
+                                    (
+                                        <div className="post-buttons-item post-buttons-item-like" onClick={onLikePost}>
+                                            <AiOutlineLike className="post-buttons-item-icon"/>
+                                            <div>
+                                                Like
+                                            </div>
+                                        </div>
+                                    )
+                            }
 
-            <div className="post-buttons">
-                {
-                    isLikedByUser() ?
-                        (
-                            <div className="post-buttons-item post-buttons-item-like-active" onClick={onUnlikePost}>
-                                <AiFillLike className="post-buttons-item-icon"/>
+                            <div className="post-buttons-item post-buttons-item-comment">
+                                <BiSolidCommentDetail className="post-buttons-item-icon"/>
                                 <div>
-                                    Like
+                                    Comment
                                 </div>
                             </div>
-                        ) :
-                        (
-                            <div className="post-buttons-item post-buttons-item-like" onClick={onLikePost}>
-                                <AiOutlineLike className="post-buttons-item-icon"/>
+                            <div className="post-buttons-item post-buttons-item-share">
+                                <PiShareFatFill className="post-buttons-item-icon"/>
                                 <div>
-                                    Like
+                                    Share
                                 </div>
                             </div>
-                        )
-                }
-
-                <div className="post-buttons-item post-buttons-item-comment">
-                    <BiSolidCommentDetail className="post-buttons-item-icon"/>
-                    <div>
-                        Comment
-                    </div>
-                </div>
-                <div className="post-buttons-item post-buttons-item-share">
-                    <PiShareFatFill className="post-buttons-item-icon"/>
-                    <div>
-                        Share
+                        </div>
                     </div>
                 </div>
             </div>

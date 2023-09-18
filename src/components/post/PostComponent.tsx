@@ -10,13 +10,14 @@ import {PostLoadingComponent} from "../loading/LoadingComponents.tsx";
 import {PiShareFatFill} from "react-icons/pi";
 import {useState} from "react";
 import "../../styles/post.scss";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 export function PostComponent({post, user, onRemovePost}: {
     post: Post,
     user: User,
     onRemovePost: (postId: string) => void
 }) {
+    const navigate = useNavigate();
     const profilePicture = post.author.profilePicture;
     const [likedBy, setLikedBy] = useState(post.likedBy);
 
@@ -133,9 +134,13 @@ export function PostComponent({post, user, onRemovePost}: {
         });
     }
 
+    function redirectFull() {
+        navigate("/post/" + post.id)
+    }
+
     return (
         <div className="post">
-            <div className="post-header">
+            <div className="post-header" onClick={redirectFull}>
                 <div className="post-header-left">
                     {profilePicture ? <img className="post-header-profile-picture" src={profilePicture}/> :
                         <BiSolidUserCircle className="post-header-profile-picture-null"/>}
@@ -166,7 +171,7 @@ export function PostComponent({post, user, onRemovePost}: {
                 </div>
             </div>
 
-            <div className="post-content">
+            <div className="post-content" onClick={redirectFull}>
                 <p className="post-content-text">
                     {post.textContent}
                 </p>
@@ -189,7 +194,7 @@ export function PostComponent({post, user, onRemovePost}: {
                 </div>
             </div>
 
-            <div className="post-statistics">
+            <div className="post-statistics" onClick={redirectFull}>
                 <div className="post-statistics-likes">
                     {likedBy!.length} Likes
                 </div>
@@ -222,12 +227,12 @@ export function PostComponent({post, user, onRemovePost}: {
                         )
                 }
 
-                <Link to={"/post/" + post.id} className="post-buttons-item post-buttons-item-comment">
+                <div className="post-buttons-item post-buttons-item-comment" onClick={redirectFull}>
                     <BiSolidCommentDetail className="post-buttons-item-icon"/>
                     <div>
                         Comment
                     </div>
-                </Link>
+                </div>
                 <div className="post-buttons-item post-buttons-item-share">
                     <PiShareFatFill className="post-buttons-item-icon"/>
                     <div>

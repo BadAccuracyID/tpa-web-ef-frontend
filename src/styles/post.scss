@@ -29,6 +29,21 @@ html {
     gap: 10px;
 }
 
+.post-page {
+    margin-top: 60px;
+
+    min-height: 100vh;
+    background-color: $color-light;
+
+    &-container {
+        margin-right: 15%;
+        margin-left: 15%;
+
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+}
+
 .post {
     background-color: white;
     height: fit-content;
@@ -230,6 +245,8 @@ html {
             flex-direction: row;
             justify-content: center;
             align-items: center;
+
+            text-decoration: none;
 
             cursor: pointer;
 

@@ -69,7 +69,7 @@ const SEARCH_QUERY = graphql(`
                 }
                 comments {
                     id
-                    postId
+                    holderId
                     author {
                         id
                         firstName
@@ -83,7 +83,7 @@ const SEARCH_QUERY = graphql(`
                     textContent
                     replies {
                         id
-                        postId
+                        holderId
                         author {
                             id
                             firstName

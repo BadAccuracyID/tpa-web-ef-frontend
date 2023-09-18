@@ -63,7 +63,7 @@ const GET_POSTS_QUERY = graphql(`
                 }
                 comments {
                     id
-                    postId
+                    holderId
                     author {
                         id
                         firstName
@@ -77,7 +77,7 @@ const GET_POSTS_QUERY = graphql(`
                     textContent
                     replies {
                         id
-                        postId
+                        holderId
                         author {
                             id
                             firstName
@@ -176,7 +176,7 @@ const GET_POST_BY_ID_QUERY = graphql(`
             }
             comments {
                 id
-                postId
+                holderId
                 author {
                     id
                     firstName
@@ -190,7 +190,7 @@ const GET_POST_BY_ID_QUERY = graphql(`
                 textContent
                 replies {
                     id
-                    postId
+                    holderId
                     author {
                         id
                         firstName
@@ -289,7 +289,7 @@ const GET_USER_POSTS_QUERY = graphql(`
                 }
                 comments {
                     id
-                    postId
+                    holderId
                     author {
                         id
                         firstName
@@ -303,7 +303,7 @@ const GET_USER_POSTS_QUERY = graphql(`
                     textContent
                     replies {
                         id
-                        postId
+                        holderId
                         author {
                             id
                             firstName
@@ -415,7 +415,7 @@ const CREATE_POST_QUERY = graphql(`
             }
             comments {
                 id
-                postId
+                holderId
                 author {
                     id
                     firstName
@@ -429,7 +429,7 @@ const CREATE_POST_QUERY = graphql(`
                 textContent
                 replies {
                     id
-                    postId
+                    holderId
                     author {
                         id
                         firstName
@@ -527,7 +527,7 @@ const DELETE_POST_MUTATION = graphql(`
             }
             comments {
                 id
-                postId
+                holderId
                 author {
                     id
                     firstName
@@ -541,7 +541,7 @@ const DELETE_POST_MUTATION = graphql(`
                 textContent
                 replies {
                     id
-                    postId
+                    holderId
                     author {
                         id
                         firstName
@@ -639,7 +639,7 @@ const LIKE_POST_MUTATION = graphql(`
             }
             comments {
                 id
-                postId
+                holderId
                 author {
                     id
                     firstName
@@ -653,7 +653,7 @@ const LIKE_POST_MUTATION = graphql(`
                 textContent
                 replies {
                     id
-                    postId
+                    holderId
                     author {
                         id
                         firstName
@@ -751,7 +751,7 @@ const UNLIKE_POST_MUTATION = graphql(`
             }
             comments {
                 id
-                postId
+                holderId
                 author {
                     id
                     firstName
@@ -765,7 +765,7 @@ const UNLIKE_POST_MUTATION = graphql(`
                 textContent
                 replies {
                     id
-                    postId
+                    holderId
                     author {
                         id
                         firstName
@@ -828,7 +828,7 @@ const CREATE_COMMENT_MUTATION = graphql(`
     mutation createComment($input: CommentInput!) {
         createComment(input: $input) {
             id
-            postId
+            holderId
             author {
                 id
                 firstName
@@ -842,7 +842,7 @@ const CREATE_COMMENT_MUTATION = graphql(`
             textContent
             replies {
                 id
-                postId
+                holderId
                 author {
                     id
                     firstName

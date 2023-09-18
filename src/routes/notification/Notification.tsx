@@ -47,7 +47,7 @@ export default function NotificationPage() {
 }
 
 function NotificationCard({notification}: { notification: Notification }) {
-    const profilePicture = notification.contentMedia
+    // const profilePicture = notification.contentMedia
 
     return (
         <div>

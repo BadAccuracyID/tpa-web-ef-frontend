@@ -1,26 +1,24 @@
+import {graphql} from "../gql";
+import {getApolloClient} from "../../main.tsx";
+import {Notification} from "../gql/graphql.ts";
+
 // getNotifications: [Notification!]!
 // type Notification {
 //     id: ID!
 //     type: NotificationType!
 //
 //     content: String!
-//     contentMedia: String!
+//     contentMedia: String
 //     read: Boolean!
 //
 //     createdAt: String!
 // }
-
-import {graphql} from "../gql";
-import {getApolloClient} from "../../main.tsx";
-import {Notification} from "../gql/graphql.ts";
-
 const GET_NOTIFICATION_QUERY = graphql(`
     query getNotifications {
         getNotifications {
             id
             type
             content
-            contentMedia
             read
             createdAt
         }

@@ -111,13 +111,12 @@ export default function PostPage() {
     function countComments() {
         let count = 0;
         if (post!.comments) {
-            post!.comments.forEach((comment) => {
+            for (const comment of post!.comments) {
+                count += 1;
                 if (comment.replies) {
                     count += comment.replies.length;
-                } else {
-                    count++;
                 }
-            })
+            }
         }
 
         return count;

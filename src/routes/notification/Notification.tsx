@@ -1,10 +1,11 @@
 import {useLoaderData} from "react-router-dom";
-import {Notification, User} from "../../lib/gql/graphql.ts";
+import {Notification, NotificationType, User} from "../../lib/gql/graphql.ts";
 import {useCallback, useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import {getNotifications} from "../../lib/controllers/notification-controller.ts";
 import NavigationBar from "../../components/NavigationBar.tsx";
 import "../../styles/notification.scss";
+import {IoMdNotifications} from "react-icons/io";
 
 export default function NotificationPage() {
     const currentUser = useLoaderData() as User;
@@ -47,11 +48,53 @@ export default function NotificationPage() {
 }
 
 function NotificationCard({notification}: { notification: Notification }) {
-    // const profilePicture = notification.contentMedia
-
     return (
-        <div>
-            <h1>{notification.content}</h1>
+        <div className="notification-card">
+            <div className="notification-card-header">
+                <IoMdNotifications className="notification-card-header-picture"/>
+
+                <div className="notification-card-header-text">
+                    <div className="notification-card-header-text-name">
+                        {getTypeFriendlyName(notification)}
+                    </div>
+                    <div className="notification-card-header-text-date">
+                        {notification.createdAt}
+                    </div>
+                </div>
+            </div>
+
+            <div className="notification-card-body">
+                <div className="notification-card-body-text">
+                    {notification.content}
+                </div>
+            </div>
         </div>
     )
+}
+
+function getTypeFriendlyName({type}: { type: NotificationType }) {
+    switch (type) {
+        case NotificationType.ChatChannelAdded:
+            return "Chat Channel Added"
+        case NotificationType.Comment:
+            return "Post Commented"
+        case NotificationType.CommentLike:
+            return "Post Comment Liked"
+        case NotificationType.CommentReply:
+            return "Post Comment Replied"
+        case NotificationType.Generic:
+            return "Generic"
+        case NotificationType.Post:
+            return "New Post"
+        case NotificationType.PostLike:
+            return "Post Liked"
+        case NotificationType.PostMention:
+            return "Mentioned in Post"
+        case NotificationType.PostTag:
+            return "Tagged in Post"
+        case NotificationType.UserRelationAccepted:
+            return "Friend Request Accepted"
+        case NotificationType.UserRelationRequest:
+            return "Friend Request"
+    }
 }

@@ -1,5 +1,5 @@
 import {useLoaderData, useNavigate, useParams} from "react-router-dom";
-import {Audience, Post, User} from "../../lib/gql/graphql.ts";
+import {Audience, Comment, Post, User} from "../../lib/gql/graphql.ts";
 import "../../styles/post.scss";
 import {BiSolidCommentDetail, BiSolidUserCircle} from "react-icons/bi";
 import {BsPeopleFill, BsTrashFill} from "react-icons/bs";
@@ -23,6 +23,7 @@ export default function PostPage() {
 
     const [commentHolder, setCommentHolder] = useState("");
     const [commentInput, setCommentInput] = useState("");
+    const [placeholder, setPlaceholder] = useState("Aa");
 
     async function loadPost() {
         if (id === null) {
@@ -173,6 +174,16 @@ export default function PostPage() {
         });
     }
 
+    function onReplyClick(comment: Comment) {
+        setCommentHolder(comment.id!);
+        setPlaceholder("Reply to " + comment.author.firstName + " " + comment.author.lastName + "'s comment");
+    }
+
+    function onCommentButtonClick() {
+        setCommentHolder(post!.id!);
+        setPlaceholder("Aa");
+    }
+
     async function onCommentEnter(e: React.KeyboardEvent<HTMLInputElement>) {
         if (e.key === "Enter") {
             if (commentInput === "") {
@@ -304,7 +315,7 @@ export default function PostPage() {
                                     )
                             }
 
-                            <div className="post-buttons-item post-buttons-item-comment">
+                            <div className="post-buttons-item post-buttons-item-comment" onClick={onCommentButtonClick}>
                                 <BiSolidCommentDetail className="post-buttons-item-icon"/>
                                 <div>
                                     Comment
@@ -321,7 +332,11 @@ export default function PostPage() {
                         {
                             post.comments!.length > 0 ?
                                 post.comments?.map((it) => {
-                                    return <CommentComponent comment={it}/>
+                                    return <CommentComponent
+                                        currentUser={currentUser}
+                                        comment={it}
+                                        onReplyClick={() => onReplyClick(it)}
+                                    />
                                 }) : <></>
                         }
 
@@ -330,7 +345,7 @@ export default function PostPage() {
                             type={"text"}
                             value={commentInput}
                             onChange={(e) => setCommentInput(e.target.value)}
-                            placeholder={"Aa"}
+                            placeholder={placeholder}
                             onKeyDown={onCommentEnter}
                         />
                     </div>

@@ -881,6 +881,122 @@ const CREATE_COMMENT_MUTATION = graphql(`
     }
 `);
 
+// likeComment(id: ID!): Comment
+const LIKE_COMMENT_MUTATION = graphql(`
+    mutation likeComment($id: ID!) {
+        likeComment(id: $id) {
+            id
+            holderId
+            author {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            textContent
+            replies {
+                id
+                holderId
+                author {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+                textContent
+                likedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+                createdAt
+            }
+            likedBy {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            createdAt
+        }
+    }
+`);
+
+// unlikeComment(id: ID!): Comment
+const UNLIKE_COMMENT_MUTATION = graphql(`
+    mutation unlikeComment($id: ID!) {
+        unlikeComment(id: $id) {
+            id
+            holderId
+            author {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            textContent
+            replies {
+                id
+                holderId
+                author {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+                textContent
+                likedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+                createdAt
+            }
+            likedBy {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            createdAt
+        }
+    }
+`);
+
 export async function getPosts(pageNumber: number, limit: number): Promise<ControllerResponse<Post[]>> {
     try {
         const {data, errors} = await getApolloClient().query({
@@ -1303,6 +1419,96 @@ export async function createComment(holderId: string, content: string): Promise<
         let errorMsg = 'Error executing createComment';
         if (error instanceof Error) {
             console.error('Error executing createComment:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
+    }
+}
+
+export async function likeComment(id: string): Promise<ControllerResponse<Comment>> {
+    try {
+        const {data, errors} = await getApolloClient().mutate({
+            mutation: LIKE_COMMENT_MUTATION,
+            variables: {
+                id,
+            },
+        });
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            };
+        }
+
+        if (!data?.likeComment) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            };
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: data.likeComment! as Comment,
+        };
+    } catch (error) {
+        let errorMsg = 'Error executing likeComment';
+        if (error instanceof Error) {
+            console.error('Error executing likeComment:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
+    }
+}
+
+export async function unlikeComment(id: string): Promise<ControllerResponse<Comment>> {
+    try {
+        const {data, errors} = await getApolloClient().mutate({
+            mutation: UNLIKE_COMMENT_MUTATION,
+            variables: {
+                id,
+            },
+        });
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            };
+        }
+
+        if (!data?.unlikeComment) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            };
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: data.unlikeComment! as Comment,
+        };
+    } catch (error) {
+        let errorMsg = 'Error executing unlikeComment';
+        if (error instanceof Error) {
+            console.error('Error executing unlikeComment:', error);
             errorMsg = error.message;
         }
 

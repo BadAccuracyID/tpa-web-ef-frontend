@@ -360,15 +360,25 @@ html {
         &-buttons {
             display: flex;
             flex-direction: row;
-            gap: 5px;
+            gap: 10px;
             margin-top: 5px;
             transition: $transition;
+
+            align-items: center;
+            justify-content: start;
 
             &-like,
             &-comment {
                 font-size: 12px;
                 color: $color-grey;
                 transition: $transition;
+                gap: 3px;
+
+                display: flex;
+                flex-direction: row;
+
+                align-items: center;
+                justify-content: center;
 
                 cursor: pointer;
 

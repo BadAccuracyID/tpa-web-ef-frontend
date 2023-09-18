@@ -269,14 +269,21 @@ html {
 .comment-right-buttons {
   display: flex;
   flex-direction: row;
-  gap: 5px;
+  gap: 10px;
   margin-top: 5px;
   transition: 0.2s ease;
+  align-items: center;
+  justify-content: start;
 }
 .comment-right-buttons-like, .comment-right-buttons-comment {
   font-size: 12px;
   color: #ccc;
   transition: 0.2s ease;
+  gap: 3px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 }
 .comment-right-buttons-like:hover, .comment-right-buttons-comment:hover {

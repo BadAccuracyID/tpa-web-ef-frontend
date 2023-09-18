@@ -19,6 +19,7 @@ const GET_NOTIFICATION_QUERY = graphql(`
             id
             type
             content
+            contentMedia
             read
             createdAt
         }

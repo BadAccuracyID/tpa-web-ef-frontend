@@ -13,6 +13,7 @@ const GET_CURRENT_USER_QUERY = graphql(`
             username,
             gender,
             dateOfBirth,
+            profilePicture,
             relations {
                 user {
                     id,
@@ -42,6 +43,7 @@ const GET_USER_BY_ID_QUERY = graphql(`
             username,
             gender,
             dateOfBirth,
+            profilePicture,
             relations {
                 user {
                     id,
@@ -71,6 +73,7 @@ const UPDATE_CURRENT_USER_MUTATION = graphql(`
             username,
             gender,
             dateOfBirth,
+            profilePicture,
             relations {
                 user {
                     id,

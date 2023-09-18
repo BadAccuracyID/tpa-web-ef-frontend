@@ -79,6 +79,22 @@ export default function CommentComponent({currentUser, comment, onReplyClick}: {
         return comment.replies.length > 0;
     }
 
+    function getRepliesCount() {
+        if (!comment.replies) {
+            return 0;
+        }
+
+        return comment.replies.length;
+    }
+
+    function getLikeCount() {
+        if (!comment.likedBy) {
+            return 0;
+        }
+
+        return comment.likedBy.length;
+    }
+
     return (
         <div className="comment">
             <div className="comment-self">
@@ -101,10 +117,12 @@ export default function CommentComponent({currentUser, comment, onReplyClick}: {
                                     <AiOutlineLike/>
                             }
                             Like
+                            ({getLikeCount()})
                         </div>
                         <div className="comment-right-buttons-comment" onClick={onReplyClick}>
                             <BiSolidCommentDetail/>
                             Comment
+                            ({getRepliesCount()})
                         </div>
                     </div>
                 </div>

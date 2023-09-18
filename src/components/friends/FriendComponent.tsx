@@ -298,7 +298,7 @@ export function FriendCard({user, currentUser}: { user: User, currentUser: User 
                         <div className="card-buttons-cf" onClick={onAddToFavorite}>
                             <AiFillStar className="card-buttons-icon"/>
                             <div>
-                                Add to Favorites
+                                Favorites
                             </div>
                         </div>
                     }
@@ -307,7 +307,7 @@ export function FriendCard({user, currentUser}: { user: User, currentUser: User 
                         <div className="card-buttons-cf" onClick={onSetToJustFriends}>
                             <AiFillStar className="card-buttons-icon"/>
                             <div>
-                                Remove from Favorites
+                                Unfavorite
                             </div>
                         </div>
                     }

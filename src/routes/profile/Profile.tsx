@@ -486,7 +486,7 @@ function Buttons({friends, currentUser, user}: {
                 <div className="profile-header-buttons-add" onClick={onAcceptFriendRequest}>
                     <BiSolidUserPlus className="profile-header-buttons-icon"/>
                     <div>
-                        Accept Friend Request
+                        Accept Request
                     </div>
                 </div>
             }
@@ -495,7 +495,7 @@ function Buttons({friends, currentUser, user}: {
                 <div className="profile-header-buttons-block" onClick={onRejectFriendRequest}>
                     <HiXMark className="profile-header-buttons-icon"/>
                     <div>
-                        Reject Friend Request
+                        Reject Request
                     </div>
                 </div>
             }
@@ -504,7 +504,7 @@ function Buttons({friends, currentUser, user}: {
                 <div className="profile-header-buttons-cf" onClick={onAddToFavorite}>
                     <AiFillStar className="profile-header-buttons-icon"/>
                     <div>
-                        Add to Favorites
+                        Favorites
                     </div>
                 </div>
             }
@@ -513,7 +513,7 @@ function Buttons({friends, currentUser, user}: {
                 <div className="profile-header-buttons-cf" onClick={onSetToJustFriends}>
                     <AiFillStar className="profile-header-buttons-icon"/>
                     <div>
-                        Remove from Favorites
+                        Unfavorite
                     </div>
                 </div>
             }
@@ -531,7 +531,7 @@ function Buttons({friends, currentUser, user}: {
                 <div className="profile-header-buttons-edit">
                     <BsPencilFill className="profile-header-buttons-icon"/>
                     <div>
-                        Edit Profile
+                        Edit
                     </div>
                 </div>
             }
@@ -545,7 +545,7 @@ function Buttons({friends, currentUser, user}: {
                 </div>
             }
 
-            {(isFriends() && isBlocked()) &&
+            {(isFriends() && isBlocked() && !isSelf()) &&
                 <div className="profile-header-buttons-block" onClick={onSetToJustFriends}>
                     <BiBlock className="profile-header-buttons-icon"/>
                     <div>

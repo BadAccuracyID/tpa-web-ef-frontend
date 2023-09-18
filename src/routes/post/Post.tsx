@@ -7,7 +7,14 @@ import {AiFillLike, AiFillStar, AiOutlineLike} from "react-icons/ai";
 import {PiShareFatFill} from "react-icons/pi";
 import {MdPublic} from "react-icons/md";
 import {FaUsers} from "react-icons/fa";
-import {createComment, deletePost, getPostById, likePost, unlikePost} from "../../lib/controllers/post-controller.ts";
+import {
+    createComment,
+    createSubComment,
+    deletePost,
+    getPostById,
+    likePost,
+    unlikePost
+} from "../../lib/controllers/post-controller.ts";
 import {toast} from "react-toastify";
 import React, {useEffect, useState} from "react";
 import NavigationBar from "../../components/NavigationBar.tsx";
@@ -197,7 +204,13 @@ export default function PostPage() {
                 return;
             }
 
-            const response = await createComment(commentHolder, commentInput);
+            let response;
+            if (commentHolder === post!.id!) {
+                response = await createComment(commentHolder, commentInput);
+            } else {
+                response = await createSubComment(commentHolder, commentInput);
+            }
+
             if (!response.success) {
                 toast.error('Failed creating comment', {
                     position: "top-right",

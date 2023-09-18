@@ -997,6 +997,64 @@ const UNLIKE_COMMENT_MUTATION = graphql(`
     }
 `);
 
+// createSubComment(input: CommentInput!): Comment
+const CREATE_SUB_COMMENT_MUTATION = graphql(`
+    mutation createSubComment($input: CommentInput!) {
+        createSubComment(input: $input) {
+            id
+            holderId
+            author {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            textContent
+            replies {
+                id
+                holderId
+                author {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+                textContent
+                likedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+                createdAt
+            }
+            likedBy {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            createdAt
+        }
+    }
+`);
+
 export async function getPosts(pageNumber: number, limit: number): Promise<ControllerResponse<Post[]>> {
     try {
         const {data, errors} = await getApolloClient().query({
@@ -1509,6 +1567,54 @@ export async function unlikeComment(id: string): Promise<ControllerResponse<Comm
         let errorMsg = 'Error executing unlikeComment';
         if (error instanceof Error) {
             console.error('Error executing unlikeComment:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
+    }
+}
+
+export async function createSubComment(holderId: string, content: string): Promise<ControllerResponse<Comment>> {
+    try {
+        const {data, errors} = await getApolloClient().mutate({
+            mutation: CREATE_SUB_COMMENT_MUTATION,
+            variables: {
+                input: {
+                    holderId: holderId,
+                    textContent: content
+                }
+            }
+        });
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            };
+        }
+
+        if (!data?.createSubComment) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            };
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: data.createSubComment! as Comment,
+        };
+    } catch (error) {
+        let errorMsg = 'Error executing createSubComment';
+        if (error instanceof Error) {
+            console.error('Error executing createSubComment:', error);
             errorMsg = error.message;
         }
 

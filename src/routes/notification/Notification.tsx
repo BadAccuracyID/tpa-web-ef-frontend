@@ -2,7 +2,7 @@ import {useLoaderData} from "react-router-dom";
 import {Notification, NotificationType, User} from "../../lib/gql/graphql.ts";
 import {useCallback, useEffect, useState} from "react";
 import {toast} from "react-toastify";
-import {getNotifications} from "../../lib/controllers/notification-controller.ts";
+import {getNotifications, readNotification} from "../../lib/controllers/notification-controller.ts";
 import NavigationBar from "../../components/NavigationBar.tsx";
 import "../../styles/notification.scss";
 import {IoMdNotifications} from "react-icons/io";
@@ -31,6 +31,10 @@ export default function NotificationPage() {
         loadNotification();
     }, []);
 
+    function refetch() {
+        loadNotification();
+    }
+
     return (
         <div>
             <NavigationBar user={currentUser}/>
@@ -38,7 +42,7 @@ export default function NotificationPage() {
             <div className="notification">
                 <div className="notification-list">
                     {notifications.map((it) => {
-                        return <NotificationCard notification={it}/>
+                        return <NotificationCard notification={it} refetch={refetch}/>
                     })}
                 </div>
             </div>
@@ -47,9 +51,26 @@ export default function NotificationPage() {
     );
 }
 
-function NotificationCard({notification}: { notification: Notification }) {
+function NotificationCard({notification, refetch}: { notification: Notification, refetch: () => void }) {
+
+    async function onRead() {
+        const response = await readNotification(notification.id);
+        if (!response.success) {
+            toast.error('Failed to read notification', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            return;
+        }
+
+        refetch();
+    }
+
     return (
-        <div className="notification-card">
+        <div className="notification-card" onClick={onRead}>
             <div className="notification-card-header">
                 <IoMdNotifications className="notification-card-header-picture"/>
 

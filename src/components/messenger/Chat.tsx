@@ -4,6 +4,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {sendMessage, subscribeConversation} from "../../lib/controllers/messanger-controller.ts";
 import {toast} from "react-toastify";
 import {BiSolidUserCircle} from "react-icons/bi";
+import {BsChatDotsFill} from "react-icons/bs";
 
 export default function ChatComponent({user, conversation}: { user: User, conversation: Conversation }) {
     const [messages, setMessages] = useState(conversation.messages);
@@ -66,9 +67,7 @@ export default function ChatComponent({user, conversation}: { user: User, conver
     return (
         <div className="chat">
             <div className="chat-header">
-                <img className="chat-header-picture"
-                     src={conversation.members[0].profilePicture!}
-                     alt=""/>
+                <BsChatDotsFill className="chat-header-picture-null"/>
 
                 <div className="chat-header-right">
                     <div className="chat-header-right-title">

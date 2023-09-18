@@ -79,3 +79,13 @@ export const profileLoader = async (request: Request) => {
 
     return null;
 }
+
+export const postLoader = async (request: Request) => {
+    const url = trimUrl(request.url);
+
+    if (url.endsWith('/post')) {
+        return redirect('/auth/login');
+    }
+
+    return null;
+}

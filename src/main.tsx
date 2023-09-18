@@ -10,7 +10,7 @@ import AccountRecoveryPage from "./routes/auth/AccountRecovery.tsx";
 import ActivateAccountPage from "./routes/auth/ActivateAccount.tsx";
 import {ApolloClient, createHttpLink, InMemoryCache, NormalizedCacheObject} from "@apollo/client";
 import {setContext} from "@apollo/client/link/context";
-import {activateAccountLoader, authLoader, profileLoader, rootLoader} from "./lib/loader/root-loader.ts";
+import {activateAccountLoader, authLoader, postLoader, profileLoader, rootLoader} from "./lib/loader/root-loader.ts";
 import {userLoader} from "./lib/loader/user-loader.ts";
 import HomePage from "./routes/home/Home.tsx";
 import {ToastContainer} from "react-toastify";
@@ -19,6 +19,7 @@ import ProfilePage from "./routes/profile/Profile.tsx";
 import SearchPage from "./routes/search/Search.tsx";
 import FriendsPage from "./routes/friend/FriendsPage.tsx";
 import NotificationPage from "./routes/notification/Notification.tsx";
+import PostPage from "./routes/post/Post.tsx";
 
 const router = createBrowserRouter([
     {
@@ -104,6 +105,22 @@ const router = createBrowserRouter([
                             return userLoader();
                         },
                         element: <ProfilePage/>,
+                    }
+                ]
+            },
+            {
+                path: "post",
+                loader: ({request}) => {
+                    return postLoader(request);
+                },
+                element: <Outlet/>,
+                children: [
+                    {
+                        path: ":id",
+                        loader: () => {
+                            return userLoader();
+                        },
+                        element: <PostPage/>
                     }
                 ]
             },

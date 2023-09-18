@@ -136,6 +136,118 @@ const GET_POSTS_QUERY = graphql(`
     }
 `);
 
+// getPost(id: ID!): Post
+const GET_POST_BY_ID_QUERY = graphql(`
+    query getPost($id: ID!) {
+        getPost(id: $id) {
+            id
+            title
+            audience
+            author {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+
+            sharedBy {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            likedBy {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            comments {
+                id
+                postId
+                author {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+                textContent
+                replies {
+                    id
+                    postId
+                    author {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        gender
+                    }
+                    textContent
+                    likedBy {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        gender
+                    }
+                    createdAt
+                }
+                likedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+                createdAt
+            }
+
+            textContent
+            imageContent
+            videoContent
+
+            taggedUsers {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            hashtags
+
+            createdAt
+        }
+    }
+`);
+
 // getPostsByUser(id: ID!, pageNumber: Int, limit: Int): PostsPage
 const GET_USER_POSTS_QUERY = graphql(`
     query getPostsByUser($id: ID!, $pageNumber: Int, $limit: Int) {
@@ -756,6 +868,60 @@ export async function getPosts(pageNumber: number, limit: number): Promise<Contr
         let errorMsg = 'Error executing getPosts';
         if (error instanceof Error) {
             console.error('Error executing getPosts:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
+    }
+}
+
+export async function getPostById(id: string): Promise<ControllerResponse<Post>> {
+    try {
+        const {data, errors} = await getApolloClient().query({
+            query: GET_POST_BY_ID_QUERY,
+            variables: {
+                id,
+            },
+        });
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            }
+        }
+
+        if (!data?.getPost) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        const post = data.getPost;
+        if (post === null) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: post as Post,
+        };
+    } catch (error) {
+        let errorMsg = 'Error executing getPost';
+        if (error instanceof Error) {
+            console.error('Error executing getPost:', error);
             errorMsg = error.message;
         }
 

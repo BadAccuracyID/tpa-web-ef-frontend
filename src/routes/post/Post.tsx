@@ -1,24 +1,59 @@
+import {useLoaderData, useNavigate, useParams} from "react-router-dom";
 import {Audience, Post, User} from "../../lib/gql/graphql.ts";
-import {MdPublic} from "react-icons/md";
+import "../../styles/post.scss";
+import {BiSolidCommentDetail, BiSolidUserCircle} from "react-icons/bi";
 import {BsPeopleFill, BsTrashFill} from "react-icons/bs";
 import {AiFillLike, AiFillStar, AiOutlineLike} from "react-icons/ai";
-import {FaUsers} from "react-icons/fa";
-import {deletePost, likePost, unlikePost} from "../../lib/controllers/post-controller.ts";
-import {toast} from "react-toastify";
-import {BiSolidCommentDetail, BiSolidUserCircle} from "react-icons/bi";
-import {PostLoadingComponent} from "../loading/LoadingComponents.tsx";
 import {PiShareFatFill} from "react-icons/pi";
-import {useState} from "react";
-import "../../styles/post.scss";
-import {Link} from "react-router-dom";
+import {MdPublic} from "react-icons/md";
+import {FaUsers} from "react-icons/fa";
+import {deletePost, getPostById, likePost, unlikePost} from "../../lib/controllers/post-controller.ts";
+import {toast} from "react-toastify";
+import {useEffect, useState} from "react";
+import NavigationBar from "../../components/NavigationBar.tsx";
 
-export function PostComponent({post, user, onRemovePost}: {
-    post: Post,
-    user: User,
-    onRemovePost: (postId: string) => void
-}) {
+export default function PostPage() {
+    const currentUser = useLoaderData() as User;
+    const navigate = useNavigate();
+    const {id} = useParams();
+
+    const [post, setPost] = useState<Post | null>(null);
+    const [likedBy, setLikedBy] = useState<User[]>([]);
+
+    async function loadPost() {
+        if (id === null) {
+            navigate("/home");
+        }
+
+        const response = await getPostById(id!);
+        if (!response.success) {
+            toast.error('Failed loading post', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            return;
+        }
+
+        setPost(response.data!);
+        setLikedBy(response.data!.likedBy!);
+    }
+
+    useEffect(() => {
+        loadPost();
+    }, []);
+
+    if (!post) {
+        return (
+            <div>
+                <NavigationBar user={currentUser}/>
+            </div>
+        )
+    }
+
     const profilePicture = post.author.profilePicture;
-    const [likedBy, setLikedBy] = useState(post.likedBy);
 
     let audienceLogo;
     if (post.audience === Audience.Public) {
@@ -56,14 +91,13 @@ export function PostComponent({post, user, onRemovePost}: {
                 closeOnClick: true,
                 draggable: true,
             });
-            onRemovePost(post.id);
-        })
+        });
     }
 
     function countComments() {
         let count = 0;
-        if (post.comments) {
-            post.comments.forEach((comment) => {
+        if (post!.comments) {
+            post!.comments.forEach((comment) => {
                 if (comment.replies) {
                     count += comment.replies.length;
                 } else {
@@ -80,11 +114,11 @@ export function PostComponent({post, user, onRemovePost}: {
             return false;
         }
 
-        return likedBy.some((value) => value.id === user.id);
+        return likedBy.some((value) => value.id === currentUser.id);
     }
 
     function onLikePost() {
-        likePost(post.id).then((res) => {
+        likePost(post!.id).then((res) => {
             if (!res || !res.success) {
                 toast.error("Failed to like post", {
                     position: "top-right",
@@ -104,12 +138,12 @@ export function PostComponent({post, user, onRemovePost}: {
                 draggable: true,
             });
 
-            setLikedBy(res.data!.likedBy);
+            setLikedBy(res.data!.likedBy!);
         });
     }
 
     function onUnlikePost() {
-        unlikePost(post.id).then((res) => {
+        unlikePost(post!.id).then((res) => {
             if (!res || !res.success) {
                 toast.error("Failed to unlike post", {
                     position: "top-right",
@@ -129,9 +163,10 @@ export function PostComponent({post, user, onRemovePost}: {
                 draggable: true,
             });
 
-            setLikedBy(res.data!.likedBy);
+            setLikedBy(res.data!.likedBy!);
         });
     }
+
 
     return (
         <div className="post">
@@ -156,7 +191,7 @@ export function PostComponent({post, user, onRemovePost}: {
 
                 <div className="post-header-right">
                     {
-                        user.id === post.author.id && (
+                        currentUser.id === post.author.id && (
                             <BsTrashFill
                                 className="post-header-right-icon-delete"
                                 onClick={onDeletePost}
@@ -222,12 +257,12 @@ export function PostComponent({post, user, onRemovePost}: {
                         )
                 }
 
-                <Link to={"/post/" + post.id} className="post-buttons-item post-buttons-item-comment">
+                <div className="post-buttons-item post-buttons-item-comment">
                     <BiSolidCommentDetail className="post-buttons-item-icon"/>
                     <div>
                         Comment
                     </div>
-                </Link>
+                </div>
                 <div className="post-buttons-item post-buttons-item-share">
                     <PiShareFatFill className="post-buttons-item-icon"/>
                     <div>
@@ -235,14 +270,6 @@ export function PostComponent({post, user, onRemovePost}: {
                     </div>
                 </div>
             </div>
-        </div>
-    )
-}
-
-export function PostSkeletonComponent() {
-    return (
-        <div className="post">
-            <PostLoadingComponent/>
         </div>
     )
 }

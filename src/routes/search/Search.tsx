@@ -130,7 +130,7 @@ export default function SearchPage() {
                                                         <h1>Posts</h1>
                                                     </div> : <></>
                                                 }
-                                                <div className="search-content-row">
+                                                <div className="search-content-column">
                                                     {posts.map((item: SearchResult) => {
                                                         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                                                         // @ts-ignore
@@ -169,7 +169,7 @@ export default function SearchPage() {
                                         return (
                                             <div>
                                                 <h1>Posts</h1>
-                                                <div className="search-content-row">
+                                                <div className="search-content-column">
                                                     {posts.map((item: SearchResult) => {
                                                         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                                                         // @ts-ignore

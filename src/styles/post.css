@@ -235,6 +235,52 @@ html {
 .comment {
   width: 100%;
   margin-left: 20px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: center;
+}
+.comment-picture, .comment-picture-null {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 10px;
+  transition: 0.2s ease;
+}
+.comment-picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.comment-picture-null {
+  color: black;
+}
+.comment-right {
+  display: flex;
+  flex-direction: column;
+}
+.comment-right-name {
+  font-weight: bold;
+}
+.comment-right-content {
+  font-size: 14px;
+}
+.comment-right-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  margin-top: 5px;
+  transition: 0.2s ease;
+}
+.comment-right-buttons-like, .comment-right-buttons-comment {
+  font-size: 12px;
+  color: #ccc;
+  transition: 0.2s ease;
+  cursor: pointer;
+}
+.comment-right-buttons-like:hover, .comment-right-buttons-comment:hover {
+  color: #000000;
 }
 
 /*# sourceMappingURL=post.css.map */

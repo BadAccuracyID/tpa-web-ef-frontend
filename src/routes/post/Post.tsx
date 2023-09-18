@@ -7,10 +7,11 @@ import {AiFillLike, AiFillStar, AiOutlineLike} from "react-icons/ai";
 import {PiShareFatFill} from "react-icons/pi";
 import {MdPublic} from "react-icons/md";
 import {FaUsers} from "react-icons/fa";
-import {deletePost, getPostById, likePost, unlikePost} from "../../lib/controllers/post-controller.ts";
+import {createComment, deletePost, getPostById, likePost, unlikePost} from "../../lib/controllers/post-controller.ts";
 import {toast} from "react-toastify";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import NavigationBar from "../../components/NavigationBar.tsx";
+import CommentComponent from "../../components/post/CommentComponent.tsx";
 
 export default function PostPage() {
     const currentUser = useLoaderData() as User;
@@ -19,6 +20,9 @@ export default function PostPage() {
 
     const [post, setPost] = useState<Post | null>(null);
     const [likedBy, setLikedBy] = useState<User[]>([]);
+
+    const [commentHolder, setCommentHolder] = useState("");
+    const [commentInput, setCommentInput] = useState("");
 
     async function loadPost() {
         if (id === null) {
@@ -37,8 +41,10 @@ export default function PostPage() {
             return;
         }
 
-        setPost(response.data!);
-        setLikedBy(response.data!.likedBy!);
+        const post = response.data!;
+        setPost(post);
+        setCommentHolder(post.id!)
+        setLikedBy(post.likedBy!);
     }
 
     useEffect(() => {
@@ -167,6 +173,42 @@ export default function PostPage() {
         });
     }
 
+    async function onCommentEnter(e: React.KeyboardEvent<HTMLInputElement>) {
+        if (e.key === "Enter") {
+            if (commentInput === "") {
+                toast.error('Comment cannot be empty!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                });
+                return;
+            }
+
+            const response = await createComment(commentHolder, commentInput);
+            if (!response.success) {
+                toast.error('Failed creating comment', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                });
+                return;
+            }
+
+            toast.success('Comment created successfully', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            window.location.reload();
+        }
+    }
+
 
     return (
         <div>
@@ -244,7 +286,8 @@ export default function PostPage() {
                             {
                                 isLikedByUser() ?
                                     (
-                                        <div className="post-buttons-item post-buttons-item-like-active" onClick={onUnlikePost}>
+                                        <div className="post-buttons-item post-buttons-item-like-active"
+                                             onClick={onUnlikePost}>
                                             <AiFillLike className="post-buttons-item-icon"/>
                                             <div>
                                                 Like
@@ -274,6 +317,22 @@ export default function PostPage() {
                                 </div>
                             </div>
                         </div>
+
+                        {
+                            post.comments!.length > 0 ?
+                                post.comments?.map((it) => {
+                                    return <CommentComponent comment={it}/>
+                                }) : <></>
+                        }
+
+                        <input
+                            className="post-comment-input"
+                            type={"text"}
+                            value={commentInput}
+                            onChange={(e) => setCommentInput(e.target.value)}
+                            placeholder={"Aa"}
+                            onKeyDown={onCommentEnter}
+                        />
                     </div>
                 </div>
             </div>

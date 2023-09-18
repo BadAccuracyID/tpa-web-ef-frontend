@@ -219,5 +219,22 @@ html {
   border-bottom: 2px solid orange;
   background-color: #f0f2f5;
 }
+.post-comment-input {
+  height: 40px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  background-color: #f0f2f5;
+  transition: 0.2s ease;
+  font-size: 14px;
+}
+
+.comment {
+  width: 100%;
+  margin-left: 20px;
+}
 
 /*# sourceMappingURL=post.css.map */

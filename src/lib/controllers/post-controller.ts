@@ -1,5 +1,5 @@
 import {graphql} from "../gql";
-import {Post, PostInput} from "../gql/graphql.ts";
+import {Comment, Post, PostInput} from "../gql/graphql.ts";
 import {getApolloClient} from "../../main.tsx";
 
 // getPosts(pageNumber: Int, limit: Int): PostsPage
@@ -823,6 +823,63 @@ const UNLIKE_POST_MUTATION = graphql(`
     }
 `);
 
+// createComment(input: CommentInput!): Comment
+const CREATE_COMMENT_MUTATION = graphql(`
+    mutation createComment($input: CommentInput!) {
+        createComment(input: $input) {
+            id
+            postId
+            author {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            textContent
+            replies {
+                id
+                postId
+                author {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+                textContent
+                likedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                }
+                createdAt
+            }
+            likedBy {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+            }
+            createdAt
+        }
+    }
+`);
 
 export async function getPosts(pageNumber: number, limit: number): Promise<ControllerResponse<Post[]>> {
     try {
@@ -1198,6 +1255,54 @@ export async function unlikePost(id: string): Promise<ControllerResponse<Post>> 
         let errorMsg = 'Error executing unlikePosts';
         if (error instanceof Error) {
             console.error('Error executing unlikePosts:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
+    }
+}
+
+export async function createComment(holderId: string, content: string): Promise<ControllerResponse<Comment>> {
+    try {
+        const {data, errors} = await getApolloClient().mutate({
+            mutation: CREATE_COMMENT_MUTATION,
+            variables: {
+                input: {
+                    holderId: holderId,
+                    textContent: content
+                }
+            }
+        });
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            }
+        }
+
+        if (!data?.createComment) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: data.createComment! as Comment,
+        }
+    } catch (error) {
+        let errorMsg = 'Error executing createComment';
+        if (error instanceof Error) {
+            console.error('Error executing createComment:', error);
             errorMsg = error.message;
         }
 

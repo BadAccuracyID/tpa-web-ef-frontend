@@ -2,13 +2,14 @@ import {useLoaderData} from "react-router-dom";
 import {Group, User} from "../../lib/gql/graphql.ts";
 import NavigationBar from "../../components/NavigationBar.tsx";
 import "../../styles/group.scss";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {CreateGroupCard} from "../../components/group/GroupComponent.tsx";
 import {getUserGroups} from "../../lib/controllers/group-controller.ts";
 import {toast} from "react-toastify";
-import {AiFillCompass} from "react-icons/ai";
-import {BiSolidGroup} from "react-icons/bi";
+import {AiFillCalendar, AiFillCompass} from "react-icons/ai";
+import {BiMaleFemale, BiSolidGroup} from "react-icons/bi";
 import {FaNewspaper} from "react-icons/fa6";
+import GroupPosts from "../../components/group/GroupPosts.tsx";
 
 enum MenuPage {
     HOME,
@@ -225,6 +226,58 @@ function GroupContent({currentUser, group}: { currentUser: User, group: Group })
                     onClick={() => setMenu(GroupMenu.MEMBERS)}
                 >
                     Members
+                </div>
+            </div>
+
+            <div className="group-content">
+                <GroupItem currentUser={currentUser} group={group} menu={menu}/>
+            </div>
+        </div>
+    )
+}
+
+function GroupItem({currentUser, group, menu}: { currentUser: User, group: Group, menu: GroupMenu }) {
+    switch (menu) {
+        case GroupMenu.POSTS:
+            return <Posts currentUser={currentUser} group={group}/>
+        case GroupMenu.FILES:
+            break;
+        case GroupMenu.MEMBERS:
+            break;
+    }
+
+    return <></>
+}
+
+function Posts({currentUser, group}: { currentUser: User, group: Group }) {
+    return (
+        <div className="group-content-posts">
+            <div className="group-content-posts-left">
+                <div className="group-content-posts-left-title">
+                    Posts
+                </div>
+
+                <GroupPosts currentUser={currentUser} group={group}/>
+            </div>
+
+            <div className="group-content-posts-right">
+                <div className="group-content-posts-right-title">
+                    Intro
+                </div>
+
+                <div className="group-content-posts-right-info">
+                    <div className="group-content-posts-right-info-gender">
+                        <BiMaleFemale className="group-content-posts-right-info-icon"/>
+                        <div>
+                            Members: {group.members.length}
+                        </div>
+                    </div>
+                    <div className="group-content-posts-right-info-gender">
+                        <AiFillCalendar className="group-content-posts-right-info-icon"/>
+                        <div>
+                            Admins: {group.admins.length}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

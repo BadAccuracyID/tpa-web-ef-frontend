@@ -69,14 +69,22 @@ export type FriendRequest = {
 
 export type Group = SearchResult & {
   __typename?: 'Group';
-  files: Array<Scalars['String']['output']>;
+  admins: Array<User>;
+  files?: Maybe<Array<Scalars['String']['output']>>;
   id: Scalars['ID']['output'];
-  leader: User;
+  invitedUsers?: Maybe<Array<User>>;
+  joinRequests?: Maybe<Array<User>>;
   members: Array<User>;
   name: Scalars['String']['output'];
   posts: Array<Post>;
   type?: Maybe<ContentType>;
+  visibility: GroupVisibility;
 };
+
+export enum GroupVisibility {
+  Private = 'PRIVATE',
+  Public = 'PUBLIC'
+}
 
 export type LoginInput = {
   email: Scalars['String']['input'];
@@ -103,9 +111,9 @@ export enum MessageContentType {
 export type Mutation = {
   __typename?: 'Mutation';
   acceptFriendRequest: FriendRequest;
+  acceptGroupInvitation: Group;
   acceptGroupRequest: Group;
   activateUser: User;
-  addMembersToGroup: Group;
   changeFriendshipStatus: FriendRequest;
   changePassword?: Maybe<User>;
   createComment?: Maybe<Comment>;
@@ -121,14 +129,15 @@ export type Mutation = {
   deletePost?: Maybe<Post>;
   deleteUser: User;
   inviteUserToGroup: Group;
+  kickMemberFromGroup: Group;
   likeComment?: Maybe<Comment>;
   likePost?: Maybe<Post>;
   quitGroup: Group;
   readNotification: Scalars['Boolean']['output'];
   register?: Maybe<User>;
   rejectFriendRequest: FriendRequest;
+  rejectGroupInvitation: Group;
   rejectGroupRequest: Group;
-  removeMembersFromGroup: Group;
   requestToJoinGroup: Group;
   sendFriendRequest: FriendRequest;
   sendMessage: Message;
@@ -143,6 +152,11 @@ export type MutationAcceptFriendRequestArgs = {
 };
 
 
+export type MutationAcceptGroupInvitationArgs = {
+  groupId: Scalars['ID']['input'];
+};
+
+
 export type MutationAcceptGroupRequestArgs = {
   groupId: Scalars['ID']['input'];
   userId: Scalars['ID']['input'];
@@ -151,12 +165,6 @@ export type MutationAcceptGroupRequestArgs = {
 
 export type MutationActivateUserArgs = {
   request: Scalars['String']['input'];
-};
-
-
-export type MutationAddMembersToGroupArgs = {
-  groupId: Scalars['ID']['input'];
-  userId: Array<Scalars['ID']['input']>;
 };
 
 
@@ -236,6 +244,12 @@ export type MutationInviteUserToGroupArgs = {
 };
 
 
+export type MutationKickMemberFromGroupArgs = {
+  groupId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
+};
+
+
 export type MutationLikeCommentArgs = {
   id: Scalars['ID']['input'];
 };
@@ -266,15 +280,14 @@ export type MutationRejectFriendRequestArgs = {
 };
 
 
-export type MutationRejectGroupRequestArgs = {
+export type MutationRejectGroupInvitationArgs = {
   groupId: Scalars['ID']['input'];
-  userId: Scalars['ID']['input'];
 };
 
 
-export type MutationRemoveMembersFromGroupArgs = {
+export type MutationRejectGroupRequestArgs = {
   groupId: Scalars['ID']['input'];
-  userId: Array<Scalars['ID']['input']>;
+  userId: Scalars['ID']['input'];
 };
 
 
@@ -515,7 +528,6 @@ export type UserInput = {
   firstName?: InputMaybe<Scalars['String']['input']>;
   gender?: InputMaybe<Scalars['String']['input']>;
   lastName?: InputMaybe<Scalars['String']['input']>;
-  password: Scalars['String']['input'];
   profilePicture?: InputMaybe<Scalars['String']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
@@ -823,14 +835,22 @@ export type FriendRequest = {
 
 export type Group = SearchResult & {
   __typename?: 'Group';
-  files: Array<Scalars['String']['output']>;
+  admins: Array<User>;
+  files?: Maybe<Array<Scalars['String']['output']>>;
   id: Scalars['ID']['output'];
-  leader: User;
+  invitedUsers?: Maybe<Array<User>>;
+  joinRequests?: Maybe<Array<User>>;
   members: Array<User>;
   name: Scalars['String']['output'];
   posts: Array<Post>;
   type?: Maybe<ContentType>;
+  visibility: GroupVisibility;
 };
+
+export enum GroupVisibility {
+  Private = 'PRIVATE',
+  Public = 'PUBLIC'
+}
 
 export type LoginInput = {
   email: Scalars['String']['input'];
@@ -857,9 +877,9 @@ export enum MessageContentType {
 export type Mutation = {
   __typename?: 'Mutation';
   acceptFriendRequest: FriendRequest;
+  acceptGroupInvitation: Group;
   acceptGroupRequest: Group;
   activateUser: User;
-  addMembersToGroup: Group;
   changeFriendshipStatus: FriendRequest;
   changePassword?: Maybe<User>;
   createComment?: Maybe<Comment>;
@@ -875,14 +895,15 @@ export type Mutation = {
   deletePost?: Maybe<Post>;
   deleteUser: User;
   inviteUserToGroup: Group;
+  kickMemberFromGroup: Group;
   likeComment?: Maybe<Comment>;
   likePost?: Maybe<Post>;
   quitGroup: Group;
   readNotification: Scalars['Boolean']['output'];
   register?: Maybe<User>;
   rejectFriendRequest: FriendRequest;
+  rejectGroupInvitation: Group;
   rejectGroupRequest: Group;
-  removeMembersFromGroup: Group;
   requestToJoinGroup: Group;
   sendFriendRequest: FriendRequest;
   sendMessage: Message;
@@ -897,6 +918,11 @@ export type MutationAcceptFriendRequestArgs = {
 };
 
 
+export type MutationAcceptGroupInvitationArgs = {
+  groupId: Scalars['ID']['input'];
+};
+
+
 export type MutationAcceptGroupRequestArgs = {
   groupId: Scalars['ID']['input'];
   userId: Scalars['ID']['input'];
@@ -905,12 +931,6 @@ export type MutationAcceptGroupRequestArgs = {
 
 export type MutationActivateUserArgs = {
   request: Scalars['String']['input'];
-};
-
-
-export type MutationAddMembersToGroupArgs = {
-  groupId: Scalars['ID']['input'];
-  userId: Array<Scalars['ID']['input']>;
 };
 
 
@@ -990,6 +1010,12 @@ export type MutationInviteUserToGroupArgs = {
 };
 
 
+export type MutationKickMemberFromGroupArgs = {
+  groupId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
+};
+
+
 export type MutationLikeCommentArgs = {
   id: Scalars['ID']['input'];
 };
@@ -1020,15 +1046,14 @@ export type MutationRejectFriendRequestArgs = {
 };
 
 
-export type MutationRejectGroupRequestArgs = {
+export type MutationRejectGroupInvitationArgs = {
   groupId: Scalars['ID']['input'];
-  userId: Scalars['ID']['input'];
 };
 
 
-export type MutationRemoveMembersFromGroupArgs = {
+export type MutationRejectGroupRequestArgs = {
   groupId: Scalars['ID']['input'];
-  userId: Array<Scalars['ID']['input']>;
+  userId: Scalars['ID']['input'];
 };
 
 
@@ -1269,7 +1294,6 @@ export type UserInput = {
   firstName?: InputMaybe<Scalars['String']['input']>;
   gender?: InputMaybe<Scalars['String']['input']>;
   lastName?: InputMaybe<Scalars['String']['input']>;
-  password: Scalars['String']['input'];
   profilePicture?: InputMaybe<Scalars['String']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };

@@ -1,6 +1,6 @@
 import {Await, useLoaderData, useParams} from "react-router-dom";
 import React, {createRef, Suspense, useEffect, useState} from "react";
-import {RelationshipStatus, User} from "../../lib/gql/graphql.ts";
+import {RelationshipStatus, User, UserInput} from "../../lib/gql/graphql.ts";
 import {getUserById, updateCurrentUser} from "../../lib/controllers/user-controller.ts";
 import NavigationBar from "../../components/NavigationBar.tsx";
 import "../../styles/profile.scss";
@@ -63,7 +63,7 @@ export default function ProfilePage() {
             const file = event.target.files[0];
             const imageUrl = await uploadFilesWithToast([file]);
 
-            const userInput = {
+            const userInput: UserInput = {
                 email: currentUser.email,
                 username: currentUser.username,
                 firstName: currentUser.firstName,
@@ -71,8 +71,6 @@ export default function ProfilePage() {
                 dateOfBirth: currentUser.dateOfBirth,
                 gender: currentUser.gender,
                 profilePicture: imageUrl[0],
-
-                password: passwordAwok,
             }
 
             updateCurrentUser(userInput).then((result) => {

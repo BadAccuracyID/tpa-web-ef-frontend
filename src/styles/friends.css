@@ -119,10 +119,11 @@ html {
   background-color: white;
   opacity: 0.8;
 }
-.card-profile-picture img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.card-profile-picture {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-right: 10px;
 }
 .card-profile-picture-null {
   color: black;

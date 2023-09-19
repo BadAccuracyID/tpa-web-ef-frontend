@@ -36,8 +36,6 @@ export default function ProfilePage() {
     const currentUser = useLoaderData() as User;
     const {id} = useParams();
 
-    const [passwordAwok, setPasswordAwok] = useState<string>("");
-
     const fileInputRef: React.Ref<HTMLInputElement> = createRef();
 
     async function getUser(): Promise<User> {
@@ -183,16 +181,6 @@ export default function ProfilePage() {
                                                     | {getMutualFriends(user).length} mutual friends
                                                 </div>
                                             </div>
-
-                                            <input
-                                                type="password"
-                                                className="profile-header-password"
-                                                placeholder="Password"
-                                                value={passwordAwok}
-                                                onChange={(event) => {
-                                                    setPasswordAwok(event.target.value);
-                                                }}
-                                            />
 
                                             <Buttons friends={getFriends(user)}
                                                      currentUser={currentUser}

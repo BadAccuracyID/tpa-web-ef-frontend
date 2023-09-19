@@ -16,6 +16,7 @@ const SEARCH_QUERY = graphql(`
                 username,
                 gender,
                 dateOfBirth,
+                profilePicture,
                 relations {
                     user {
                         id,
@@ -26,6 +27,7 @@ const SEARCH_QUERY = graphql(`
                         username,
                         gender,
                         dateOfBirth,
+                        profilePicture,
                     },
                     status,
                 },
@@ -44,6 +46,7 @@ const SEARCH_QUERY = graphql(`
                     username
                     email
                     dateOfBirth
+                    profilePicture
                     gender
                 }
 
@@ -55,6 +58,7 @@ const SEARCH_QUERY = graphql(`
                     username
                     email
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 likedBy {
@@ -65,6 +69,7 @@ const SEARCH_QUERY = graphql(`
                     username
                     email
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 comments {
@@ -78,6 +83,7 @@ const SEARCH_QUERY = graphql(`
                         username
                         email
                         dateOfBirth
+                        profilePicture
                         gender
                     }
                     textContent
@@ -92,6 +98,7 @@ const SEARCH_QUERY = graphql(`
                             username
                             email
                             dateOfBirth
+                            profilePicture
                             gender
                         }
                         textContent
@@ -103,6 +110,7 @@ const SEARCH_QUERY = graphql(`
                             username
                             email
                             dateOfBirth
+                            profilePicture
                             gender
                         }
                         createdAt
@@ -115,6 +123,7 @@ const SEARCH_QUERY = graphql(`
                         username
                         email
                         dateOfBirth
+                        profilePicture
                         gender
                     }
                     createdAt
@@ -132,6 +141,7 @@ const SEARCH_QUERY = graphql(`
                     username
                     email
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 hashtags

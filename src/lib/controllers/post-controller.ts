@@ -39,6 +39,7 @@ const GET_POSTS_QUERY = graphql(`
                     email
                     dateOfBirth
                     gender
+                    profilePicture
                 }
 
                 sharedBy {
@@ -49,6 +50,7 @@ const GET_POSTS_QUERY = graphql(`
                     username
                     email
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 likedBy {
@@ -59,6 +61,7 @@ const GET_POSTS_QUERY = graphql(`
                     username
                     email
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 comments {
@@ -73,6 +76,7 @@ const GET_POSTS_QUERY = graphql(`
                         email
                         dateOfBirth
                         gender
+                        profilePicture
                     }
                     textContent
                     replies {
@@ -87,6 +91,7 @@ const GET_POSTS_QUERY = graphql(`
                             email
                             dateOfBirth
                             gender
+                            profilePicture
                         }
                         textContent
                         likedBy {
@@ -97,6 +102,7 @@ const GET_POSTS_QUERY = graphql(`
                             username
                             email
                             dateOfBirth
+                            profilePicture
                             gender
                         }
                         createdAt
@@ -109,6 +115,7 @@ const GET_POSTS_QUERY = graphql(`
                         username
                         email
                         dateOfBirth
+                        profilePicture
                         gender
                     }
                     createdAt
@@ -126,6 +133,7 @@ const GET_POSTS_QUERY = graphql(`
                     username
                     email
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 hashtags
@@ -151,7 +159,9 @@ const GET_POST_BY_ID_QUERY = graphql(`
                 username
                 email
                 dateOfBirth
+                profilePicture
                 gender
+                profilePicture
             }
 
             sharedBy {
@@ -162,6 +172,7 @@ const GET_POST_BY_ID_QUERY = graphql(`
                 username
                 email
                 dateOfBirth
+                profilePicture
                 gender
             }
             likedBy {
@@ -172,6 +183,7 @@ const GET_POST_BY_ID_QUERY = graphql(`
                 username
                 email
                 dateOfBirth
+                profilePicture
                 gender
             }
             comments {
@@ -186,6 +198,7 @@ const GET_POST_BY_ID_QUERY = graphql(`
                     email
                     dateOfBirth
                     gender
+                    profilePicture
                 }
                 textContent
                 replies {
@@ -200,6 +213,7 @@ const GET_POST_BY_ID_QUERY = graphql(`
                         email
                         dateOfBirth
                         gender
+                        profilePicture
                     }
                     textContent
                     likedBy {
@@ -210,6 +224,7 @@ const GET_POST_BY_ID_QUERY = graphql(`
                         username
                         email
                         dateOfBirth
+                        profilePicture
                         gender
                     }
                     createdAt
@@ -222,6 +237,7 @@ const GET_POST_BY_ID_QUERY = graphql(`
                     username
                     email
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 createdAt
@@ -239,6 +255,7 @@ const GET_POST_BY_ID_QUERY = graphql(`
                 username
                 email
                 dateOfBirth
+                profilePicture
                 gender
             }
             hashtags
@@ -265,6 +282,7 @@ const GET_USER_POSTS_QUERY = graphql(`
                     email
                     dateOfBirth
                     gender
+                    profilePicture
                 }
 
                 sharedBy {
@@ -275,6 +293,7 @@ const GET_USER_POSTS_QUERY = graphql(`
                     username
                     email
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 likedBy {
@@ -285,6 +304,7 @@ const GET_USER_POSTS_QUERY = graphql(`
                     username
                     email
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 comments {
@@ -299,6 +319,7 @@ const GET_USER_POSTS_QUERY = graphql(`
                         email
                         dateOfBirth
                         gender
+                        profilePicture
                     }
                     textContent
                     replies {
@@ -313,6 +334,7 @@ const GET_USER_POSTS_QUERY = graphql(`
                             email
                             dateOfBirth
                             gender
+                            profilePicture
                         }
                         textContent
                         likedBy {
@@ -323,6 +345,7 @@ const GET_USER_POSTS_QUERY = graphql(`
                             username
                             email
                             dateOfBirth
+                            profilePicture
                             gender
                         }
                         createdAt
@@ -335,6 +358,7 @@ const GET_USER_POSTS_QUERY = graphql(`
                         username
                         email
                         dateOfBirth
+                        profilePicture
                         gender
                     }
                     createdAt
@@ -352,6 +376,7 @@ const GET_USER_POSTS_QUERY = graphql(`
                     username
                     email
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 hashtags
@@ -390,7 +415,9 @@ const CREATE_POST_QUERY = graphql(`
                 username
                 email
                 dateOfBirth
+                profilePicture
                 gender
+                profilePicture
             }
 
             sharedBy {
@@ -400,7 +427,9 @@ const CREATE_POST_QUERY = graphql(`
                 activated
                 username
                 email
+
                 dateOfBirth
+                profilePicture
                 gender
             }
             likedBy {
@@ -410,7 +439,9 @@ const CREATE_POST_QUERY = graphql(`
                 activated
                 username
                 email
+
                 dateOfBirth
+                profilePicture
                 gender
             }
             comments {
@@ -425,6 +456,7 @@ const CREATE_POST_QUERY = graphql(`
                     email
                     dateOfBirth
                     gender
+                    profilePicture
                 }
                 textContent
                 replies {
@@ -439,6 +471,7 @@ const CREATE_POST_QUERY = graphql(`
                         email
                         dateOfBirth
                         gender
+                        profilePicture
                     }
                     textContent
                     likedBy {
@@ -448,7 +481,9 @@ const CREATE_POST_QUERY = graphql(`
                         activated
                         username
                         email
+
                         dateOfBirth
+                        profilePicture
                         gender
                     }
                     createdAt
@@ -460,7 +495,9 @@ const CREATE_POST_QUERY = graphql(`
                     activated
                     username
                     email
+
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 createdAt
@@ -477,7 +514,9 @@ const CREATE_POST_QUERY = graphql(`
                 activated
                 username
                 email
+
                 dateOfBirth
+                profilePicture
                 gender
             }
             hashtags
@@ -503,6 +542,7 @@ const DELETE_POST_MUTATION = graphql(`
                 email
                 dateOfBirth
                 gender
+                profilePicture
             }
 
             sharedBy {
@@ -512,7 +552,9 @@ const DELETE_POST_MUTATION = graphql(`
                 activated
                 username
                 email
+
                 dateOfBirth
+                profilePicture
                 gender
             }
             likedBy {
@@ -522,7 +564,9 @@ const DELETE_POST_MUTATION = graphql(`
                 activated
                 username
                 email
+
                 dateOfBirth
+                profilePicture
                 gender
             }
             comments {
@@ -537,6 +581,7 @@ const DELETE_POST_MUTATION = graphql(`
                     email
                     dateOfBirth
                     gender
+                    profilePicture
                 }
                 textContent
                 replies {
@@ -551,6 +596,7 @@ const DELETE_POST_MUTATION = graphql(`
                         email
                         dateOfBirth
                         gender
+                        profilePicture
                     }
                     textContent
                     likedBy {
@@ -560,7 +606,9 @@ const DELETE_POST_MUTATION = graphql(`
                         activated
                         username
                         email
+
                         dateOfBirth
+                        profilePicture
                         gender
                     }
                     createdAt
@@ -572,7 +620,9 @@ const DELETE_POST_MUTATION = graphql(`
                     activated
                     username
                     email
+
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 createdAt
@@ -589,7 +639,9 @@ const DELETE_POST_MUTATION = graphql(`
                 activated
                 username
                 email
+
                 dateOfBirth
+                profilePicture
                 gender
             }
             hashtags
@@ -615,6 +667,7 @@ const LIKE_POST_MUTATION = graphql(`
                 email
                 dateOfBirth
                 gender
+                profilePicture
             }
 
             sharedBy {
@@ -624,7 +677,9 @@ const LIKE_POST_MUTATION = graphql(`
                 activated
                 username
                 email
+
                 dateOfBirth
+                profilePicture
                 gender
             }
             likedBy {
@@ -634,7 +689,9 @@ const LIKE_POST_MUTATION = graphql(`
                 activated
                 username
                 email
+
                 dateOfBirth
+                profilePicture
                 gender
             }
             comments {
@@ -649,6 +706,7 @@ const LIKE_POST_MUTATION = graphql(`
                     email
                     dateOfBirth
                     gender
+                    profilePicture
                 }
                 textContent
                 replies {
@@ -663,6 +721,7 @@ const LIKE_POST_MUTATION = graphql(`
                         email
                         dateOfBirth
                         gender
+                        profilePicture
                     }
                     textContent
                     likedBy {
@@ -672,7 +731,9 @@ const LIKE_POST_MUTATION = graphql(`
                         activated
                         username
                         email
+
                         dateOfBirth
+                        profilePicture
                         gender
                     }
                     createdAt
@@ -684,7 +745,9 @@ const LIKE_POST_MUTATION = graphql(`
                     activated
                     username
                     email
+
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 createdAt
@@ -701,7 +764,9 @@ const LIKE_POST_MUTATION = graphql(`
                 activated
                 username
                 email
+
                 dateOfBirth
+                profilePicture
                 gender
             }
             hashtags
@@ -727,6 +792,7 @@ const UNLIKE_POST_MUTATION = graphql(`
                 email
                 dateOfBirth
                 gender
+                profilePicture
             }
 
             sharedBy {
@@ -736,7 +802,9 @@ const UNLIKE_POST_MUTATION = graphql(`
                 activated
                 username
                 email
+
                 dateOfBirth
+                profilePicture
                 gender
             }
             likedBy {
@@ -746,7 +814,9 @@ const UNLIKE_POST_MUTATION = graphql(`
                 activated
                 username
                 email
+
                 dateOfBirth
+                profilePicture
                 gender
             }
             comments {
@@ -761,6 +831,7 @@ const UNLIKE_POST_MUTATION = graphql(`
                     email
                     dateOfBirth
                     gender
+                    profilePicture
                 }
                 textContent
                 replies {
@@ -775,6 +846,7 @@ const UNLIKE_POST_MUTATION = graphql(`
                         email
                         dateOfBirth
                         gender
+                        profilePicture
                     }
                     textContent
                     likedBy {
@@ -784,7 +856,9 @@ const UNLIKE_POST_MUTATION = graphql(`
                         activated
                         username
                         email
+
                         dateOfBirth
+                        profilePicture
                         gender
                     }
                     createdAt
@@ -796,7 +870,9 @@ const UNLIKE_POST_MUTATION = graphql(`
                     activated
                     username
                     email
+
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 createdAt
@@ -813,7 +889,9 @@ const UNLIKE_POST_MUTATION = graphql(`
                 activated
                 username
                 email
+
                 dateOfBirth
+                profilePicture
                 gender
             }
             hashtags
@@ -838,6 +916,7 @@ const CREATE_COMMENT_MUTATION = graphql(`
                 email
                 dateOfBirth
                 gender
+                profilePicture
             }
             textContent
             replies {
@@ -852,6 +931,7 @@ const CREATE_COMMENT_MUTATION = graphql(`
                     email
                     dateOfBirth
                     gender
+                    profilePicture
                 }
                 textContent
                 likedBy {
@@ -863,6 +943,7 @@ const CREATE_COMMENT_MUTATION = graphql(`
                     email
                     dateOfBirth
                     gender
+                    profilePicture
                 }
                 createdAt
             }
@@ -873,7 +954,9 @@ const CREATE_COMMENT_MUTATION = graphql(`
                 activated
                 username
                 email
+
                 dateOfBirth
+                profilePicture
                 gender
             }
             createdAt
@@ -894,7 +977,9 @@ const LIKE_COMMENT_MUTATION = graphql(`
                 activated
                 username
                 email
+
                 dateOfBirth
+                profilePicture
                 gender
             }
             textContent
@@ -908,7 +993,9 @@ const LIKE_COMMENT_MUTATION = graphql(`
                     activated
                     username
                     email
+
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 textContent
@@ -919,7 +1006,9 @@ const LIKE_COMMENT_MUTATION = graphql(`
                     activated
                     username
                     email
+
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 createdAt
@@ -931,7 +1020,9 @@ const LIKE_COMMENT_MUTATION = graphql(`
                 activated
                 username
                 email
+
                 dateOfBirth
+                profilePicture
                 gender
             }
             createdAt
@@ -952,7 +1043,9 @@ const UNLIKE_COMMENT_MUTATION = graphql(`
                 activated
                 username
                 email
+
                 dateOfBirth
+                profilePicture
                 gender
             }
             textContent
@@ -966,7 +1059,9 @@ const UNLIKE_COMMENT_MUTATION = graphql(`
                     activated
                     username
                     email
+
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 textContent
@@ -978,6 +1073,7 @@ const UNLIKE_COMMENT_MUTATION = graphql(`
                     username
                     email
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 createdAt
@@ -989,7 +1085,9 @@ const UNLIKE_COMMENT_MUTATION = graphql(`
                 activated
                 username
                 email
+
                 dateOfBirth
+                profilePicture
                 gender
             }
             createdAt
@@ -1010,7 +1108,9 @@ const CREATE_SUB_COMMENT_MUTATION = graphql(`
                 activated
                 username
                 email
+
                 dateOfBirth
+                profilePicture
                 gender
             }
             textContent
@@ -1024,7 +1124,9 @@ const CREATE_SUB_COMMENT_MUTATION = graphql(`
                     activated
                     username
                     email
+
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 textContent
@@ -1036,6 +1138,7 @@ const CREATE_SUB_COMMENT_MUTATION = graphql(`
                     username
                     email
                     dateOfBirth
+                    profilePicture
                     gender
                 }
                 createdAt
@@ -1048,6 +1151,7 @@ const CREATE_SUB_COMMENT_MUTATION = graphql(`
                 username
                 email
                 dateOfBirth
+                profilePicture
                 gender
             }
             createdAt

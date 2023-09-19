@@ -15,7 +15,306 @@ html {
   min-height: 100vh;
   background-color: #f0f2f5;
   display: flex;
+  flex-direction: row;
+}
+.groups-left {
+  flex: 0 0 20%;
+  background-color: white;
+  display: flex;
   flex-direction: column;
+}
+.groups-left-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+}
+.groups-left-header-text {
+  margin: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+.groups-left-header-create-button {
+  background-color: #1877f2;
+  color: white;
+  padding: 10px;
+  margin-right: 20px;
+  margin-left: 20px;
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+  border: none;
+  outline: none;
+  border-radius: 30px;
+  transition: 0.2s ease;
+  cursor: pointer;
+}
+.groups-left-header-create-button:hover {
+  background-color: #1464aa;
+}
+.groups-left-buttons {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 20px;
+  align-items: start;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.groups-left-buttons-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  border-radius: 10px;
+  padding: 10px;
+  transition: 0.2s ease;
+}
+.groups-left-buttons-container:hover {
+  background-color: #ccc;
+}
+.groups-left-buttons-icon, .groups-left-buttons-icon-active {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  padding: 3px;
+  border-radius: 50%;
+  transition: 0.2s ease;
+}
+.groups-left-buttons-icon {
+  color: black;
+  background-color: #f0f2f5;
+}
+.groups-left-buttons-icon-active {
+  color: white;
+  background-color: #1877f2;
+}
+.groups-left-joined {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 20px;
+  align-items: start;
+  justify-content: center;
+  gap: 10px;
+}
+.groups-left-joined-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+.groups-left-joined-container, .groups-left-joined-container-active {
+  width: 100%;
+  padding: 10px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  cursor: pointer;
+}
+.groups-left-joined-container:hover, .groups-left-joined-container-active:hover {
+  background-color: #ccc;
+}
+.groups-left-joined-container-image, .groups-left-joined-container-active-image {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+.groups-left-joined-container-texts, .groups-left-joined-container-active-texts {
+  display: flex;
+  flex-direction: column;
+}
+.groups-left-joined-container-texts-name, .groups-left-joined-container-active-texts-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+.groups-left-joined-container-texts-info, .groups-left-joined-container-active-texts-info {
+  font-size: 14px;
+  color: gray;
+}
+.groups-left-joined-container-active {
+  background-color: #1877f2;
+  color: white;
+}
+.groups-left-joined-container-active:hover {
+  background-color: #1464aa;
+}
+.groups-content {
+  width: 100%;
+  height: 100%;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+
+.create-group-card {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.create-group-card-container {
+  background-color: white;
+  width: 500px;
+  height: fit-content;
+  min-height: 300px;
+  border-radius: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  position: relative;
+}
+.create-group-card-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px;
+}
+.create-group-card-header-title {
+  font-size: 24px;
+  font-weight: bold;
+  justify-self: center;
+  align-self: center;
+}
+.create-group-card-header-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 35px;
+  height: 35px;
+  color: red;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.create-group-card-header-close:hover {
+  color: darkred;
+}
+.create-group-card-body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 16px;
+  align-items: center;
+  justify-content: center;
+}
+.create-group-card-body-input {
+  width: 100%;
+  margin-bottom: 16px;
+}
+.create-group-card-body-input input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #cccccc;
+  outline: none;
+  transition: 0.2s ease;
+  font-size: 16px;
+}
+.create-group-card-body-input input:focus {
+  border: 1px solid #1877f2;
+}
+.create-group-card-body-input-select {
+  width: 100%;
+  margin-bottom: 16px;
+}
+.create-group-card-body-input-select select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #cccccc;
+  outline: none;
+  transition: 0.2s ease;
+  font-size: 16px;
+}
+.create-group-card-body-input-select select:focus {
+  border: 1px solid #1877f2;
+}
+.create-group-card-body-input-select option {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #cccccc;
+  outline: none;
+  transition: 0.2s ease;
+  font-size: 16px;
+}
+.create-group-card-body-input-select option:focus {
+  border: 1px solid #1877f2;
+}
+.create-group-card-body-input-file {
+  display: none;
+}
+.create-group-card-body-input-file-button {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-weight: bold;
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  transition: 0.2s ease;
+  background-color: #42b72a;
+  color: white;
+  cursor: pointer;
+}
+.create-group-card-body-input-file-button:hover {
+  background-color: #36a420;
+}
+.create-group-card-footer {
+  width: 100%;
+}
+.create-group-card-footer-button-enabled, .create-group-card-footer-button-disabled {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-weight: bold;
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  transition: 0.2s ease;
+}
+.create-group-card-footer-button-enabled {
+  background-color: #1877f2;
+  margin-top: 16px;
+  color: white;
+  cursor: pointer;
+}
+.create-group-card-footer-button-enabled:hover {
+  background-color: #1464aa;
+}
+.create-group-card-footer-button-disabled {
+  background-color: #f0f2f5;
+  margin-top: 16px;
+  color: darkgray;
+  cursor: not-allowed;
+}
+
+.group {
+  padding-right: 15%;
+  padding-left: 15%;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
 }
 
 /*# sourceMappingURL=group.css.map */

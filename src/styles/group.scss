@@ -30,11 +30,403 @@ html {
     background-color: $color-light;
 
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 
+    &-left {
+        flex: 0 0 20%;
+        background-color: white;
+
+        display: flex;
+        flex-direction: column;
+
+        &-header {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: start;
+
+            &-text {
+                margin: 20px;
+                font-size: 24px;
+                font-weight: bold;
+            }
+
+            &-create-button {
+                background-color: $color-primary;
+                color: white;
+                padding: 10px;
+
+                margin-right: 20px;
+                margin-left: 20px;
+
+                font-weight: bold;
+                font-size: 18px;
+                text-align: center;
+
+                border: none;
+                outline: none;
+
+                border-radius: 30px;
+                transition: $transition;
+
+                cursor: pointer;
+
+                &:hover {
+                    background-color: $color-primary-dark;
+                }
+            }
+        }
+
+        &-buttons {
+            display: flex;
+            flex-direction: column;
+            margin-left: 20px;
+            margin-right: 20px;
+            margin-top: 20px;
+
+            align-items: start;
+            justify-content: center;
+
+            gap: 10px;
+
+            cursor: pointer;
+
+            &-container {
+                width: 100%;
+
+                display: flex;
+                flex-direction: row;
+
+                align-items: center;
+                justify-content: start;
+
+                border-radius: 10px;
+                padding: 10px;
+
+                transition: $transition;
+
+                &:hover {
+                    background-color: $color-grey;
+                }
+            }
+
+            &-icon,
+            &-icon-active {
+                width: 30px;
+                height: 30px;
+                margin-right: 10px;
+
+                padding: 3px;
+
+                border-radius: 50%;
+                transition: $transition;
+            }
+
+            &-icon {
+                color: black;
+                background-color: $color-light;
+            }
+
+            &-icon-active {
+                color: white;
+                background-color: $color-primary;
+            }
+        }
+
+        &-joined {
+            display: flex;
+            flex-direction: column;
+            margin-left: 20px;
+            margin-right: 20px;
+            margin-top: 20px;
+
+            align-items: start;
+            justify-content: center;
+
+            gap: 10px;
+
+            &-title {
+                font-size: 20px;
+                font-weight: bold;
+            }
+
+            &-container,
+            &-container-active {
+                width: 100%;
+
+                padding: 10px;
+                border-radius: 16px;
+
+                display: flex;
+                flex-direction: row;
+
+                align-items: center;
+                justify-content: start;
+
+                cursor: pointer;
+
+                &:hover {
+                    background-color: $color-grey;
+                }
+
+                &-image {
+                    width: 50px;
+                    height: 50px;
+                    margin-right: 10px;
+
+                    border-radius: 50%;
+                }
+
+                &-texts {
+                    display: flex;
+                    flex-direction: column;
+
+                    &-name {
+                        font-size: 16px;
+                        font-weight: bold;
+                    }
+
+                    &-info {
+                        font-size: 14px;
+                        color: gray;
+                    }
+                }
+            }
+
+            &-container-active {
+                background-color: $color-primary;
+                color: white;
+
+                &:hover {
+                    background-color: $color-primary-dark;
+                }
+            }
+        }
+    }
+
+    &-content {
+        width: 100%;
+        height: 100%;
+
+        margin: 20px;
+
+        display: flex;
+        flex-direction: column;
+
+        align-items: start;
+        justify-content: center;
+    }
 
 }
 
 .group-card {
+
+}
+
+.create-group-card {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.5);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 1000;
+
+    &-container {
+        background-color: white;
+        width: 500px;
+
+        height: fit-content;
+        min-height: 300px;
+
+        border-radius: 8px;
+
+        padding-left: 16px;
+        padding-right: 16px;
+        padding-bottom: 16px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: start;
+
+        position: relative;
+    }
+
+    &-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+
+        padding: 10px;
+
+        &-title {
+            font-size: 24px;
+            font-weight: bold;
+
+            justify-self: center;
+            align-self: center;
+        }
+
+        &-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 35px;
+            height: 35px;
+            color: red;
+            cursor: pointer;
+            transition: $transition;
+
+            &:hover {
+                color: darkred;
+            }
+        }
+    }
+
+    &-body {
+        display: flex;
+        flex-direction: column;
+
+        width: 100%;
+        margin-top: 16px;
+
+        align-items: center;
+        justify-content: center;
+
+        &-input {
+            width: 100%;
+            margin-bottom: 16px;
+
+            input {
+                width: 100%;
+                padding: 8px;
+                border-radius: 8px;
+                border: $input-border;
+                outline: none;
+                transition: $transition;
+                font-size: 16px;
+
+                &:focus {
+                    border: 1px solid $color-primary;
+                }
+            }
+
+            &-select {
+                width: 100%;
+                margin-bottom: 16px;
+
+                select {
+                    width: 100%;
+                    padding: 8px;
+                    border-radius: 8px;
+                    border: $input-border;
+                    outline: none;
+                    transition: $transition;
+                    font-size: 16px;
+
+                    &:focus {
+                        border: 1px solid $color-primary;
+                    }
+                }
+
+                option {
+                    padding: 8px;
+                    border-radius: 8px;
+                    border: $input-border;
+                    outline: none;
+                    transition: $transition;
+                    font-size: 16px;
+
+                    &:focus {
+                        border: 1px solid $color-primary;
+                    }
+                }
+            }
+
+            &-file {
+                display: none;
+
+                &-button {
+                    width: 100%;
+                    border: none;
+                    outline: none;
+
+                    font-weight: bold;
+                    text-align: center;
+
+                    padding: 8px;
+
+                    border-radius: 8px;
+                    transition: $transition;
+
+                    background-color: $color-secondary;
+                    color: white;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: $color-secondary-dark;
+                    }
+                }
+            }
+        }
+    }
+
+    &-footer {
+        width: 100%;
+
+        &-button-enabled,
+        &-button-disabled {
+            width: 100%;
+            border: none;
+            outline: none;
+
+            font-weight: bold;
+            text-align: center;
+
+            padding: 8px;
+
+            border-radius: 8px;
+            transition: $transition;
+        }
+
+        &-button-enabled {
+            background-color: $color-primary;
+            margin-top: 16px;
+            color: white;
+            cursor: pointer;
+
+            &:hover {
+                background-color: $color-primary-dark;
+            }
+        }
+
+        &-button-disabled {
+            background-color: $color-light;
+            margin-top: 16px;
+            color: darkgray;
+            cursor: not-allowed;
+        }
+    }
+}
+
+.group {
+    padding-right: 15%;
+    padding-left: 15%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+
 
 }

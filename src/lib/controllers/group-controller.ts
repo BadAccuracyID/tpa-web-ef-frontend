@@ -16,7 +16,7 @@
 
 // getUserGroups: [Group!]!
 import {graphql} from "../gql";
-import {Group} from "../gql/graphql.ts";
+import {CreateGroupInput, Group} from "../gql/graphql.ts";
 import {getApolloClient} from "../../main.tsx";
 
 const GET_USER_GROUPS_QUERY = graphql(`
@@ -24,6 +24,7 @@ const GET_USER_GROUPS_QUERY = graphql(`
         getUserGroups {
             id
             name
+            description
             picture
             admins {
                 id
@@ -189,12 +190,13 @@ const GET_USER_GROUPS_QUERY = graphql(`
     }
 `);
 
-// createGroup(groupName: String!): Group!
+// createGroup(groupName: CreateGroupInput!): Group!
 const CREATE_GROUP_MUTATION = graphql(`
-    mutation createGroup($groupName: String!) {
-        createGroup(groupName: $groupName) {
+    mutation createGroup($groupInput: CreateGroupInput!) {
+        createGroup(input: $groupInput) {
             id
             name
+            description
             picture
             admins {
                 id
@@ -411,12 +413,12 @@ export async function getUserGroups(): Promise<ControllerResponse<Group[]>> {
     }
 }
 
-export async function createGroup(groupName: string): Promise<ControllerResponse<Group>> {
+export async function createGroup(groupInput: CreateGroupInput): Promise<ControllerResponse<Group>> {
     try {
         const {data, errors} = await getApolloClient().mutate({
             mutation: CREATE_GROUP_MUTATION,
             variables: {
-                groupName,
+                groupInput,
             },
         });
 

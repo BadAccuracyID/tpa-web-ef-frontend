@@ -10,14 +10,7 @@ import AccountRecoveryPage from "./routes/auth/AccountRecovery.tsx";
 import ActivateAccountPage from "./routes/auth/ActivateAccount.tsx";
 import {ApolloClient, createHttpLink, InMemoryCache, NormalizedCacheObject} from "@apollo/client";
 import {setContext} from "@apollo/client/link/context";
-import {
-    activateAccountLoader,
-    authLoader,
-    groupLoader,
-    postLoader,
-    profileLoader,
-    rootLoader
-} from "./lib/loader/root-loader.ts";
+import {activateAccountLoader, authLoader, postLoader, profileLoader, rootLoader} from "./lib/loader/root-loader.ts";
 import {userLoader} from "./lib/loader/user-loader.ts";
 import HomePage from "./routes/home/Home.tsx";
 import {ToastContainer} from "react-toastify";
@@ -28,7 +21,6 @@ import FriendsPage from "./routes/friend/Friends.tsx";
 import NotificationPage from "./routes/notification/Notification.tsx";
 import PostPage from "./routes/post/Post.tsx";
 import GroupsPage from "./routes/group/Groups.tsx";
-import GroupPage from "./routes/group/Group.tsx";
 
 const router = createBrowserRouter([
     {
@@ -139,22 +131,6 @@ const router = createBrowserRouter([
                     return userLoader();
                 },
                 element: <GroupsPage/>
-            },
-            {
-                path: "group",
-                loader: ({request}) => {
-                    return groupLoader(request);
-                },
-                element: <Outlet/>,
-                children: [
-                    {
-                        path: ":id",
-                        loader: () => {
-                            return userLoader();
-                        },
-                        element: <GroupPage/>
-                    },
-                ]
             },
             {
                 path: "messenger",

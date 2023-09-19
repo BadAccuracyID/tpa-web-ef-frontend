@@ -17,7 +17,7 @@ import {ToastContainer} from "react-toastify";
 import MessengerPage from "./routes/messenger/Messenger.tsx";
 import ProfilePage from "./routes/profile/Profile.tsx";
 import SearchPage from "./routes/search/Search.tsx";
-import FriendsPage from "./routes/friend/FriendsPage.tsx";
+import FriendsPage from "./routes/friend/Friends.tsx";
 import NotificationPage from "./routes/notification/Notification.tsx";
 import PostPage from "./routes/post/Post.tsx";
 

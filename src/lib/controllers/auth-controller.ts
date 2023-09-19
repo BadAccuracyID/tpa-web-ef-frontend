@@ -27,6 +27,31 @@ const ACTIVATE_USER_MUTATION = graphql(`
     }
 `)
 
+//resetPasswordRequest(email: String!): User
+const RESET_PASSWORD_REQUEST_QUERY = graphql(`
+    query resetPasswordRequest($email: String!) {
+        resetPasswordRequest(email: $email) {
+            id
+        }
+    }
+`)
+
+// verifyResetPasswordToken(token: String!): String
+const VERIFY_RESET_PASSWORD_TOKEN_QUERY = graphql(`
+    query verifyResetPasswordToken($token: String!) {
+        verifyResetPasswordToken(token: $token)
+    }
+`)
+
+// setPassword(userId: String!, newPassword: String!): User
+const SET_PASSWORD_MUTATION = graphql(`
+    mutation setPassword($userId: String!, $newPassword: String!) {
+        setPassword(userId: $userId, newPassword: $newPassword) {
+            id
+        }
+    }
+`)
+
 export async function onLogin(email: string, password: string): Promise<ControllerResponse<string>> {
     try {
         const {data, errors} = await getApolloClient().query({
@@ -152,6 +177,142 @@ export async function onActivateAccount(token: string): Promise<ControllerRespon
         let errorMsg = 'Error executing activateUser';
         if (error instanceof Error) {
             console.error('Error executing activateUser:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
+    }
+}
+
+export async function onResetPasswordRequest(email: string): Promise<ControllerResponse<string>> {
+    try {
+        const {data, errors} = await getApolloClient().query({
+            query: RESET_PASSWORD_REQUEST_QUERY,
+            variables: {
+                email
+            }
+        })
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            }
+        }
+
+        if (!data?.resetPasswordRequest) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: data.resetPasswordRequest.id!,
+        };
+    } catch (error) {
+        let errorMsg = 'Error executing resetPasswordRequest';
+        if (error instanceof Error) {
+            console.error('Error executing resetPasswordRequest:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
+    }
+}
+
+export async function onVerifyResetPasswordToken(token: string): Promise<ControllerResponse<boolean>> {
+    try {
+        const {data, errors} = await getApolloClient().query({
+            query: VERIFY_RESET_PASSWORD_TOKEN_QUERY,
+            variables: {
+                token
+            }
+        })
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            }
+        }
+
+        if (!data?.verifyResetPasswordToken) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: data.verifyResetPasswordToken!,
+        };
+    } catch (error) {
+        let errorMsg = 'Error executing verifyResetPasswordToken';
+        if (error instanceof Error) {
+            console.error('Error executing verifyResetPasswordToken:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
+    }
+}
+
+export async function onSetPassword(userId: string, newPassword: string): Promise<ControllerResponse<boolean>> {
+    try {
+        const {data, errors} = await getApolloClient().mutate({
+            mutation: SET_PASSWORD_MUTATION,
+            variables: {
+                userId,
+                newPassword
+            }
+        })
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            }
+        }
+
+        if (!data?.setPassword) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: true,
+        };
+    } catch (error) {
+        let errorMsg = 'Error executing setPassword';
+        if (error instanceof Error) {
+            console.error('Error executing setPassword:', error);
             errorMsg = error.message;
         }
 

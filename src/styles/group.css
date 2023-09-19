@@ -124,6 +124,7 @@ html {
   height: 50px;
   margin-right: 10px;
   border-radius: 50%;
+  object-fit: cover;
 }
 .groups-left-joined-container-texts, .groups-left-joined-container-active-texts {
   display: flex;
@@ -147,7 +148,6 @@ html {
 .groups-content {
   width: 100%;
   height: 100%;
-  margin: 20px;
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -309,12 +309,61 @@ html {
 }
 
 .group {
-  padding-right: 15%;
-  padding-left: 15%;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: start;
   align-items: center;
+}
+.group-header {
+  width: 100%;
+  background-color: white;
+}
+.group-header-container {
+  padding: 20px 15%;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+}
+.group-header-picture {
+  width: 175px;
+  height: 175px;
+  border-radius: 50%;
+  margin-right: 10px;
+  color: gray;
+  object-fit: cover;
+}
+.group-header-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+.group-header-info-name {
+  font-size: 24px;
+  font-weight: bold;
+}
+.group-header-info-description {
+  font-size: 16px;
+  color: gray;
+  margin-top: 10px;
+}
+.group-header-info-stats {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  gap: 10px;
+}
+.group-header-info-stats-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+}
+.group-header-info-stats-stat-text {
+  font-size: 14px;
+  color: gray;
 }
 
 /*# sourceMappingURL=group.css.map */

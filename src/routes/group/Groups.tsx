@@ -161,7 +161,40 @@ function GroupContent({currentUser, group}: { currentUser: User, group: Group })
     return (
         <div className="group">
             <div className="group-header">
-                {group.name}
+                <div className="group-header-container">
+                    <img
+                        className="group-header-picture"
+                        src={group.picture}
+                        alt="group-image"
+                    />
+
+                    <div className="group-header-info">
+                        <div className="group-header-info-name">
+                            {group.name}
+                        </div>
+                        <div className="group-header-info-description">
+                            {group.description}
+                        </div>
+
+                        <div className="group-header-info-stats">
+                            <div className="group-header-info-stats-stat">
+                                <div className="group-header-info-stats-stat-text">
+                                    {group.members.length} members
+                                </div>
+                            </div>
+                            <div className="group-header-info-stats-stat">
+                                <div className="group-header-info-stats-stat-text">
+                                    {group.admins.length} admins
+                                </div>
+                            </div>
+                            <div className="group-header-info-stats-stat">
+                                <div className="group-header-info-stats-stat-text">
+                                    {group.posts.length} posts
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )

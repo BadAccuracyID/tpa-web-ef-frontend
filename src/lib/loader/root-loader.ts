@@ -70,6 +70,25 @@ export const activateAccountLoader = async (request: Request) => {
     return null;
 }
 
+export const resetPasswordLoader = async (request: Request) => {
+    const url = trimUrl(request.url);
+
+    const isAuth = await getCurrentAccount();
+    if (url.endsWith('/reset-password')) {
+        if (isAuth.success) {
+            return redirect('/home');
+        }
+
+        return redirect('/auth/login');
+    }
+
+    if (isAuth.success) {
+        return redirect('/home');
+    }
+
+    return null;
+}
+
 export const profileLoader = async (request: Request) => {
     const url = trimUrl(request.url);
 

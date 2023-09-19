@@ -1,5 +1,6 @@
 import {graphql} from "../gql";
 import {getApolloClient} from "../../main.tsx";
+import {User} from "../gql/graphql.ts";
 
 const LOGIN_QUERY = graphql(`
     query login($input: LoginInput!) {
@@ -36,10 +37,12 @@ const RESET_PASSWORD_REQUEST_QUERY = graphql(`
     }
 `)
 
-// verifyResetPasswordToken(token: String!): String
+// verifyResetPasswordToken(token: String!): User
 const VERIFY_RESET_PASSWORD_TOKEN_QUERY = graphql(`
     query verifyResetPasswordToken($token: String!) {
-        verifyResetPasswordToken(token: $token)
+        verifyResetPasswordToken(token: $token) {
+            id
+        }
     }
 `)
 
@@ -233,7 +236,7 @@ export async function onResetPasswordRequest(email: string): Promise<ControllerR
     }
 }
 
-export async function onVerifyResetPasswordToken(token: string): Promise<ControllerResponse<boolean>> {
+export async function onVerifyResetPasswordToken(token: string): Promise<ControllerResponse<User>> {
     try {
         const {data, errors} = await getApolloClient().query({
             query: VERIFY_RESET_PASSWORD_TOKEN_QUERY,
@@ -261,7 +264,7 @@ export async function onVerifyResetPasswordToken(token: string): Promise<Control
         return {
             success: true,
             errorMsg: null,
-            data: data.verifyResetPasswordToken!,
+            data: data.verifyResetPasswordToken as User,
         };
     } catch (error) {
         let errorMsg = 'Error executing verifyResetPasswordToken';

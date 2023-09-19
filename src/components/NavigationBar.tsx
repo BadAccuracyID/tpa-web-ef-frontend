@@ -89,7 +89,7 @@ export default function NavigationBar({user}: { user: User }) {
                 </div>
 
                 <Link to={'/profile/' + user.id}>
-                    {profilePicture ? <img className="profile" src={profilePicture}/> :
+                    {profilePicture ? <img className="navbar-avatar" src={profilePicture}/> :
                         <BiSolidUserCircle className="profile-null"/>}
                 </Link>
             </div>

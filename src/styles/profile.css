@@ -53,6 +53,13 @@ html {
 .profile-header-picture:hover, .profile-header-null-picture:hover {
   cursor: pointer;
 }
+.profile-header-picture {
+  width: 175px;
+  height: 175px;
+  border-radius: 50%;
+  margin-right: 10px;
+  color: gray;
+}
 .profile-header-null-picture {
   color: #cccccc;
 }

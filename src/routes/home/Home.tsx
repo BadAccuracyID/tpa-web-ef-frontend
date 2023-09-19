@@ -61,7 +61,7 @@ export default function HomePage() {
                             <p className="other-navigation-text">Feeds</p>
                         </Link>
 
-                        <Link to="/" className="other-navigation">
+                        <Link to="/groups" className="other-navigation">
                             <FaUsers className="other-navigation-icon"/>
                             <p className="other-navigation-text">Group</p>
                         </Link>

@@ -40,7 +40,7 @@ export default function NavigationBar({user}: { user: User }) {
     }
 
     function isOnGroup() {
-        return window.location.pathname.startsWith("/groups");
+        return window.location.pathname.startsWith("/group");
     }
 
     return (
@@ -70,7 +70,7 @@ export default function NavigationBar({user}: { user: User }) {
                     <BsPeople className={isOnFriends() ? "icon-active" : "icon"}/>
                 </Link>
 
-                <Link to="/home">
+                <Link to="/groups">
                     <IoPeopleCircleOutline className={isOnGroup() ? "icon-active" : "icon"}/>
                 </Link>
             </div>

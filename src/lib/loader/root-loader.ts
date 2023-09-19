@@ -89,3 +89,13 @@ export const postLoader = async (request: Request) => {
 
     return null;
 }
+
+export const groupLoader = async (request: Request) => {
+    const url = trimUrl(request.url);
+
+    if (url.endsWith('/group')) {
+        return redirect('/auth/login');
+    }
+
+    return null;
+}

@@ -13,254 +13,266 @@ $phoneSize: 768px;
 
 // Define mixin
 @mixin button-style($bg-color) {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  background-color: $bg-color;
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: 500;
-  text-decoration: none;
-  text-align: center;
-  cursor: pointer;
-  width: fit-content;
-  transition: $transition;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: $bg-color;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    width: fit-content;
+    transition: $transition;
 }
 
 @mixin button-style-wide($bg-color) {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 4px;
-  background-color: $bg-color;
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: 500;
-  text-decoration: none;
-  text-align: center;
-  cursor: pointer;
-  transition: $transition;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: $bg-color;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: $transition;
 }
 
 @mixin link-style {
-  color: $color-primary;
-  text-decoration: none;
-  font-size: 1rem;
-  font-weight: 500;
-  transition: $transition;
+    color: $color-primary;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: $transition;
 
-  &:hover {
-    color: $color-primary-dark;
-  }
+    &:hover {
+        color: $color-primary-dark;
+    }
 }
 
 body,
 html {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: $font-family-main;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: $font-family-main;
 }
 
 *, *:before, *:after {
-  box-sizing: inherit;
+    box-sizing: inherit;
 }
 
 .account-recovery,
 .login,
 .register {
-  height: 100vh;
-  min-height: 100vh;
-  background-color: $color-light;
+    height: 100vh;
+    min-height: 100vh;
+    background-color: $color-light;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .container {
     display: flex;
-    justify-content: space-between;
-    max-width: 1000px;
-    width: 100%;
-    padding: 50px;
+    justify-content: center;
+    align-items: center;
 
-    @media(max-width: $phoneSize) {
-      flex-direction: column;
-      justify-content: center;
+    .container {
+        display: flex;
+        justify-content: space-between;
+        max-width: 1000px;
+        width: 100%;
+        padding: 50px;
+
+        @media(max-width: $phoneSize) {
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        &-left {
+            width: 100%;
+            padding: 20px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            @media(max-width: $phoneSize) {
+                text-align: center;
+            }
+        }
+
+        &-right-login,
+        &-right-register {
+            width: 100%;
+            padding: 25px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            gap: 8px;
+
+            font-family: $font-family-main;
+        }
+
+        &-right-login {
+            max-width: 400px;
+
+            @media(max-width: $phoneSize) {
+                max-width: 100%;
+            }
+        }
+
+        &-right-register {
+            max-width: 450px;
+
+            @media(max-width: $phoneSize) {
+                max-width: 100%;
+            }
+        }
+
+        &-recovery {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            font-family: $font-family-main;
+
+            h2 {
+                font-size: 1.5rem;
+                color: $color-dark;
+                margin: 0;
+            }
+
+            p {
+                margin: 0
+            }
+        }
     }
 
-    &-left {
-      width: 100%;
-      padding: 20px;
+    .buttons {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-
-      @media(max-width: $phoneSize) {
-        text-align: center;
-      }
+        @media(max-width: $phoneSize) {
+            flex-direction: column;
+            justify-content: center;
+        }
     }
 
-    &-right-login,
-    &-right-register {
-      width: 100%;
-      padding: 25px;
-      background-color: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+    .divider {
+        width: 100%;
+        display: flex;
+        align-items: center;
 
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-      gap: 8px;
-
-      font-family: $font-family-main;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        background-color: $color-grey;
     }
 
-    &-right-login {
-      max-width: 400px;
+    .logo {
+        font-size: 56px;
+        font-weight: bold;
+        font-family: 'Roboto', sans-serif;
+        color: #1877f2;
+        margin-bottom: 20px;
 
-      @media(max-width: $phoneSize) {
-        max-width: 100%;
-      }
+        &-slogan {
+            font-size: 24px;
+            font-weight: normal;
+            font-family: 'Roboto', sans-serif;
+            margin-bottom: 20px;
+
+            @media(max-width: $phoneSize) {
+                display: none;
+            }
+        }
     }
 
-    &-right-register {
-      max-width: 450px;
+    input {
+        width: 100%;
+        padding: 16px;
 
-      @media(max-width: $phoneSize) {
-        max-width: 100%;
-      }
+        border: $input-border;
+        border-radius: 4px;
+
+        font-size: 1rem;
+        font-family: $font-family-main;
+
+        &:focus {
+            outline: none;
+            border-color: $color-primary;
+        }
     }
 
-    &-recovery {
-      width: 100%;
-      max-width: 500px;
-      padding: 20px;
-      background-color: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+    select {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 12px;
+        border: $input-border;
+        border-radius: 4px;
+        font-size: 1rem;
+        background-color: #ffffff;
+        cursor: pointer;
+        appearance: none;
 
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+        &:focus {
+            outline: none;
+            border-color: $color-primary;
+        }
+    }
 
-      font-family: $font-family-main;
+    .row-container {
+        width: 100%;
+        display: flex;
+        justify-content: end;
+        align-items: center;
 
-      h2 {
-        font-size: 1.5rem;
+        gap: 10px;
+    }
+
+    .cancel-button {
+        @include button-style(#E4E6EB);
         color: $color-dark;
-        margin: 0;
-      }
-
-      p {
-        margin: 0
-      }
+        text-decoration: none;
     }
-  }
 
-  .divider {
-    width: 100%;
-    display: flex;
-    align-items: center;
-
-    margin-top: 10px;
-    margin-bottom: 10px;
-    background-color: $color-grey;
-  }
-
-  .logo {
-    font-size: 56px;
-    font-weight: bold;
-    font-family: 'Roboto', sans-serif;
-    color: #1877f2;
-    margin-bottom: 20px;
-
-    &-slogan {
-      font-size: 24px;
-      font-weight: normal;
-      font-family: 'Roboto', sans-serif;
-      margin-bottom: 20px;
-
-      @media(max-width: $phoneSize) {
-        display: none;
-      }
+    .search-button, .login-redirect-button {
+        @include button-style($color-primary);
     }
-  }
 
-  input {
-    width: 100%;
-    padding: 16px;
-
-    border: $input-border;
-    border-radius: 4px;
-
-    font-size: 1rem;
-    font-family: $font-family-main;
-
-    &:focus {
-      outline: none;
-      border-color: $color-primary;
+    .login-button {
+        @include button-style-wide($color-primary);
     }
-  }
 
-  select {
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 12px;
-    border: $input-border;
-    border-radius: 4px;
-    font-size: 1rem;
-    background-color: #ffffff;
-    cursor: pointer;
-    appearance: none;
-
-    &:focus {
-      outline: none;
-      border-color: $color-primary;
+    .register-button {
+        @include button-style-wide($color-secondary);
     }
-  }
 
-  .row-container {
-    width: 100%;
-    display: flex;
-    justify-content: end;
-    align-items: center;
+    .create-account-button {
+        @include button-style($color-secondary);
+    }
 
-    gap: 10px;
-  }
-
-  .cancel-button {
-    @include button-style(#E4E6EB);
-    color: $color-dark;
-    text-decoration: none;
-  }
-
-  .search-button, .login-redirect-button {
-    @include button-style($color-primary);
-  }
-
-  .login-button {
-    @include button-style-wide($color-primary);
-  }
-
-  .register-button {
-    @include button-style-wide($color-secondary);
-  }
-
-  .create-account-button {
-    @include button-style($color-secondary);
-  }
-
-  .forgot-link {
-    @include link-style;
-  }
+    .forgot-link {
+        @include link-style;
+    }
 }
 
 .error-message {
-  color: red;
-  font-weight: 350;
+    color: red;
+    font-weight: 350;
 }

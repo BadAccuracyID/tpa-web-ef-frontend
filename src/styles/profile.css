@@ -151,6 +151,7 @@ html {
   padding-right: 15%;
   padding-left: 15%;
   background-color: white;
+  transition: 0.2s ease;
 }
 .profile-buttons-icon, .profile-buttons-icon-active {
   width: 100%;

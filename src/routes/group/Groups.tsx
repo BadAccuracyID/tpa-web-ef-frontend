@@ -2,7 +2,7 @@ import {useLoaderData} from "react-router-dom";
 import {Group, User} from "../../lib/gql/graphql.ts";
 import NavigationBar from "../../components/NavigationBar.tsx";
 import "../../styles/group.scss";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {CreateGroupCard} from "../../components/group/GroupComponent.tsx";
 import {getUserGroups} from "../../lib/controllers/group-controller.ts";
 import {toast} from "react-toastify";
@@ -157,7 +157,16 @@ function PageContent({currentUser, page, selectedGroup}: {
     return <></>
 }
 
+enum GroupMenu {
+    POSTS,
+    FILES,
+    MEMBERS,
+}
+
 function GroupContent({currentUser, group}: { currentUser: User, group: Group }) {
+
+    const [menu, setMenu] = useState<GroupMenu>(GroupMenu.POSTS);
+
     return (
         <div className="group">
             <div className="group-header">
@@ -194,6 +203,28 @@ function GroupContent({currentUser, group}: { currentUser: User, group: Group })
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+
+            <div className="group-buttons">
+                <div
+                    className={'group-buttons-icon' + (menu === GroupMenu.POSTS ? '-active' : '')}
+                    onClick={() => setMenu(GroupMenu.POSTS)}
+                >
+                    Posts
+                </div>
+                <div
+                    className={'group-buttons-icon' + (menu === GroupMenu.FILES ? '-active' : '')}
+                    onClick={() => setMenu(GroupMenu.FILES)}
+                >
+                    Files
+                </div>
+                <div
+                    className={'group-buttons-icon' + (menu === GroupMenu.MEMBERS ? '-active' : '')}
+                    onClick={() => setMenu(GroupMenu.MEMBERS)}
+                >
+                    Members
                 </div>
             </div>
         </div>

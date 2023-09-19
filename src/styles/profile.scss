@@ -205,6 +205,7 @@ html {
         padding-left: 15%;
 
         background-color: white;
+        transition: $transition;
 
         &-icon,
         &-icon-active {

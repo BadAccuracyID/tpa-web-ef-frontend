@@ -7,107 +7,81 @@ import "../../styles/group.scss";
 import {HiCheck} from "react-icons/hi2";
 import {BiSolidCircle, BiSolidUserCircle} from "react-icons/bi";
 
-export function KickMemberCard({currentUser, group, onClose}: {
-    currentUser: User,
-    group: Group,
-    onClose: () => void
+function showToastMessage(message: string, type: 'error' | 'success') {
+    toast[type](message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+    });
+}
+
+async function handleSubmitAction({action, id, selectedMemberId, actionName}: {
+    action: (groupId: string, memberId: string) => Promise<ControllerResponse<unknown>>,
+    id: string,
+    selectedMemberId: string | undefined,
+    actionName: string
 }) {
-    const [selectedMember, setSelectedMember] = useState<User | null>(null);
-
-    function selectMember(member: User) {
-        if (isSelected(member)) {
-            setSelectedMember(null);
-            return;
-        }
-
-        setSelectedMember(member);
+    if (!selectedMemberId) {
+        return;
     }
 
-    async function onKickMember() {
-        if (!selectedMember) {
-            return;
-        }
-
-        if (selectedMember.id === currentUser.id) {
-            toast.error('You cannot kick yourself', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                draggable: true,
-            });
-            return;
-        }
-
-        const response = await kickMemberFromGroup(group.id, selectedMember.id);
-        if (!response.success) {
-            toast.error('Failed to remove member', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                draggable: true,
-            });
-            return;
-        }
-
-        toast.success('Member removed', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            draggable: true,
-        });
-        window.location.reload();
+    const response = await action(id, selectedMemberId);
+    if (!response.success) {
+        const error = `Failed to ${actionName}`;
+        showToastMessage(error, 'error');
+        return;
     }
 
-    function isSelected(member: User) {
-        return selectedMember != null && selectedMember.id === member.id;
-    }
-
-    return (
-        <div className="share-card">
-            <div className="share-card-container">
-                <div className="share-card-container-header">
-                    <p className="share-card-container-header-title">
-                        Kick Member
-                    </p>
-                    <div onClick={onClose}>
-                        <AiFillCloseCircle className="share-card-container-header-close"/>
-                    </div>
-                </div>
-                <br/>
-
-                <div className="share-card-container-conversations">
-                    <div className="conversation-list">
-                        {
-                            group.members.map((member) => {
-                                return (
-                                    <GroupMemberCard member={member}
-                                                     onSelect={selectMember}
-                                                     selected={isSelected(member)}
-                                    />
-                                )
-                            })
-                        }
-                    </div>
-                </div>
-
-                <div
-                    className={selectedMember != null ? "share-card-container-button-available" : "share-card-container-button-unavailable"}
-                    onClick={onKickMember}>
-                    Kick Member
-                </div>
-            </div>
-        </div>
-    )
+    const success = `${actionName} successful`;
+    showToastMessage(success, 'success');
 }
 
 export function AcceptRequestCard({group, onClose}: {
     group: Group,
     onClose: () => void
 }) {
+    return (
+        <HandleMemberCard
+            title="Accept Request"
+            action={acceptGroupRequest}
+            groupId={group.id}
+            memberList={group.joinRequests!}
+            buttonText="Accept Request"
+            onClose={onClose}/>
+    )
+}
+
+export function KickMemberCard({currentUser, group, onClose}: {
+    currentUser: User,
+    group: Group,
+    onClose: () => void
+}) {
+    return (
+        <HandleMemberCard
+            title="Kick Member"
+            action={kickMemberFromGroup}
+            groupId={group.id}
+            memberList={group.members}
+            currentUser={currentUser}
+            buttonText="Kick Member"
+            onClose={onClose}/>
+    )
+}
+
+export function HandleMemberCard({title, action, groupId, memberList, currentUser, buttonText, onClose}: {
+    title: string,
+    action: (groupId: string, memberId: string) => Promise<ControllerResponse<unknown>>,
+    groupId: string,
+    memberList: User[],
+    currentUser?: User,
+    buttonText: string,
+    onClose: () => void
+}) {
     const [selectedMember, setSelectedMember] = useState<User | null>(null);
+
+    const isSelected = (member: User) => selectedMember != null && selectedMember.id === member.id;
 
     function selectMember(member: User) {
         if (isSelected(member)) {
@@ -118,35 +92,20 @@ export function AcceptRequestCard({group, onClose}: {
         setSelectedMember(member);
     }
 
-    async function onAcceptRequest() {
-        if (!selectedMember) {
+    const handleAction = () => {
+        if (selectedMember && currentUser && currentUser.id === selectedMember.id) {
+            showToastMessage('You cannot kick yourself', 'error');
             return;
         }
 
-        const response = await acceptGroupRequest(group.id, selectedMember.id);
-        if (!response.success) {
-            toast.error('Failed to accept join request', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                draggable: true,
-            });
-            return;
-        }
-
-        toast.success('Join request accepted', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            draggable: true,
+        handleSubmitAction({
+            action: action,
+            id: groupId,
+            selectedMemberId: selectedMember?.id,
+            actionName: buttonText
+        }).then(() => {
+            window.location.reload();
         });
-        window.location.reload();
-    }
-
-    function isSelected(member: User) {
-        return selectedMember != null && selectedMember.id === member.id;
     }
 
     return (
@@ -154,7 +113,7 @@ export function AcceptRequestCard({group, onClose}: {
             <div className="share-card-container">
                 <div className="share-card-container-header">
                     <p className="share-card-container-header-title">
-                        Accept Request
+                        {title}
                     </p>
                     <div onClick={onClose}>
                         <AiFillCloseCircle className="share-card-container-header-close"/>
@@ -165,7 +124,7 @@ export function AcceptRequestCard({group, onClose}: {
                 <div className="share-card-container-conversations">
                     <div className="conversation-list">
                         {
-                            group.joinRequests!.map((member) => {
+                            memberList.map((member) => {
                                 return (
                                     <GroupMemberCard member={member}
                                                      onSelect={selectMember}
@@ -179,8 +138,8 @@ export function AcceptRequestCard({group, onClose}: {
 
                 <div
                     className={selectedMember != null ? "share-card-container-button-available" : "share-card-container-button-unavailable"}
-                    onClick={onAcceptRequest}>
-                    Accept Request
+                    onClick={handleAction}>
+                    {buttonText}
                 </div>
             </div>
         </div>

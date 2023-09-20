@@ -178,6 +178,10 @@ export function FriendCard({user, currentUser}: { user: User, currentUser: User 
             .includes(user.id);
     }
 
+    function isSelf() {
+        return currentUser.id === user.id;
+    }
+
     function redirectProfile() {
         navigate('/profile/' + user.id);
     }
@@ -285,40 +289,43 @@ export function FriendCard({user, currentUser}: { user: User, currentUser: User 
                 </div>
 
                 <div className="card-buttons">
-                    {!isFriends() ??
+                    {(!isFriends() && !isSelf()) ?
                         <div className="card-buttons-add" onClick={onAddFriend}>
                             <BiSolidUserPlus className="card-buttons-icon"/>
                             <div>
                                 Add Friend
                             </div>
-                        </div>
+                        </div> : <></>
                     }
 
-                    {(isFriends() && !isFavorite()) &&
+                    {(isFriends() && !isFavorite()) ?
                         <div className="card-buttons-cf" onClick={onAddToFavorite}>
                             <AiFillStar className="card-buttons-icon"/>
                             <div>
                                 Favorites
                             </div>
-                        </div>
+                        </div> : <></>
                     }
 
-                    {(isFriends() && isFavorite()) &&
+                    {(isFriends() && isFavorite()) ?
                         <div className="card-buttons-cf" onClick={onSetToJustFriends}>
                             <AiFillStar className="card-buttons-icon"/>
                             <div>
                                 Unfavorite
                             </div>
-                        </div>
+                        </div> : <></>
                     }
 
+                    {
+                        !isSelf() ?
+                            <div className="card-buttons-block" onClick={onBlock}>
+                                <BiBlock className="card-buttons-icon"/>
+                                <div>
+                                    Block
+                                </div>
+                            </div> : <></>
+                    }
 
-                    <div className="card-buttons-block" onClick={onBlock}>
-                        <BiBlock className="card-buttons-icon"/>
-                        <div>
-                            Block
-                        </div>
-                    </div>
                 </div>
             </div>
 

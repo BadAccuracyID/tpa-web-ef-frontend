@@ -104,8 +104,6 @@ export default function SearchPage() {
                                     return item['__typename'] === "Group";
                                 });
 
-                                console.log(users.length)
-
                                 switch (page) {
                                     case MenuPage.ALL:
                                         return (

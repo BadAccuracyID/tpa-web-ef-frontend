@@ -142,6 +142,7 @@ export default function CommentComponent({currentUser, comment, onReplyClick}: {
                                 />
                             )
                         }) :
+                        hasReplies() &&
                         <div className="comment-sub-show" onClick={() => setViewSubComment(true)}>
                             Show {getRepliesCount()} replies
                         </div>

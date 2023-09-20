@@ -315,4 +315,90 @@ html {
   color: #000000;
 }
 
+.share-card {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.share-card-container {
+  background-color: white;
+  width: 500px;
+  height: fit-content;
+  min-height: 300px;
+  border-radius: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  position: relative;
+}
+.share-card-container-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.share-card-container-header-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.share-card-container-header-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 35px;
+  height: 35px;
+  color: red;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.share-card-container-header-close:hover {
+  color: darkred;
+}
+.share-card-container-conversations {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.share-card-container-button-unavailable, .share-card-container-button-available {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-weight: bold;
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  transition: 0.2s ease;
+}
+.share-card-container-button-available {
+  background-color: #1877f2;
+  margin-top: 16px;
+  color: white;
+  cursor: pointer;
+}
+.share-card-container-button-available:hover {
+  background-color: #1464aa;
+}
+.share-card-container-button-unavailable {
+  background-color: #f0f2f5;
+  margin-top: 16px;
+  color: darkgray;
+  cursor: not-allowed;
+}
+
 /*# sourceMappingURL=post.css.map */

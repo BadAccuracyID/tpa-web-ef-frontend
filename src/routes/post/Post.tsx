@@ -19,6 +19,7 @@ import {toast} from "react-toastify";
 import React, {useEffect, useState} from "react";
 import NavigationBar from "../../components/NavigationBar.tsx";
 import CommentComponent from "../../components/post/CommentComponent.tsx";
+import {SharePostCard} from "../../components/post/PostComponent.tsx";
 
 export default function PostPage() {
     const currentUser = useLoaderData() as User;
@@ -31,6 +32,8 @@ export default function PostPage() {
     const [commentHolder, setCommentHolder] = useState("");
     const [commentInput, setCommentInput] = useState("");
     const [placeholder, setPlaceholder] = useState("Aa");
+
+    const [showSharePopup, setShowSharePopup] = useState(false);
 
     async function loadPost() {
         if (id === null) {
@@ -236,6 +239,7 @@ export default function PostPage() {
     return (
         <div>
             <NavigationBar user={currentUser}/>
+            {showSharePopup ? <SharePostCard post={post} onClose={() => setShowSharePopup(false)}/> : <></>}
             <div className="post-page">
                 <div className="post-page-container">
                     <div className="post">
@@ -333,7 +337,8 @@ export default function PostPage() {
                                     Comment
                                 </div>
                             </div>
-                            <div className="post-buttons-item post-buttons-item-share">
+                            <div className="post-buttons-item post-buttons-item-share"
+                                 onClick={() => setShowSharePopup(true)}>
                                 <PiShareFatFill className="post-buttons-item-icon"/>
                                 <div>
                                     Share

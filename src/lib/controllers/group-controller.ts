@@ -1118,6 +1118,178 @@ const SET_PICTURE_MUTATION = graphql(`
     }
 `);
 
+// kickMemberFromGroup(groupId: ID!, userId: ID!): Group!
+const KICK_MEMBER_FROM_GROUP_MUTATION = graphql(`
+    mutation kickMemberFromGroup($groupId: ID!, $userId: ID!) {
+        kickMemberFromGroup(groupId: $groupId, userId: $userId) {
+            id
+            name
+            description
+            picture
+            admins {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+            members {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+            posts {
+                id
+                title
+                audience
+                author {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                    profilePicture
+                }
+
+                sharedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    profilePicture
+                    gender
+                }
+                likedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    profilePicture
+                    gender
+                }
+                comments {
+                    id
+                    holderId
+                    author {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        gender
+                        profilePicture
+                    }
+                    textContent
+                    replies {
+                        id
+                        holderId
+                        author {
+                            id
+                            firstName
+                            lastName
+                            activated
+                            username
+                            email
+                            dateOfBirth
+                            gender
+                            profilePicture
+                        }
+                        textContent
+                        likedBy {
+                            id
+                            firstName
+                            lastName
+                            activated
+                            username
+                            email
+                            dateOfBirth
+                            profilePicture
+                            gender
+                        }
+                        createdAt
+                    }
+                    likedBy {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        profilePicture
+                        gender
+                    }
+                    createdAt
+                }
+
+                textContent
+                imageContent
+                videoContent
+
+                taggedUsers {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    profilePicture
+                    gender
+                }
+                hashtags
+
+                createdAt
+            }
+            files
+            visibility
+            joinRequests {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+            invitedUsers {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+        }
+    }
+`);
+
 export async function getUserGroups(): Promise<ControllerResponse<Group[]>> {
     try {
         const {data, errors} = await getApolloClient().query({
@@ -1442,6 +1614,52 @@ export async function setGroupPicture(groupId: string, picture: string): Promise
         let errorMsg = 'Error executing setGroupPicture';
         if (error instanceof Error) {
             console.error('Error executing setGroupPicture:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
+    }
+}
+
+export async function kickMemberFromGroup(groupId: string, userId: string): Promise<ControllerResponse<Group>> {
+    try {
+        const {data, errors} = await getApolloClient().mutate({
+            mutation: KICK_MEMBER_FROM_GROUP_MUTATION,
+            variables: {
+                groupId,
+                userId
+            },
+        });
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            }
+        }
+
+        if (!data?.kickMemberFromGroup) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: data.kickMemberFromGroup as Group,
+        }
+    } catch (error) {
+        let errorMsg = 'Error executing kickMemberFromGroup';
+        if (error instanceof Error) {
+            console.error('Error executing kickMemberFromGroup:', error);
             errorMsg = error.message;
         }
 

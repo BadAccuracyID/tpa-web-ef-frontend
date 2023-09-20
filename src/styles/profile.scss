@@ -29,9 +29,6 @@ html {
     gap: 10px;
 
     width: 100%;
-
-    margin-right: 15px;
-    margin-left: 15px;
 }
 
 .profile {
@@ -282,12 +279,20 @@ html {
             justify-items: center;
 
             &-title {
+                background-color: white;
+                border-radius: 10px;
+
                 width: 100%;
 
                 font-size: 1.25rem;
                 font-weight: 600;
 
                 padding: 10px 20px 10px 20px;
+            }
+
+            &-posts {
+                margin-top: 20px;
+                width: 100%;
             }
 
             &-info {
@@ -319,7 +324,6 @@ html {
         }
 
         &-right {
-            background-color: white;
             width: 100%;
 
             border-radius: 10px;

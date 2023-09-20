@@ -15,8 +15,6 @@ html {
   flex-direction: column;
   gap: 10px;
   width: 100%;
-  margin-right: 15px;
-  margin-left: 15px;
 }
 
 .profile {
@@ -209,10 +207,16 @@ html {
   justify-items: center;
 }
 .profile-content-left-title {
+  background-color: white;
+  border-radius: 10px;
   width: 100%;
   font-size: 1.25rem;
   font-weight: 600;
   padding: 10px 20px 10px 20px;
+}
+.profile-content-left-posts {
+  margin-top: 20px;
+  width: 100%;
 }
 .profile-content-left-info {
   width: 100%;
@@ -235,7 +239,6 @@ html {
   justify-items: center;
 }
 .profile-content-right {
-  background-color: white;
   width: 100%;
   border-radius: 10px;
   display: flex;

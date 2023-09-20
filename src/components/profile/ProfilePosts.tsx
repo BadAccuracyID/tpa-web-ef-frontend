@@ -11,6 +11,8 @@ export default function ProfilePosts({user}: { user: User }) {
     const [loading, setLoading] = useState(false);
     const [anyMore, setAnyMore] = useState(true);
 
+    console.log(user)
+
     const loadPosts = useCallback(async () => {
         if (!anyMore) {
             return;

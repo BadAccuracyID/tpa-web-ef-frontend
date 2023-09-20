@@ -1,4 +1,4 @@
-import {Await, useLoaderData, useParams} from "react-router-dom";
+import {Await, Link, useLoaderData, useParams} from "react-router-dom";
 import React, {createRef, Suspense, useEffect, useState} from "react";
 import {RelationshipStatus, User, UserInput} from "../../lib/gql/graphql.ts";
 import {getUserById, updateCurrentUser} from "../../lib/controllers/user-controller.ts";
@@ -7,7 +7,7 @@ import "../../styles/profile.scss";
 import {BiBlock, BiMaleFemale, BiSolidUserCircle, BiSolidUserPlus} from "react-icons/bi";
 import {FullPageLoading} from "../../components/loading/LoadingComponents.tsx";
 import {AiFillCalendar, AiFillMessage, AiFillStar} from "react-icons/ai";
-import {BsPencilFill} from "react-icons/bs";
+import {BsCameraVideoFill, BsEmojiSmileFill, BsPencilFill} from "react-icons/bs";
 import {
     acceptFriendRequest,
     changeFriendshipStatus,
@@ -16,11 +16,12 @@ import {
     sendFriendRequest
 } from "../../lib/controllers/relationship-controller.ts";
 import {toast} from "react-toastify";
-import {HiXMark} from "react-icons/hi2";
+import {HiPhoto, HiXMark} from "react-icons/hi2";
 import {uploadFilesWithToast} from "../../lib/controllers/firebase-upload-controller.ts";
 import ProfilePosts from "../../components/profile/ProfilePosts.tsx";
 import {FriendRecommendationComponent} from "../../components/friends/FriendComponent.tsx";
 import {createConversation} from "../../lib/controllers/messanger-controller.ts";
+import {CreatePostComponent} from "../../components/home/CreatePost.tsx";
 
 const nullUser: User = {
     id: '',
@@ -38,6 +39,7 @@ export default function ProfilePage() {
     const {id} = useParams();
 
     const fileInputRef: React.Ref<HTMLInputElement> = createRef();
+    const [createPost, setCreatePost] = useState(false);
 
     async function getUser(): Promise<User> {
         if (!id) {
@@ -141,6 +143,9 @@ export default function ProfilePage() {
                         return (
                             <div>
                                 <NavigationBar user={currentUser}/>
+                                {createPost ? <CreatePostComponent user={currentUser}
+                                                                   onClose={() => setCreatePost(false)}/> : null}
+
 
                                 <div className="profile">
                                     <div className="profile-header">
@@ -231,7 +236,51 @@ export default function ProfilePage() {
                                                 Posts
                                             </div>
 
-                                            <ProfilePosts user={user}/>
+                                            <div className="profile-content-left-posts">
+                                                <div className="create-post">
+                                                    <div className="create-post-header">
+                                                        <Link to={'/profile/' + currentUser.id} className="user-info">
+                                                            {currentUser.profilePicture ? < img className="avatar"
+                                                                                                src={currentUser.profilePicture!}/> :
+                                                                <BiSolidUserCircle className="avatar"/>}
+                                                        </Link>
+                                                        <input type="text"
+                                                               placeholder={`What's on your mind, ${currentUser.firstName}?`}
+                                                               onClick={e => {
+                                                                   e.preventDefault();
+                                                                   setCreatePost(true);
+                                                               }}/>
+                                                    </div>
+
+                                                    <br/>
+
+                                                    <div className="create-post-footer">
+                                                        <div className="footer-item" onClick={e => {
+                                                            e.preventDefault();
+                                                            setCreatePost(true);
+                                                        }}>
+                                                            <BsCameraVideoFill className="camera-icon"/>
+                                                            <p>Live Video</p>
+                                                        </div>
+                                                        <div className="footer-item" onClick={e => {
+                                                            e.preventDefault();
+                                                            setCreatePost(true);
+                                                        }}>
+                                                            <HiPhoto className="photo-icon"/>
+                                                            <p>Photo/Video</p>
+                                                        </div>
+                                                        <div className="footer-item" onClick={e => {
+                                                            e.preventDefault();
+                                                            setCreatePost(true);
+                                                        }}>
+                                                            <BsEmojiSmileFill className="smile-icon"/>
+                                                            <p>Feeling/Activity</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <ProfilePosts user={user}/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

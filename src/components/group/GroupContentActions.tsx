@@ -124,8 +124,6 @@ function HandleMemberCard({title, action, groupId, memberList, currentUser, butt
             id: groupId,
             selectedMemberId: selectedMember?.id,
             actionName: buttonText
-        }).then(() => {
-            window.location.reload();
         });
     }
 
@@ -196,6 +194,7 @@ async function handleSubmitAction({action, id, selectedMemberId, actionName}: {
 
     const success = `${actionName} successful`;
     showToastMessage(success, 'success');
+    window.location.reload();
 }
 
 function GroupMemberCard({member, selected, onSelect}: {

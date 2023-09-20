@@ -1,4 +1,4 @@
-import {Link, useLoaderData} from "react-router-dom";
+import {useLoaderData} from "react-router-dom";
 import {Group, User} from "../../lib/gql/graphql.ts";
 import NavigationBar from "../../components/NavigationBar.tsx";
 import "../../styles/group.scss";
@@ -6,11 +6,10 @@ import {useEffect, useState} from "react";
 import {CreateGroupCard} from "../../components/group/GroupComponent.tsx";
 import {getUserGroups} from "../../lib/controllers/group-controller.ts";
 import {toast} from "react-toastify";
-import {AiFillCalendar, AiFillCompass} from "react-icons/ai";
-import {BiMaleFemale, BiSolidGroup} from "react-icons/bi";
+import {AiFillCompass} from "react-icons/ai";
+import {BiSolidGroup} from "react-icons/bi";
 import {FaNewspaper} from "react-icons/fa6";
-import GroupPosts from "../../components/group/GroupPosts.tsx";
-import {BsChatDotsFill} from "react-icons/bs";
+import {GroupContent} from "../../components/group/GroupContent.tsx";
 
 enum MenuPage {
     HOME,
@@ -91,7 +90,7 @@ export default function GroupsPage() {
                              onClick={() => changePage(MenuPage.YOUR_GROUP)}>
                             <BiSolidGroup
                                 className={"groups-left-buttons-icon" + (page === MenuPage.YOUR_GROUP ? "-active" : "")}/>
-                            <div>Your Group</div>
+                            <div>Your Groups</div>
                         </div>
                     </div>
 
@@ -151,7 +150,7 @@ function PageContent({currentUser, page, selectedGroup}: {
         case MenuPage.DISCOVER:
             break;
         case MenuPage.YOUR_GROUP:
-            break;
+            return <YourGroupContent currentUser={currentUser}/>
         case MenuPage.GROUP:
             return <GroupContent currentUser={currentUser} group={selectedGroup!}/>
     }
@@ -159,141 +158,3 @@ function PageContent({currentUser, page, selectedGroup}: {
     return <></>
 }
 
-enum GroupMenu {
-    POSTS,
-    FILES,
-    MEMBERS,
-}
-
-function GroupContent({currentUser, group}: { currentUser: User, group: Group }) {
-
-    const [menu, setMenu] = useState<GroupMenu>(GroupMenu.POSTS);
-
-    return (
-        <div className="group">
-            <div className="group-header">
-                <div className="group-header-container">
-                    <img
-                        className="group-header-picture"
-                        src={group.picture}
-                        alt="group-image"
-                    />
-
-                    <div className="group-header-info">
-                        <div className="group-header-info-name">
-                            {group.name}
-                        </div>
-                        <div className="group-header-info-description">
-                            {group.description}
-                        </div>
-
-                        <div className="group-header-info-stats">
-                            <div className="group-header-info-stats-stat">
-                                <div className="group-header-info-stats-stat-text">
-                                    {group.members.length} members
-                                </div>
-                            </div>
-                            <div className="group-header-info-stats-stat">
-                                <div className="group-header-info-stats-stat-text">
-                                    {group.admins.length} admins
-                                </div>
-                            </div>
-                            <div className="group-header-info-stats-stat">
-                                <div className="group-header-info-stats-stat-text">
-                                    {group.posts.length} posts
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div className="group-buttons">
-                <div
-                    className={'group-buttons-icon' + (menu === GroupMenu.POSTS ? '-active' : '')}
-                    onClick={() => setMenu(GroupMenu.POSTS)}
-                >
-                    Posts
-                </div>
-                <div
-                    className={'group-buttons-icon' + (menu === GroupMenu.FILES ? '-active' : '')}
-                    onClick={() => setMenu(GroupMenu.FILES)}
-                >
-                    Files
-                </div>
-                <div
-                    className={'group-buttons-icon' + (menu === GroupMenu.MEMBERS ? '-active' : '')}
-                    onClick={() => setMenu(GroupMenu.MEMBERS)}
-                >
-                    Members
-                </div>
-            </div>
-
-            <div className="group-content">
-                <GroupItem currentUser={currentUser} group={group} menu={menu}/>
-            </div>
-        </div>
-    )
-}
-
-function GroupItem({currentUser, group, menu}: { currentUser: User, group: Group, menu: GroupMenu }) {
-    switch (menu) {
-        case GroupMenu.POSTS:
-            return <Posts currentUser={currentUser} group={group}/>
-        case GroupMenu.FILES:
-            break;
-        case GroupMenu.MEMBERS:
-            break;
-    }
-
-    return <></>
-}
-
-function Posts({currentUser, group}: { currentUser: User, group: Group }) {
-    return (
-        <div className="group-content-posts">
-            <div className="group-content-posts-left">
-                <div className="group-content-posts-left-title">
-                    Posts
-                </div>
-
-                <GroupPosts currentUser={currentUser} group={group}/>
-            </div>
-
-            <div className="group-content-posts-right">
-                <div className="group-content-posts-right-title">
-                    Intro
-                </div>
-
-                <div className="group-content-posts-right-info">
-                    <div className="group-content-posts-right-info-gender">
-                        <BiMaleFemale className="group-content-posts-right-info-icon"/>
-                        <div>
-                            Members: {group.members.length}
-                        </div>
-                    </div>
-                    <div className="group-content-posts-right-info-gender">
-                        <AiFillCalendar className="group-content-posts-right-info-icon"/>
-                        <div>
-                            Admins: {group.admins.length}
-                        </div>
-                    </div>
-                </div>
-
-                <div className="group-content-posts-right-title">
-                    Group Chat
-                </div>
-
-                <Link to="/messenger" className="group-content-posts-right-info">
-                    <div className="group-content-posts-right-info-chat">
-                        <BsChatDotsFill className="group-content-posts-right-info-icon-chat"/>
-                        <div>
-                            Open Group Chat: {group.name}
-                        </div>
-                    </div>
-                </Link>
-            </div>
-        </div>
-    )
-}

@@ -16,7 +16,7 @@
 
 // getUserGroups: [Group!]!
 import {graphql} from "../gql";
-import {CreateGroupInput, Group, Post} from "../gql/graphql.ts";
+import {CreateGroupInput, Group, Post, PostInput} from "../gql/graphql.ts";
 import {getApolloClient} from "../../main.tsx";
 
 const GET_USER_GROUPS_QUERY = graphql(`
@@ -826,6 +826,126 @@ const GET_JOINED_GROUP_POSTS_QUERY = graphql(`
     }
 `);
 
+// createGroupPost(groupId: ID!, post: PostInput!): Post!
+const CREATE_GROUP_POST_MUTATION = graphql(`
+    mutation createGroupPost($groupId: ID!, $post: PostInput!) {
+        createGroupPost(groupId: $groupId, post: $post) {
+            id
+            title
+            audience
+            author {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+                profilePicture
+            }
+
+            sharedBy {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+            likedBy {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+            comments {
+                id
+                holderId
+                author {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                    profilePicture
+                }
+                textContent
+                replies {
+                    id
+                    holderId
+                    author {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        gender
+                        profilePicture
+                    }
+                    textContent
+                    likedBy {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        profilePicture
+                        gender
+                    }
+                    createdAt
+                }
+                likedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    profilePicture
+                    gender
+                }
+                createdAt
+            }
+
+            textContent
+            imageContent
+            videoContent
+
+            taggedUsers {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+            hashtags
+
+            createdAt
+        }
+    }
+`);
+
 export async function getUserGroups(): Promise<ControllerResponse<Group[]>> {
     try {
         const {data, errors} = await getApolloClient().query({
@@ -1058,6 +1178,52 @@ export async function getJoinedGroupPosts(): Promise<ControllerResponse<Post[]>>
         let errorMsg = 'Error executing getJoinedGroupPosts';
         if (error instanceof Error) {
             console.error('Error executing getJoinedGroupPosts:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
+    }
+}
+
+export async function createGroupPost(groupId: string, postInput: PostInput): Promise<ControllerResponse<Post>> {
+    try {
+        const {data, errors} = await getApolloClient().mutate({
+            mutation: CREATE_GROUP_POST_MUTATION,
+            variables: {
+                groupId,
+                post: postInput,
+            },
+        });
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            }
+        }
+
+        if (!data?.createGroupPost) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: data.createGroupPost as Post,
+        }
+    } catch (error) {
+        let errorMsg = 'Error executing createGroupPost';
+        if (error instanceof Error) {
+            console.error('Error executing createGroupPost:', error);
             errorMsg = error.message;
         }
 

@@ -9,7 +9,7 @@ import {PiVideoFill} from "react-icons/pi";
 import {BsCameraVideoFill, BsEmojiSmileFill, BsFillBookmarkFill} from "react-icons/bs";
 import {HiPhoto} from "react-icons/hi2";
 import HomePosts from "../../components/home/HomePosts.tsx";
-import CreatePostComponent from "../../components/home/CreatePost.tsx";
+import {CreatePostComponent} from "../../components/home/CreatePost.tsx";
 import {useState} from "react";
 
 export default function HomePage() {

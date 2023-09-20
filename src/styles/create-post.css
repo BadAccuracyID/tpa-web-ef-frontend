@@ -95,6 +95,10 @@ html {
   font-size: 1.2rem;
   margin: 0;
 }
+.create-post-popup-container-user-sub-info-group {
+  font-size: 14px;
+  margin: 0;
+}
 .create-post-popup-container-user-sub-info-privacy {
   color: black;
   margin-top: 3px;

@@ -178,7 +178,7 @@ function PageContent({currentUser, page, selectedGroup}: {
         case MenuPage.HOME:
             break;
         case MenuPage.DISCOVER:
-            return <DiscoverGroupContent currentUser={currentUser}/>
+            return <DiscoverGroupContent/>
         case MenuPage.YOUR_GROUP:
             return <YourGroupContent currentUser={currentUser}/>
         case MenuPage.GROUP:

@@ -12,6 +12,10 @@ export default function GroupPosts({currentUser, group}: { currentUser: User, gr
     const [posts, setPosts] = useState<Post[]>(group.posts);
     const [createPost, setCreatePost] = useState(false);
 
+    function isMember() {
+        return group.members.some(it => it.id === currentUser.id);
+    }
+
     const onRemovePost = (postId: string) => {
         setPosts((prev) => prev.filter((v) => v.id !== postId));
     }
@@ -22,46 +26,48 @@ export default function GroupPosts({currentUser, group}: { currentUser: User, gr
                                                     group={group}
                                                     onClose={() => setCreatePost(false)}/> : null}
 
-            <div className="create-post">
-                <div className="create-post-header">
-                    <Link to={'/profile/' + currentUser.id} className="user-info">
-                        {currentUser.profilePicture ? < img className="avatar" src={currentUser.profilePicture!}/> :
-                            <BiSolidUserCircle className="avatar"/>}
-                    </Link>
-                    <input type="text"
-                           placeholder={`What's on your mind, ${currentUser.firstName}?`}
-                           onClick={e => {
-                               e.preventDefault();
-                               setCreatePost(true);
-                           }}/>
-                </div>
+            {isMember() ?
+                <div className="create-post">
+                    <div className="create-post-header">
+                        <Link to={'/profile/' + currentUser.id} className="user-info">
+                            {currentUser.profilePicture ? < img className="avatar" src={currentUser.profilePicture!}/> :
+                                <BiSolidUserCircle className="avatar"/>}
+                        </Link>
+                        <input type="text"
+                               placeholder={`What's on your mind, ${currentUser.firstName}?`}
+                               onClick={e => {
+                                   e.preventDefault();
+                                   setCreatePost(true);
+                               }}/>
+                    </div>
 
-                <br/>
+                    <br/>
 
-                <div className="create-post-footer">
-                    <div className="footer-item" onClick={e => {
-                        e.preventDefault();
-                        setCreatePost(true);
-                    }}>
-                        <BsCameraVideoFill className="camera-icon"/>
-                        <p>Live Video</p>
+                    <div className="create-post-footer">
+                        <div className="footer-item" onClick={e => {
+                            e.preventDefault();
+                            setCreatePost(true);
+                        }}>
+                            <BsCameraVideoFill className="camera-icon"/>
+                            <p>Live Video</p>
+                        </div>
+                        <div className="footer-item" onClick={e => {
+                            e.preventDefault();
+                            setCreatePost(true);
+                        }}>
+                            <HiPhoto className="photo-icon"/>
+                            <p>Photo/Video</p>
+                        </div>
+                        <div className="footer-item" onClick={e => {
+                            e.preventDefault();
+                            setCreatePost(true);
+                        }}>
+                            <BsEmojiSmileFill className="smile-icon"/>
+                            <p>Feeling/Activity</p>
+                        </div>
                     </div>
-                    <div className="footer-item" onClick={e => {
-                        e.preventDefault();
-                        setCreatePost(true);
-                    }}>
-                        <HiPhoto className="photo-icon"/>
-                        <p>Photo/Video</p>
-                    </div>
-                    <div className="footer-item" onClick={e => {
-                        e.preventDefault();
-                        setCreatePost(true);
-                    }}>
-                        <BsEmojiSmileFill className="smile-icon"/>
-                        <p>Feeling/Activity</p>
-                    </div>
-                </div>
-            </div>
+                </div> : <></>
+            }
 
             <div className="post-list">
                 {posts.map((post) => (

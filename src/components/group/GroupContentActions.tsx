@@ -7,37 +7,6 @@ import "../../styles/group.scss";
 import {HiCheck} from "react-icons/hi2";
 import {BiSolidCircle, BiSolidUserCircle} from "react-icons/bi";
 
-function showToastMessage(message: string, type: 'error' | 'success') {
-    toast[type](message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        draggable: true,
-    });
-}
-
-async function handleSubmitAction({action, id, selectedMemberId, actionName}: {
-    action: (groupId: string, memberId: string) => Promise<ControllerResponse<unknown>>,
-    id: string,
-    selectedMemberId: string | undefined,
-    actionName: string
-}) {
-    if (!selectedMemberId) {
-        return;
-    }
-
-    const response = await action(id, selectedMemberId);
-    if (!response.success) {
-        const error = `Failed to ${actionName}`;
-        showToastMessage(error, 'error');
-        return;
-    }
-
-    const success = `${actionName} successful`;
-    showToastMessage(success, 'success');
-}
-
 export function AcceptRequestCard({group, onClose}: {
     group: Group,
     onClose: () => void
@@ -166,6 +135,37 @@ function HandleMemberCard({title, action, groupId, memberList, currentUser, butt
             </div>
         </div>
     )
+}
+
+function showToastMessage(message: string, type: 'error' | 'success') {
+    toast[type](message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+    });
+}
+
+async function handleSubmitAction({action, id, selectedMemberId, actionName}: {
+    action: (groupId: string, memberId: string) => Promise<ControllerResponse<unknown>>,
+    id: string,
+    selectedMemberId: string | undefined,
+    actionName: string
+}) {
+    if (!selectedMemberId) {
+        return;
+    }
+
+    const response = await action(id, selectedMemberId);
+    if (!response.success) {
+        const error = `Failed to ${actionName}`;
+        showToastMessage(error, 'error');
+        return;
+    }
+
+    const success = `${actionName} successful`;
+    showToastMessage(success, 'success');
 }
 
 function GroupMemberCard({member, selected, onSelect}: {

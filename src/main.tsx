@@ -151,7 +151,13 @@ const router = createBrowserRouter([
                 loader: () => {
                     return userLoader();
                 },
-                element: <GroupsPage/>
+                element: <GroupsPage/>,
+                children: [
+                    {
+                        path: ":groupId",
+                        element: <Outlet/>,
+                    }
+                ]
             },
             {
                 path: "messenger",

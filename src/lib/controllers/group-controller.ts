@@ -190,6 +190,178 @@ const GET_USER_GROUPS_QUERY = graphql(`
     }
 `);
 
+// getGroup(groupId: ID!): Group!
+const GET_GROUP_QUERY = graphql(`
+    query getGroup($groupId: ID!) {
+        getGroup(groupId: $groupId) {
+            id
+            name
+            description
+            picture
+            admins {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+            members {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+            posts {
+                id
+                title
+                audience
+                author {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                    profilePicture
+                }
+
+                sharedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    profilePicture
+                    gender
+                }
+                likedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    profilePicture
+                    gender
+                }
+                comments {
+                    id
+                    holderId
+                    author {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        gender
+                        profilePicture
+                    }
+                    textContent
+                    replies {
+                        id
+                        holderId
+                        author {
+                            id
+                            firstName
+                            lastName
+                            activated
+                            username
+                            email
+                            dateOfBirth
+                            gender
+                            profilePicture
+                        }
+                        textContent
+                        likedBy {
+                            id
+                            firstName
+                            lastName
+                            activated
+                            username
+                            email
+                            dateOfBirth
+                            profilePicture
+                            gender
+                        }
+                        createdAt
+                    }
+                    likedBy {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        profilePicture
+                        gender
+                    }
+                    createdAt
+                }
+
+                textContent
+                imageContent
+                videoContent
+
+                taggedUsers {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    profilePicture
+                    gender
+                }
+                hashtags
+
+                createdAt
+            }
+            files
+            visibility
+            joinRequests {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+            invitedUsers {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+        }
+    }
+`);
+
 // createGroup(groupName: CreateGroupInput!): Group!
 const CREATE_GROUP_MUTATION = graphql(`
     mutation createGroup($groupInput: CreateGroupInput!) {
@@ -402,6 +574,51 @@ export async function getUserGroups(): Promise<ControllerResponse<Group[]>> {
         let errorMsg = 'Error executing getUserGroups';
         if (error instanceof Error) {
             console.error('Error executing getUserGroups:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
+    }
+}
+
+export async function getGroup(groupId: string): Promise<ControllerResponse<Group>> {
+    try {
+        const {data, errors} = await getApolloClient().query({
+            query: GET_GROUP_QUERY,
+            variables: {
+                groupId,
+            },
+        });
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            }
+        }
+
+        if (!data?.getGroup) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: data.getGroup as Group,
+        }
+    } catch (error) {
+        let errorMsg = 'Error executing getGroup';
+        if (error instanceof Error) {
+            console.error('Error executing getGroup:', error);
             errorMsg = error.message;
         }
 

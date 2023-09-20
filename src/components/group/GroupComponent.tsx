@@ -13,7 +13,7 @@ export function GroupComponent({group}: { group: Group }) {
     console.log(group.name)
 
     function redirectGroup() {
-        navigate('/group/' + group.id);
+        navigate('/groups/' + group.id);
     }
 
     return (

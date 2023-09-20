@@ -1,10 +1,10 @@
-import {useLoaderData} from "react-router-dom";
+import {useLoaderData, useParams} from "react-router-dom";
 import {Group, User} from "../../lib/gql/graphql.ts";
 import NavigationBar from "../../components/NavigationBar.tsx";
 import "../../styles/group.scss";
 import {useEffect, useState} from "react";
 import {CreateGroupCard} from "../../components/group/GroupComponent.tsx";
-import {getUserGroups} from "../../lib/controllers/group-controller.ts";
+import {getGroup, getUserGroups} from "../../lib/controllers/group-controller.ts";
 import {toast} from "react-toastify";
 import {AiFillCompass} from "react-icons/ai";
 import {BiSolidGroup} from "react-icons/bi";
@@ -19,9 +19,9 @@ enum MenuPage {
     GROUP
 }
 
-// show all joined groups
 export default function GroupsPage() {
     const currentUser = useLoaderData() as User;
+    const {groupId} = useParams();
 
     const [page, setPage] = useState<MenuPage>(MenuPage.HOME);
     const [joinedGroups, setJoinedGroups] = useState<Group[]>([]);
@@ -45,8 +45,36 @@ export default function GroupsPage() {
         setJoinedGroups(response.data!);
     }
 
+    const checkGroupId = async () => {
+        if (groupId) {
+            const group = joinedGroups.find(group => group.id === groupId);
+            if (group) {
+                setSelectedGroup(group);
+                changePage(MenuPage.GROUP);
+                return;
+            }
+
+            // load from server
+            const response = await getGroup(groupId);
+            if (!response.success) {
+                toast.error('Failed to load groups from link', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                });
+                return;
+            }
+
+            setSelectedGroup(response.data!);
+            changePage(MenuPage.GROUP);
+        }
+    }
+
     useEffect(() => {
-        loadData();
+        loadData().then(() => checkGroupId());
     }, []);
 
     function changePage(page: MenuPage) {
@@ -106,8 +134,8 @@ export default function GroupsPage() {
                                         className={'groups-left-joined-container' + (selectedGroup?.id === group.id ? '-active' : '')}
                                         key={index}
                                         onClick={() => {
-                                            setSelectedGroup(group)
-                                            changePage(MenuPage.GROUP)
+                                            setSelectedGroup(group);
+                                            changePage(MenuPage.GROUP);
                                         }}
                                     >
                                         <img

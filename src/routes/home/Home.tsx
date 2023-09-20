@@ -3,7 +3,7 @@ import {User} from "../../lib/gql/graphql.ts";
 import NavigationBar from "../../components/NavigationBar.tsx";
 import "../../styles/home.scss";
 import {BiDetail, BiSolidUserCircle} from "react-icons/bi";
-import {FaClock, FaUserFriends, FaUsers} from "react-icons/fa";
+import {FaClock, FaUserFriends} from "react-icons/fa";
 import {AiFillShop} from "react-icons/ai";
 import {PiVideoFill} from "react-icons/pi";
 import {BsCameraVideoFill, BsEmojiSmileFill, BsFillBookmarkFill} from "react-icons/bs";
@@ -11,6 +11,7 @@ import {HiPhoto} from "react-icons/hi2";
 import HomePosts from "../../components/home/HomePosts.tsx";
 import {CreatePostComponent} from "../../components/home/CreatePost.tsx";
 import {useState} from "react";
+import {IoPeopleCircleOutline} from "react-icons/io5";
 
 export default function HomePage() {
     const user = useLoaderData() as User;
@@ -62,7 +63,7 @@ export default function HomePage() {
                         </Link>
 
                         <Link to="/groups" className="other-navigation">
-                            <FaUsers className="other-navigation-icon"/>
+                            <IoPeopleCircleOutline className="other-navigation-icon"/>
                             <p className="other-navigation-text">Group</p>
                         </Link>
 

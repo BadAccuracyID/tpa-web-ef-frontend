@@ -13,6 +13,7 @@ import "../../styles/post.scss";
 import {useNavigate} from "react-router-dom";
 import {getUserConversations} from "../../lib/controllers/messanger-controller.ts";
 import Conversations from "../messenger/Conversation.tsx";
+import {IoPeopleCircleOutline} from "react-icons/io5";
 
 export function PostComponent({post, user, onRemovePost}: {
     post: Post,
@@ -31,6 +32,8 @@ export function PostComponent({post, user, onRemovePost}: {
         audienceLogo = <BsPeopleFill className="post-header-info-sub-info-privacy"/>;
     } else if (post.audience === Audience.Favorites) {
         audienceLogo = <AiFillStar className="post-header-info-sub-info-privacy"/>;
+    } else if (post.audience === Audience.Group) {
+        audienceLogo = <IoPeopleCircleOutline className="post-header-info-sub-info-privacy"/>;
     } else {
         audienceLogo = <FaUsers className="post-header-info-sub-info-privacy"/>;
     }

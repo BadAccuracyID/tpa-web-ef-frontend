@@ -2,6 +2,8 @@ import {Post, User} from "../../lib/gql/graphql.ts";
 import {getJoinedGroupPosts} from "../../lib/controllers/group-controller.ts";
 import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
+import {PostComponent} from "../post/PostComponent.tsx";
+import "../../styles/group.scss";
 
 export function HomeGroupContent({currentUser}: { currentUser: User }) {
 
@@ -28,8 +30,11 @@ export function HomeGroupContent({currentUser}: { currentUser: User }) {
     }, []);
 
     return (
-        <div>
-
+        <div className="home-post-list">
+            {posts.map((post) => (
+                <PostComponent key={post.id} post={post} user={currentUser} onRemovePost={() => {
+                }}/>
+            ))}
         </div>
     )
 }

@@ -20,6 +20,7 @@ import {HiXMark} from "react-icons/hi2";
 import {uploadFilesWithToast} from "../../lib/controllers/firebase-upload-controller.ts";
 import ProfilePosts from "../../components/profile/ProfilePosts.tsx";
 import {FriendRecommendationComponent} from "../../components/friends/FriendComponent.tsx";
+import {createConversation} from "../../lib/controllers/messanger-controller.ts";
 
 const nullUser: User = {
     id: '',
@@ -457,6 +458,37 @@ function Buttons({friends, currentUser, user}: {
         window.location.reload();
     }
 
+    async function onCreateConversation() {
+        // random conversation name
+        const name = "Conversation " + Math.floor(Math.random() * 1000);
+
+        // compile list of user ids + current user
+        const userIds: string[] = [];
+        userIds.push(currentUser.id);
+        userIds.push(user.id);
+
+        const result = await createConversation(name, userIds);
+        if (!result.success) {
+            toast.error("Failed to create conversation", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            return;
+        }
+
+        // add conversation to list
+        toast.success("Conversation created", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+        });
+    }
+
     return (
         <div className="profile-header-buttons">
             {(!isFriends() && !isSelf() && !pending) &&
@@ -505,7 +537,7 @@ function Buttons({friends, currentUser, user}: {
             }
 
             {isFriends() &&
-                <div className="profile-header-buttons-message">
+                <div className="profile-header-buttons-message" onClick={onCreateConversation}>
                     <AiFillMessage className="profile-header-buttons-icon"/>
                     <div>
                         Message

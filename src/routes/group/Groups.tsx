@@ -10,6 +10,7 @@ import {AiFillCompass} from "react-icons/ai";
 import {BiSolidGroup} from "react-icons/bi";
 import {FaNewspaper} from "react-icons/fa6";
 import {GroupContent} from "../../components/group/GroupContent.tsx";
+import {YourGroupContent} from "../../components/group/YourGroupContent.tsx";
 
 enum MenuPage {
     HOME,

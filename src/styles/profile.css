@@ -196,6 +196,7 @@ html {
   align-items: start;
   justify-items: center;
   gap: 20px;
+  padding-bottom: 20px;
 }
 .profile-content-left {
   background-color: white;

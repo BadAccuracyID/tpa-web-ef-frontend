@@ -606,6 +606,8 @@ html {
             grid-template-columns: 60% 40%;
             gap: 20px;
 
+            padding-bottom: 20px;
+
             &-left {
                 margin-left: 15%;
 
@@ -640,6 +642,8 @@ html {
 
                 align-items: center;
                 justify-items: center;
+
+                height: min-content;
 
                 &-title {
                     width: 100%;

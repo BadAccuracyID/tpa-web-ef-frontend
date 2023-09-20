@@ -302,7 +302,7 @@ export function FriendCard({user, currentUser}: { user: User, currentUser: User 
                         <div className="card-buttons-cf" onClick={onAddToFavorite}>
                             <AiFillStar className="card-buttons-icon"/>
                             <div>
-                                Favorites
+                                Favorite
                             </div>
                         </div> : <></>
                     }

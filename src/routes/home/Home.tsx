@@ -51,7 +51,7 @@ export default function HomePage() {
                             <p className="name">{user.firstName} {user.lastName}</p>
                         </Link>
 
-                        <Link to="/" className="other-navigation">
+                        <Link to="/friends" className="other-navigation">
                             <FaUserFriends className="other-navigation-icon"/>
                             <p className="other-navigation-text">Find Friends</p>
                         </Link>

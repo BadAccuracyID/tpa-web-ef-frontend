@@ -11,7 +11,7 @@ export default function GroupPosts({currentUser, group}: { currentUser: User, gr
 
     return (
         <div>
-            <div className="post-list">
+            <div className="post-list-profile">
                 {posts.map((post) => (
                     <PostComponent key={post.id} post={post} user={currentUser} onRemovePost={onRemovePost}/>
                 ))}

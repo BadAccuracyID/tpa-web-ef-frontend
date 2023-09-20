@@ -7,14 +7,12 @@ export default function Conversations({conversations, onSelectConversation}: {
     onSelectConversation: (conversation: Conversation) => void
 }) {
     return (
-        <div>
-            <div className="conversation-list">
-                {conversations.map((conversation) => {
-                    return (
-                        <ConversationCard conversation={conversation} onSelect={onSelectConversation}/>
-                    )
-                }, [])}
-            </div>
+        <div className="conversation-list">
+            {conversations.map((conversation) => {
+                return (
+                    <ConversationCard conversation={conversation} onSelect={onSelectConversation}/>
+                )
+            }, [])}
         </div>
     )
 }

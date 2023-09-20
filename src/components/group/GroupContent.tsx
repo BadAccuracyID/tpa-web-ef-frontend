@@ -223,15 +223,15 @@ function GroupActionButtons({currentUser, group}: { currentUser: User, group: Gr
             }
             {
                 isMember() ?
-                    <div className="group-action-buttons-leave">
-                        Leave Group
+                    <div className="group-action-buttons-invite">
+                        Invite Friend
                     </div>
                     : <></>
             }
             {
                 isMember() ?
-                    <div className="group-action-buttons-invite">
-                        Invite Friend
+                    <div className="group-action-buttons-leave">
+                        Leave Group
                     </div>
                     : <></>
             }

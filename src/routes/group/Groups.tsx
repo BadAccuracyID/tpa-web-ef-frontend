@@ -279,6 +279,19 @@ function Posts({currentUser, group}: { currentUser: User, group: Group }) {
                         </div>
                     </div>
                 </div>
+
+                <div className="group-content-posts-right-title">
+                    Group Chat
+                </div>
+
+                <div className="group-content-posts-right-info">
+                    <div className="group-content-posts-right-info-gender">
+                        <BiMaleFemale className="group-content-posts-right-info-icon"/>
+                        <div>
+                            Members: {group.members.length}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )

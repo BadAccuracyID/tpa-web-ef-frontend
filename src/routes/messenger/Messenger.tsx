@@ -2,14 +2,14 @@ import {useLoaderData} from "react-router-dom";
 import {Conversation, RelationshipStatus, User} from "../../lib/gql/graphql.ts";
 import NavigationBar from "../../components/NavigationBar.tsx";
 import "../../styles/messenger.scss";
-import {BiSolidPlusCircle, BiSolidUserCircle} from "react-icons/bi";
+import {BiSolidCircle, BiSolidPlusCircle, BiSolidUserCircle} from "react-icons/bi";
 import Conversations from "../../components/messenger/Conversation.tsx";
 import ChatComponent from "../../components/messenger/Chat.tsx";
 import {useCallback, useEffect, useState} from "react";
 import {createConversation, getUserConversations} from "../../lib/controllers/messanger-controller.ts";
 import {toast} from "react-toastify";
 import {AiFillCloseCircle} from "react-icons/ai";
-import {HiCheck} from "react-icons/hi";
+import {HiCheck} from "react-icons/hi2";
 
 export default function MessengerPage() {
     const user = useLoaderData() as User;
@@ -201,7 +201,7 @@ function UserCard({user, selected, onSelectUser}: {
             onSelectUser(user);
         }}>
             {selected ? <HiCheck className="create-conversation-card-user-indicator-selected"/> :
-                <HiCheck className="create-conversation-card-user-indicator-unselected"/>}
+                <BiSolidCircle className="create-conversation-card-user-indicator-unselected"/>}
 
             {profilePicture ? <img className="create-conversation-card-user-profile-picture" src={profilePicture}/> :
                 <BiSolidUserCircle className="create-conversation-card-user-profile-picture-null"/>}

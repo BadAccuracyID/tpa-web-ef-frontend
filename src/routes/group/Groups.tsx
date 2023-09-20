@@ -11,6 +11,7 @@ import {BiSolidGroup} from "react-icons/bi";
 import {FaNewspaper} from "react-icons/fa6";
 import {GroupContent} from "../../components/group/GroupContent.tsx";
 import {YourGroupContent} from "../../components/group/YourGroupContent.tsx";
+import {DiscoverGroupContent} from "../../components/group/DiscoverGroupContent.tsx";
 
 enum MenuPage {
     HOME,
@@ -177,7 +178,7 @@ function PageContent({currentUser, page, selectedGroup}: {
         case MenuPage.HOME:
             break;
         case MenuPage.DISCOVER:
-            break;
+            return <DiscoverGroupContent currentUser={currentUser}/>
         case MenuPage.YOUR_GROUP:
             return <YourGroupContent currentUser={currentUser}/>
         case MenuPage.GROUP:

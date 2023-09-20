@@ -67,13 +67,11 @@ export default function ProfilePosts({user}: { user: User }) {
     }
 
     return (
-        <div>
-            <div className="post-list">
-                {posts.map((post) => (
-                    <PostComponent key={post.id} post={post} user={user} onRemovePost={onRemovePost}/>
-                ))}
-                {(loading && !anyMore) && <PostSkeletonComponent/>}
-            </div>
+        <div className="post-list-profile">
+            {posts.map((post) => (
+                <PostComponent key={post.id} post={post} user={user} onRemovePost={onRemovePost}/>
+            ))}
+            {(loading && !anyMore) && <PostSkeletonComponent/>}
         </div>
     );
 }

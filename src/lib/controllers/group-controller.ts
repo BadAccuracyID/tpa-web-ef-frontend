@@ -2305,6 +2305,13 @@ const ACCEPT_GROUP_INVITATION_MUTATION = graphql(`
     }
 `);
 
+// deleteGroup(groupId: ID!): Boolean!
+const DELETE_GROUP_MUTATION = graphql(`
+    mutation deleteGroup($groupId: ID!) {
+        deleteGroup(groupId: $groupId)
+    }
+`);
+
 export async function getUserGroups(): Promise<ControllerResponse<Group[]>> {
     return handleQuery<Group[]>({
         query: GET_USER_GROUPS_QUERY,
@@ -2411,4 +2418,11 @@ export async function acceptGroupInvitation(groupId: string): Promise<Controller
         mutation: ACCEPT_GROUP_INVITATION_MUTATION,
         variables: {groupId}
     }, 'acceptGroupInvitation', 'Error executing acceptGroupInvitation');
+}
+
+export async function deleteGroup(groupId: string): Promise<ControllerResponse<boolean>> {
+    return handleMutation({
+        mutation: DELETE_GROUP_MUTATION,
+        variables: {groupId}
+    }, 'deleteGroup', 'Error executing deleteGroup');
 }

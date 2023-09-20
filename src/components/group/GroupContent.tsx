@@ -8,6 +8,7 @@ import {BsChatDotsFill} from "react-icons/bs";
 import {uploadFilesWithToast} from "../../lib/controllers/firebase-upload-controller.ts";
 import {
     acceptGroupInvitation,
+    deleteGroup,
     quitGroup,
     requestToJoinGroup,
     setGroupPicture
@@ -229,6 +230,10 @@ function GroupActionButtons({currentUser, group}: { currentUser: User, group: Gr
         return group.joinRequests!.some(it => it.id === currentUser.id);
     }
 
+    function isOnlyMember() {
+        return group.members.length === 1;
+    }
+
     async function onJoinRequest() {
         const response = await requestToJoinGroup(group.id);
         if (!response.success) {
@@ -310,6 +315,29 @@ function GroupActionButtons({currentUser, group}: { currentUser: User, group: Gr
         window.location.reload();
     }
 
+    async function onDisband() {
+        const response = await deleteGroup(group.id);
+        if (!response.success) {
+            toast.error('Failed to disband group', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            return;
+        }
+
+        toast.success('Disbanded group', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+        });
+        window.location.reload();
+    }
+
     return (
         <div className="group-action-buttons">
             {inviteFriendOpen ?
@@ -350,6 +378,13 @@ function GroupActionButtons({currentUser, group}: { currentUser: User, group: Gr
                 isMember() ?
                     <div className="group-action-buttons-leave" onClick={() => onLeave()}>
                         Leave Group
+                    </div>
+                    : <></>
+            }
+            {
+                isMember() && isOnlyMember() ?
+                    <div className="group-action-buttons-leave" onClick={() => onDisband()}>
+                        Disband Group
                     </div>
                     : <></>
             }

@@ -6,7 +6,12 @@ import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai";
 import {Link} from "react-router-dom";
 import {BsChatDotsFill} from "react-icons/bs";
 import {uploadFilesWithToast} from "../../lib/controllers/firebase-upload-controller.ts";
-import {requestToJoinGroup, setGroupPicture} from "../../lib/controllers/group-controller.ts";
+import {
+    acceptGroupInvitation,
+    quitGroup,
+    requestToJoinGroup,
+    setGroupPicture
+} from "../../lib/controllers/group-controller.ts";
 import {toast} from "react-toastify";
 import {AcceptRequestCard, InviteFriendCard, KickMemberCard, PromoteMemberCard} from "./GroupContentActions.tsx";
 
@@ -247,6 +252,64 @@ function GroupActionButtons({currentUser, group}: { currentUser: User, group: Gr
         window.location.reload();
     }
 
+    async function onAcceptInvite() {
+        const response = await acceptGroupInvitation(group.id);
+        if (!response.success) {
+            toast.error('Failed to accept invite to join group', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            return;
+        }
+
+        toast.success('Accepted invite to join group', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+        });
+        window.location.reload();
+    }
+
+    async function onLeave() {
+        // cannot leave if the only admin on group
+        if (group.admins.length === 1 && group.admins.some(it => it.id === currentUser.id)) {
+            toast.error('Cannot leave group if you are the only admin', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            return;
+        }
+
+        const response = await quitGroup(group.id);
+        if (!response.success) {
+            toast.error('Failed to leave group', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            return;
+        }
+
+        toast.success('Left group', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+        });
+        window.location.reload();
+    }
+
     return (
         <div className="group-action-buttons">
             {inviteFriendOpen ?
@@ -256,7 +319,7 @@ function GroupActionButtons({currentUser, group}: { currentUser: User, group: Gr
                 : <></>}
 
             {
-                !isMember() && !isInvited() ?
+                !isMember() && !isInvited() && !hasOnGoingRequest() ?
                     <div className="group-action-buttons-join" onClick={onJoinRequest}>
                         Request to Join
                     </div>
@@ -271,7 +334,7 @@ function GroupActionButtons({currentUser, group}: { currentUser: User, group: Gr
             }
             {
                 !isMember() && isInvited() ?
-                    <div className="group-action-buttons-join">
+                    <div className="group-action-buttons-join" onClick={() => onAcceptInvite()}>
                         Accept Invite
                     </div>
                     : <></>
@@ -285,7 +348,7 @@ function GroupActionButtons({currentUser, group}: { currentUser: User, group: Gr
             }
             {
                 isMember() ?
-                    <div className="group-action-buttons-leave">
+                    <div className="group-action-buttons-leave" onClick={() => onLeave()}>
                         Leave Group
                     </div>
                     : <></>

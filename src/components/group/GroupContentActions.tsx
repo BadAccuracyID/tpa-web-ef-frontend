@@ -32,12 +32,16 @@ export function KickMemberCard({currentUser, group, onClose}: {
     group: Group,
     onClose: () => void
 }) {
+    const notUser = group.members.filter((member) => {
+        return currentUser.id !== member.id;
+    });
+
     return (
         <HandleMemberCard
             title="Kick Member"
             action={kickMemberFromGroup}
             groupId={group.id}
-            memberList={group.members}
+            memberList={notUser}
             currentUser={currentUser}
             buttonText="Kick Member"
             onClose={onClose}/>

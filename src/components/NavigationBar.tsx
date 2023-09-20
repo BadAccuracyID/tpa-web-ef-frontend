@@ -6,13 +6,29 @@ import {IoPeopleCircleOutline} from "react-icons/io5";
 import {IoMdNotifications} from "react-icons/io";
 import {BiSolidUserCircle} from "react-icons/bi";
 import {Link, useNavigate, useSearchParams} from "react-router-dom";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {ImExit} from "react-icons/im";
+import {getNotifications} from "../lib/controllers/notification-controller.ts";
 
 export default function NavigationBar({user}: { user: User }) {
     const navigate = useNavigate();
+    const [notificationCount, setNotificationCount] = useState<number>(0);
     const [searchParams, setSearchParams] = useSearchParams();
     const profilePicture = user.profilePicture;
+
+    async function loadNotificationCount() {
+        const response = await getNotifications();
+        if (!response.success) {
+            return;
+        }
+
+        const notifications = response.data!.filter(notification => !notification.read);
+        setNotificationCount(notifications.length);
+    }
+
+    useEffect(() => {
+        loadNotificationCount();
+    }, []);
 
     function onLogout() {
         // temporary
@@ -80,10 +96,6 @@ export default function NavigationBar({user}: { user: User }) {
                     <BsChatDotsFill className="icon"/>
                 </Link>
 
-                <Link to="/notifications">
-                    <IoMdNotifications className="icon"/>
-                </Link>
-
                 <div onClick={onLogout}>
                     <ImExit className="icon"/>
                 </div>
@@ -91,6 +103,13 @@ export default function NavigationBar({user}: { user: User }) {
                 <Link to={'/profile/' + user.id}>
                     {profilePicture ? <img className="navbar-avatar" src={profilePicture}/> :
                         <BiSolidUserCircle className="profile-null"/>}
+                </Link>
+
+                <Link to="/notifications">
+                    <IoMdNotifications className="icon"/>
+                    <div className="notification-count">
+                        {notificationCount}
+                    </div>
                 </Link>
             </div>
         </div>

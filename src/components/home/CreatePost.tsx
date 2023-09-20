@@ -24,7 +24,7 @@ export default function CreatePostComponent({user, onClose}: { user: User, onClo
             if (files.length > 10) {
                 toast.error("You can only upload 10 files at a time!", {
                     position: "top-right",
-                    autoClose: 2000,
+                    autoClose: 5000,
                     hideProgressBar: true,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -38,7 +38,7 @@ export default function CreatePostComponent({user, onClose}: { user: User, onClo
             if (newFiles.length > 10) {
                 toast.error("You can only upload 10 files at a time!", {
                     position: "top-right",
-                    autoClose: 2000,
+                    autoClose: 5000,
                     hideProgressBar: true,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -69,7 +69,7 @@ export default function CreatePostComponent({user, onClose}: { user: User, onClo
         if (text === "" || !text) {
             toast.error("You must enter some text!", {
                 position: "top-right",
-                autoClose: 2000,
+                autoClose: 5000,
                 hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -109,7 +109,7 @@ export default function CreatePostComponent({user, onClose}: { user: User, onClo
             toast("Post created successfully!", {
                 position: "top-right",
                 type: "success",
-                autoClose: 2000,
+                autoClose: 5000,
                 hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,

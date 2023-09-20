@@ -13,7 +13,7 @@ export function DiscoverGroupContent() {
         if (!response.success) {
             toast.error('Failed to load public groups', {
                 position: "top-right",
-                autoClose: 2000,
+                autoClose: 5000,
                 hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,

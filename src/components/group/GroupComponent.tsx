@@ -71,7 +71,7 @@ export function CreateGroupCard({onClose}: { user: User, onClose: () => void }) 
         if (!isReady()) {
             toast.error("Please fill all the fields", {
                 position: "top-right",
-                autoClose: 2000,
+                autoClose: 5000,
                 hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -91,7 +91,7 @@ export function CreateGroupCard({onClose}: { user: User, onClose: () => void }) 
         if (!response.success) {
             toast.error('Failed to create group', {
                 position: "top-right",
-                autoClose: 2000,
+                autoClose: 5000,
                 hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -102,7 +102,7 @@ export function CreateGroupCard({onClose}: { user: User, onClose: () => void }) 
 
         toast.success('Group created successfully', {
             position: "top-right",
-            autoClose: 2000,
+            autoClose: 5000,
             hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,

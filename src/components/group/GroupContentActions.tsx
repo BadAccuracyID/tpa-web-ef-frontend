@@ -2,7 +2,7 @@ import {Group, User} from "../../lib/gql/graphql.ts";
 import {useState} from "react";
 import {toast} from "react-toastify";
 import {AiFillCloseCircle} from "react-icons/ai";
-import {acceptGroupRequest, kickMemberFromGroup} from "../../lib/controllers/group-controller.ts";
+import {acceptGroupRequest, kickMemberFromGroup, promoteMemberToAdmin} from "../../lib/controllers/group-controller.ts";
 import "../../styles/group.scss";
 import {HiCheck} from "react-icons/hi2";
 import {BiSolidCircle, BiSolidUserCircle} from "react-icons/bi";
@@ -70,7 +70,29 @@ export function KickMemberCard({currentUser, group, onClose}: {
     )
 }
 
-export function HandleMemberCard({title, action, groupId, memberList, currentUser, buttonText, onClose}: {
+export function PromoteMemberCard({currentUser, group, onClose}: {
+    currentUser: User,
+    group: Group,
+    onClose: () => void
+}) {
+    const admins = group.admins;
+    const nonAdmins = group.members.filter((member) => {
+        return !admins.some((admin) => admin.id === member.id);
+    });
+
+    return (
+        <HandleMemberCard
+            title="Promote Member"
+            action={promoteMemberToAdmin}
+            groupId={group.id}
+            memberList={nonAdmins}
+            currentUser={currentUser}
+            buttonText="Promote Member"
+            onClose={onClose}/>
+    )
+}
+
+function HandleMemberCard({title, action, groupId, memberList, currentUser, buttonText, onClose}: {
     title: string,
     action: (groupId: string, memberId: string) => Promise<ControllerResponse<unknown>>,
     groupId: string,

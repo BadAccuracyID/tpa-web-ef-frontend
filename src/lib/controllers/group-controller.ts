@@ -1462,6 +1462,178 @@ const ACCEPT_GROUP_REQUEST_MUTATION = graphql(`
     }
 `);
 
+// promoteMemberToAdmin(groupId: ID!, userId: ID!): Group!
+const PROMOTE_MEMBER_TO_ADMIN_MUTATION = graphql(`
+    mutation promoteMemberToAdmin($groupId: ID!, $userId: ID!) {
+        promoteMemberToAdmin(groupId: $groupId, userId: $userId) {
+            id
+            name
+            description
+            picture
+            admins {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+            members {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+            posts {
+                id
+                title
+                audience
+                author {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                    profilePicture
+                }
+
+                sharedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    profilePicture
+                    gender
+                }
+                likedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    profilePicture
+                    gender
+                }
+                comments {
+                    id
+                    holderId
+                    author {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        gender
+                        profilePicture
+                    }
+                    textContent
+                    replies {
+                        id
+                        holderId
+                        author {
+                            id
+                            firstName
+                            lastName
+                            activated
+                            username
+                            email
+                            dateOfBirth
+                            gender
+                            profilePicture
+                        }
+                        textContent
+                        likedBy {
+                            id
+                            firstName
+                            lastName
+                            activated
+                            username
+                            email
+                            dateOfBirth
+                            profilePicture
+                            gender
+                        }
+                        createdAt
+                    }
+                    likedBy {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        profilePicture
+                        gender
+                    }
+                    createdAt
+                }
+
+                textContent
+                imageContent
+                videoContent
+
+                taggedUsers {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    profilePicture
+                    gender
+                }
+                hashtags
+
+                createdAt
+            }
+            files
+            visibility
+            joinRequests {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+            invitedUsers {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+        }
+    }
+`);
+
 export async function getUserGroups(): Promise<ControllerResponse<Group[]>> {
     try {
         const {data, errors} = await getApolloClient().query({
@@ -1878,6 +2050,52 @@ export async function acceptGroupRequest(groupId: string, userId: string): Promi
         let errorMsg = 'Error executing acceptGroupRequest';
         if (error instanceof Error) {
             console.error('Error executing acceptGroupRequest:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
+    }
+}
+
+export async function promoteMemberToAdmin(groupId: string, userId: string): Promise<ControllerResponse<Group>> {
+    try {
+        const {data, errors} = await getApolloClient().mutate({
+            mutation: PROMOTE_MEMBER_TO_ADMIN_MUTATION,
+            variables: {
+                groupId,
+                userId
+            },
+        });
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            }
+        }
+
+        if (!data?.promoteMemberToAdmin) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: data.promoteMemberToAdmin as Group,
+        }
+    } catch (error) {
+        let errorMsg = 'Error executing promoteMemberToAdmin';
+        if (error instanceof Error) {
+            console.error('Error executing promoteMemberToAdmin:', error);
             errorMsg = error.message;
         }
 

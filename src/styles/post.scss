@@ -351,10 +351,19 @@ html {
             align-items: center;
             justify-items: center;
 
+            margin-top: 5px;
             margin-bottom: 10px;
+            margin-left: 45px;
 
             font-size: 14px;
             color: $color-grey;
+
+            cursor: pointer;
+            transition: $transition;
+
+            &:hover {
+                color: $color-dark;
+            }
         }
     }
 

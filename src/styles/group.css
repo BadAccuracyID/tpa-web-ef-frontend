@@ -453,6 +453,8 @@ html {
   flex-direction: column;
   gap: 10px;
   margin-bottom: 10px;
+  text-decoration: none;
+  color: black;
 }
 .group-content-posts-right-info-icon {
   width: 20px;
@@ -460,11 +462,30 @@ html {
   color: gray;
   margin-right: 5px;
 }
+.group-content-posts-right-info-icon-chat {
+  width: 20px;
+  height: 20px;
+  color: gray;
+  margin-right: 5px;
+}
+.group-content-posts-right-info-icon-chat:hover {
+  color: #1877f2;
+}
 .group-content-posts-right-info-gender {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-items: center;
+}
+.group-content-posts-right-info-chat {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: center;
+}
+.group-content-posts-right-info-chat:hover {
+  color: #1877f2;
 }
 
 /*# sourceMappingURL=group.css.map */

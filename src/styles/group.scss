@@ -608,6 +608,8 @@ html {
                     gap: 10px;
 
                     margin-bottom: 10px;
+                    text-decoration: none;
+                    color: black;
 
                     &-icon {
                         width: 20px;
@@ -615,6 +617,18 @@ html {
                         color: gray;
 
                         margin-right: 5px;
+
+                        &-chat {
+                            width: 20px;
+                            height: 20px;
+                            color: gray;
+
+                            margin-right: 5px;
+
+                            &:hover {
+                                color: $color-primary;
+                            }
+                        }
                     }
 
                     &-gender {
@@ -623,6 +637,20 @@ html {
 
                         align-items: center;
                         justify-items: center;
+                    }
+
+                    &-chat {
+                        cursor: pointer;
+
+                        display: flex;
+                        flex-direction: row;
+
+                        align-items: center;
+                        justify-items: center;
+
+                        &:hover {
+                            color: $color-primary;
+                        }
                     }
                 }
             }

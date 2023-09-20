@@ -1,4 +1,4 @@
-import {useLoaderData} from "react-router-dom";
+import {Link, useLoaderData} from "react-router-dom";
 import {Group, User} from "../../lib/gql/graphql.ts";
 import NavigationBar from "../../components/NavigationBar.tsx";
 import "../../styles/group.scss";
@@ -10,6 +10,7 @@ import {AiFillCalendar, AiFillCompass} from "react-icons/ai";
 import {BiMaleFemale, BiSolidGroup} from "react-icons/bi";
 import {FaNewspaper} from "react-icons/fa6";
 import GroupPosts from "../../components/group/GroupPosts.tsx";
+import {BsChatDotsFill} from "react-icons/bs";
 
 enum MenuPage {
     HOME,
@@ -284,14 +285,14 @@ function Posts({currentUser, group}: { currentUser: User, group: Group }) {
                     Group Chat
                 </div>
 
-                <div className="group-content-posts-right-info">
-                    <div className="group-content-posts-right-info-gender">
-                        <BiMaleFemale className="group-content-posts-right-info-icon"/>
+                <Link to="/messenger" className="group-content-posts-right-info">
+                    <div className="group-content-posts-right-info-chat">
+                        <BsChatDotsFill className="group-content-posts-right-info-icon-chat"/>
                         <div>
-                            Members: {group.members.length}
+                            Open Group Chat: {group.name}
                         </div>
                     </div>
-                </div>
+                </Link>
             </div>
         </div>
     )

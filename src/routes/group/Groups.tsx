@@ -12,6 +12,7 @@ import {FaNewspaper} from "react-icons/fa6";
 import {GroupContent} from "../../components/group/GroupContent.tsx";
 import {YourGroupContent} from "../../components/group/YourGroupContent.tsx";
 import {DiscoverGroupContent} from "../../components/group/DiscoverGroupContent.tsx";
+import {HomeGroupContent} from "../../components/group/HomeGroupContent.tsx";
 
 enum MenuPage {
     HOME,
@@ -176,7 +177,7 @@ function PageContent({currentUser, page, selectedGroup}: {
 }) {
     switch (page) {
         case MenuPage.HOME:
-            break;
+            return <HomeGroupContent currentUser={currentUser}/>
         case MenuPage.DISCOVER:
             return <DiscoverGroupContent/>
         case MenuPage.YOUR_GROUP:
@@ -184,7 +185,5 @@ function PageContent({currentUser, page, selectedGroup}: {
         case MenuPage.GROUP:
             return <GroupContent currentUser={currentUser} group={selectedGroup!}/>
     }
-
-    return <></>
 }
 

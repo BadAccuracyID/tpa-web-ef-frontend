@@ -5,16 +5,40 @@ import React, {createRef, useState} from "react";
 import {toast} from "react-toastify";
 import {uploadFilesWithToast} from "../../lib/controllers/firebase-upload-controller.ts";
 import {createGroup} from "../../lib/controllers/group-controller.ts";
+import {useNavigate} from "react-router-dom";
 
-export function GroupCard({group}: { group: Group }) {
+export function GroupComponent({group}: { group: Group }) {
+    const navigate = useNavigate();
+    console.log(group.picture)
+    console.log(group.name)
+
+    function redirectGroup() {
+        navigate('/group/' + group.id);
+    }
+
     return (
         <div className="group-card">
+            <div className="group-card-container" onClick={redirectGroup}>
+                <img className="group-card-picture" src={group.picture!} alt="group picture"/>
 
+                <div className="group-card-right">
+                    <div className="group-card-name">
+                        {group.name}
+                    </div>
+                    <div className="group-card-description">
+                        {group.description}
+                    </div>
+                    <div className="group-card-info">
+                        {group.members.length} members
+                    </div>
+                </div>
+
+            </div>
         </div>
     )
 }
 
-export function CreateGroupCard({user, onClose}: { user: User, onClose: () => void }) {
+export function CreateGroupCard({onClose}: { user: User, onClose: () => void }) {
     const [groupName, setGroupName] = useState<string>("");
     const [groupDescription, setGroupDescription] = useState<string>("");
     const [groupVisibility, setGroupVisibility] = useState<string>("public");

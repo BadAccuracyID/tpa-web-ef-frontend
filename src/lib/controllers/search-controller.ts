@@ -152,7 +152,169 @@ const SEARCH_QUERY = graphql(`
 
             ... on Group {
                 id
-                type
+                name
+                description
+                picture
+                admins {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    profilePicture
+                    gender
+                }
+                members {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    profilePicture
+                    gender
+                }
+                posts {
+                    id
+                    title
+                    audience
+                    author {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        gender
+                        profilePicture
+                    }
+
+                    sharedBy {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        profilePicture
+                        gender
+                    }
+                    likedBy {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        profilePicture
+                        gender
+                    }
+                    comments {
+                        id
+                        holderId
+                        author {
+                            id
+                            firstName
+                            lastName
+                            activated
+                            username
+                            email
+                            dateOfBirth
+                            gender
+                            profilePicture
+                        }
+                        textContent
+                        replies {
+                            id
+                            holderId
+                            author {
+                                id
+                                firstName
+                                lastName
+                                activated
+                                username
+                                email
+                                dateOfBirth
+                                gender
+                                profilePicture
+                            }
+                            textContent
+                            likedBy {
+                                id
+                                firstName
+                                lastName
+                                activated
+                                username
+                                email
+                                dateOfBirth
+                                profilePicture
+                                gender
+                            }
+                            createdAt
+                        }
+                        likedBy {
+                            id
+                            firstName
+                            lastName
+                            activated
+                            username
+                            email
+                            dateOfBirth
+                            profilePicture
+                            gender
+                        }
+                        createdAt
+                    }
+
+                    textContent
+                    imageContent
+                    videoContent
+
+                    taggedUsers {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        profilePicture
+                        gender
+                    }
+                    hashtags
+
+                    createdAt
+                }
+                files
+                visibility
+                joinRequests {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    profilePicture
+                    gender
+                }
+                invitedUsers {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    profilePicture
+                    gender
+                }
             }
         }
     }

@@ -1,6 +1,6 @@
 import {Await, useLoaderData, useSearchParams} from "react-router-dom";
 import NavigationBar from "../../components/NavigationBar.tsx";
-import {Post, SearchResult, User} from "../../lib/gql/graphql.ts";
+import {Group, Post, SearchResult, User} from "../../lib/gql/graphql.ts";
 import "../../styles/search.scss";
 import {Suspense, useState} from "react";
 import {searchQuery} from "../../lib/controllers/search-controller.ts";
@@ -8,6 +8,7 @@ import {FullPageLoading} from "../../components/loading/LoadingComponents.tsx";
 import {AiFillHome, AiOutlineUser, AiOutlineUserAdd, AiOutlineUsergroupAdd} from "react-icons/ai";
 import {FriendCard} from "../../components/friends/FriendComponent.tsx";
 import {PostComponent} from "../../components/post/PostComponent.tsx";
+import {GroupComponent} from "../../components/group/GroupComponent.tsx";
 
 enum MenuPage {
     ALL,
@@ -147,6 +148,17 @@ export default function SearchPage() {
                                                         <h1>Groups</h1>
                                                     </div> : <></>
                                                 }
+                                                <div className="search-content-column">
+                                                    {groups.map((item: SearchResult) => {
+                                                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                                        // @ts-ignore
+                                                        const group = item as Group;
+                                                        console.log(group)
+                                                        return <GroupComponent
+                                                            group={group}
+                                                        />
+                                                    })}
+                                                </div>
                                             </div>
                                         )
                                     case MenuPage.PROFILE:

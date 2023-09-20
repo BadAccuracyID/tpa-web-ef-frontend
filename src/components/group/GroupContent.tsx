@@ -8,7 +8,7 @@ import {BsChatDotsFill} from "react-icons/bs";
 import {uploadFilesWithToast} from "../../lib/controllers/firebase-upload-controller.ts";
 import {setGroupPicture} from "../../lib/controllers/group-controller.ts";
 import {toast} from "react-toastify";
-import {KickMemberCard} from "./GroupContentActions.tsx";
+import {AcceptRequestCard, KickMemberCard} from "./GroupContentActions.tsx";
 
 enum GroupContentMenu {
     POSTS,
@@ -243,6 +243,7 @@ function GroupActionButtons({currentUser, group}: { currentUser: User, group: Gr
 
 function GroupAdminActionButtons({currentUser, group}: { currentUser: User, group: Group }) {
 
+    const [acceptRequestOpen, setAcceptRequestOpen] = useState<boolean>(false);
     const [kickMemberOpen, setKickMemberOpen] = useState<boolean>(false);
 
     function isMember() {
@@ -264,8 +265,12 @@ function GroupAdminActionButtons({currentUser, group}: { currentUser: User, grou
                                 group={group}
                                 onClose={() => setKickMemberOpen(false)}/>
                 : <></>}
+            {acceptRequestOpen ?
+                <AcceptRequestCard group={group}
+                                   onClose={() => setAcceptRequestOpen(false)}/>
+                : <></>}
 
-            <div className="group-action-buttons-accept">
+            <div className="group-action-buttons-accept" onClick={() => setAcceptRequestOpen(true)}>
                 Accept Request
             </div>
             <div className="group-action-buttons-kick" onClick={() => setKickMemberOpen(true)}>

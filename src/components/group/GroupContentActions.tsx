@@ -2,7 +2,7 @@ import {Group, User} from "../../lib/gql/graphql.ts";
 import {useState} from "react";
 import {toast} from "react-toastify";
 import {AiFillCloseCircle} from "react-icons/ai";
-import {kickMemberFromGroup} from "../../lib/controllers/group-controller.ts";
+import {acceptGroupRequest, kickMemberFromGroup} from "../../lib/controllers/group-controller.ts";
 import "../../styles/group.scss";
 import {HiCheck} from "react-icons/hi2";
 import {BiSolidCircle, BiSolidUserCircle} from "react-icons/bi";
@@ -97,6 +97,90 @@ export function KickMemberCard({currentUser, group, onClose}: {
                     className={selectedMember != null ? "share-card-container-button-available" : "share-card-container-button-unavailable"}
                     onClick={onKickMember}>
                     Kick Member
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export function AcceptRequestCard({group, onClose}: {
+    group: Group,
+    onClose: () => void
+}) {
+    const [selectedMember, setSelectedMember] = useState<User | null>(null);
+
+    function selectMember(member: User) {
+        if (isSelected(member)) {
+            setSelectedMember(null);
+            return;
+        }
+
+        setSelectedMember(member);
+    }
+
+    async function onAcceptRequest() {
+        if (!selectedMember) {
+            return;
+        }
+
+        const response = await acceptGroupRequest(group.id, selectedMember.id);
+        if (!response.success) {
+            toast.error('Failed to accept join request', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            return;
+        }
+
+        toast.success('Join request accepted', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+        });
+        window.location.reload();
+    }
+
+    function isSelected(member: User) {
+        return selectedMember != null && selectedMember.id === member.id;
+    }
+
+    return (
+        <div className="share-card">
+            <div className="share-card-container">
+                <div className="share-card-container-header">
+                    <p className="share-card-container-header-title">
+                        Accept Request
+                    </p>
+                    <div onClick={onClose}>
+                        <AiFillCloseCircle className="share-card-container-header-close"/>
+                    </div>
+                </div>
+                <br/>
+
+                <div className="share-card-container-conversations">
+                    <div className="conversation-list">
+                        {
+                            group.joinRequests!.map((member) => {
+                                return (
+                                    <GroupMemberCard member={member}
+                                                     onSelect={selectMember}
+                                                     selected={isSelected(member)}
+                                    />
+                                )
+                            })
+                        }
+                    </div>
+                </div>
+
+                <div
+                    className={selectedMember != null ? "share-card-container-button-available" : "share-card-container-button-unavailable"}
+                    onClick={onAcceptRequest}>
+                    Accept Request
                 </div>
             </div>
         </div>

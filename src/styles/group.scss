@@ -832,6 +832,7 @@ html {
     justify-items: center;
 
     &-join,
+    &-pending,
     &-leave,
     &-invite,
     &-accept,
@@ -853,6 +854,16 @@ html {
 
         &:hover {
             background-color: $color-primary-dark;
+        }
+    }
+
+    &-pending {
+        color: black;
+        background-color: #E6E6EA;
+        cursor: not-allowed;
+
+        &:hover {
+            background-color: gray;
         }
     }
 

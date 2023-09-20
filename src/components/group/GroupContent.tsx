@@ -6,9 +6,9 @@ import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai";
 import {Link} from "react-router-dom";
 import {BsChatDotsFill} from "react-icons/bs";
 import {uploadFilesWithToast} from "../../lib/controllers/firebase-upload-controller.ts";
-import {setGroupPicture} from "../../lib/controllers/group-controller.ts";
+import {requestToJoinGroup, setGroupPicture} from "../../lib/controllers/group-controller.ts";
 import {toast} from "react-toastify";
-import {AcceptRequestCard, KickMemberCard, PromoteMemberCard} from "./GroupContentActions.tsx";
+import {AcceptRequestCard, InviteFriendCard, KickMemberCard, PromoteMemberCard} from "./GroupContentActions.tsx";
 
 enum GroupContentMenu {
     POSTS,
@@ -209,22 +209,76 @@ function GroupContentPosts({currentUser, group}: { currentUser: User, group: Gro
 }
 
 function GroupActionButtons({currentUser, group}: { currentUser: User, group: Group }) {
+
+    const [inviteFriendOpen, setInviteFriendOpen] = useState<boolean>(false);
+
     function isMember() {
         return group.members.some(it => it.id === currentUser.id);
     }
 
+    function isInvited() {
+        return group.invitedUsers!.some(it => it.id === currentUser.id);
+    }
+
+    function hasOnGoingRequest() {
+        return group.joinRequests!.some(it => it.id === currentUser.id);
+    }
+
+    async function onJoinRequest() {
+        const response = await requestToJoinGroup(group.id);
+        if (!response.success) {
+            toast.error('Failed to request to join group', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
+            return;
+        }
+
+        toast.success('Requested to join group', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+        });
+        window.location.reload();
+    }
+
     return (
         <div className="group-action-buttons">
+            {inviteFriendOpen ?
+                <InviteFriendCard currentUser={currentUser}
+                                  group={group}
+                                  onClose={() => setInviteFriendOpen(false)}/>
+                : <></>}
+
             {
-                !isMember() ?
+                !isMember() && !isInvited() ?
+                    <div className="group-action-buttons-join" onClick={onJoinRequest}>
+                        Request to Join
+                    </div>
+                    : <></>
+            }
+            {
+                !isMember() && hasOnGoingRequest() ?
+                    <div className="group-action-buttons-pending">
+                        Requesting to Join
+                    </div>
+                    : <></>
+            }
+            {
+                !isMember() && isInvited() ?
                     <div className="group-action-buttons-join">
-                        Join Group
+                        Accept Invite
                     </div>
                     : <></>
             }
             {
                 isMember() ?
-                    <div className="group-action-buttons-invite">
+                    <div className="group-action-buttons-invite" onClick={() => setInviteFriendOpen(true)}>
                         Invite Friend
                     </div>
                     : <></>

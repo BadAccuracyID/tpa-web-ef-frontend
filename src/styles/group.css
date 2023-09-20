@@ -627,7 +627,7 @@ html {
   align-items: center;
   justify-items: center;
 }
-.group-action-buttons-join, .group-action-buttons-leave, .group-action-buttons-invite, .group-action-buttons-accept, .group-action-buttons-kick, .group-action-buttons-promote {
+.group-action-buttons-join, .group-action-buttons-pending, .group-action-buttons-leave, .group-action-buttons-invite, .group-action-buttons-accept, .group-action-buttons-kick, .group-action-buttons-promote {
   color: white;
   padding: 8px;
   border-radius: 10px;
@@ -640,6 +640,14 @@ html {
 }
 .group-action-buttons-join:hover {
   background-color: #1464aa;
+}
+.group-action-buttons-pending {
+  color: black;
+  background-color: #E6E6EA;
+  cursor: not-allowed;
+}
+.group-action-buttons-pending:hover {
+  background-color: gray;
 }
 .group-action-buttons-leave {
   background-color: red;

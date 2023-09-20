@@ -1,8 +1,13 @@
-import {Group, User} from "../../lib/gql/graphql.ts";
+import {Group, RelationshipStatus, User} from "../../lib/gql/graphql.ts";
 import {useState} from "react";
 import {toast} from "react-toastify";
 import {AiFillCloseCircle} from "react-icons/ai";
-import {acceptGroupRequest, kickMemberFromGroup, promoteMemberToAdmin} from "../../lib/controllers/group-controller.ts";
+import {
+    acceptGroupRequest,
+    inviteUserToGroup,
+    kickMemberFromGroup,
+    promoteMemberToAdmin
+} from "../../lib/controllers/group-controller.ts";
 import "../../styles/group.scss";
 import {HiCheck} from "react-icons/hi2";
 import {BiSolidCircle, BiSolidUserCircle} from "react-icons/bi";
@@ -35,6 +40,31 @@ export function KickMemberCard({currentUser, group, onClose}: {
             memberList={group.members}
             currentUser={currentUser}
             buttonText="Kick Member"
+            onClose={onClose}/>
+    )
+}
+
+export function InviteFriendCard({currentUser, group, onClose}: {
+    currentUser: User,
+    group: Group,
+    onClose: () => void
+}) {
+    const friends = currentUser.relations!
+        .filter((relation) => relation.status === RelationshipStatus.Friends || relation.status === RelationshipStatus.Favorite)
+        .map((relation) => relation.user);
+
+    const nonMembers = friends.filter((friend) => {
+        return !group.members.some((member) => member.id === friend.id) && !group.admins.some((admin) => admin.id === friend.id);
+    });
+
+    return (
+        <HandleMemberCard
+            title="Invite Friend"
+            action={inviteUserToGroup}
+            groupId={group.id}
+            memberList={nonMembers}
+            currentUser={currentUser}
+            buttonText="Invite Friend"
             onClose={onClose}/>
     )
 }

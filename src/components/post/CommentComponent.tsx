@@ -4,12 +4,14 @@ import {BiSolidCommentDetail, BiSolidUserCircle} from "react-icons/bi";
 import {likeComment, unlikeComment} from "../../lib/controllers/post-controller.ts";
 import {toast} from "react-toastify";
 import {AiFillLike, AiOutlineLike} from "react-icons/ai";
+import {useState} from "react";
 
 export default function CommentComponent({currentUser, comment, onReplyClick}: {
     currentUser: User,
     comment: Comment,
     onReplyClick: () => void
 }) {
+    const [viewSubComment, setViewSubComment] = useState(false);
     const author = comment.author;
     const profilePicture = author.profilePicture;
 
@@ -130,7 +132,7 @@ export default function CommentComponent({currentUser, comment, onReplyClick}: {
 
             <div className="comment-sub">
                 {
-                    hasReplies() ?
+                    (hasReplies() && viewSubComment) ?
                         comment.replies?.map(reply => {
                             return (
                                 <CommentComponent
@@ -139,7 +141,10 @@ export default function CommentComponent({currentUser, comment, onReplyClick}: {
                                     onReplyClick={onReplyClick}
                                 />
                             )
-                        }) : <></>
+                        }) :
+                        <div className="comment-sub-show" onClick={() => setViewSubComment(true)}>
+                            Show {getRepliesCount()} replies
+                        </div>
                 }
             </div>
         </div>

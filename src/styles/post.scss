@@ -342,6 +342,20 @@ html {
         justify-items: center;
 
         margin-bottom: 10px;
+
+        &-show {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+
+            align-items: center;
+            justify-items: center;
+
+            margin-bottom: 10px;
+
+            font-size: 14px;
+            color: $color-grey;
+        }
     }
 
     &-picture,

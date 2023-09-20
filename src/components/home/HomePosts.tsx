@@ -72,8 +72,8 @@ export default function HomePosts({user}: { user: User }) {
                 {posts.map((post) => (
                     <PostComponent key={post.id} post={post} user={user} onRemovePost={onRemovePost}/>
                 ))}
+                {(loading && !anyMore) && <PostSkeletonComponent/>}
             </div>
-            {(loading && !anyMore) && <PostSkeletonComponent/>}
         </div>
     );
 }

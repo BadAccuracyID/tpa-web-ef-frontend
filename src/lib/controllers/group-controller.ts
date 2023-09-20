@@ -1,24 +1,6 @@
-// type Group implements SearchResult {
-//     id: ID!
-//     name: String!
-//     admins: [User!]!
-//     members: [User!]!
-//     posts: [Post!]!
-//     files: [String!]
-//     visibility: GroupVisibility!
-//
-//     joinRequests: [User!]
-//     invitedUsers: [User!]
-//
-// # SearchResult
-//     type: ContentType
-// }
-
-// getUserGroups: [Group!]!
 import {graphql} from "../gql";
 import {CreateGroupInput, Group, Post, PostInput} from "../gql/graphql.ts";
-import {getApolloClient} from "../../main.tsx";
-import {DocumentNode} from "graphql/language";
+import {handleMutation, handleQuery} from "./controller.ts";
 
 const GET_USER_GROUPS_QUERY = graphql(`
     query getUserGroups {
@@ -1980,189 +1962,19 @@ const REQUEST_TO_JOIN_GROUP_MUTATION = graphql(`
 `);
 
 export async function getUserGroups(): Promise<ControllerResponse<Group[]>> {
-    try {
-        const {data, errors} = await getApolloClient().query({
-            query: GET_USER_GROUPS_QUERY,
-        });
-
-        if (errors) {
-            return {
-                success: false,
-                errorMsg: errors.map(e => e.message),
-                data: null,
-            }
-        }
-
-        if (!data?.getUserGroups) {
-            return {
-                success: false,
-                errorMsg: ['Invalid response from server'],
-                data: null,
-            }
-        }
-
-        const groups: Group[] = [];
-        for (const it of data.getUserGroups) {
-            if (!it) {
-                continue;
-            }
-
-            groups.push(it as Group);
-        }
-
-        return {
-            success: true,
-            errorMsg: null,
-            data: groups,
-        }
-    } catch (error) {
-        let errorMsg = 'Error executing getUserGroups';
-        if (error instanceof Error) {
-            console.error('Error executing getUserGroups:', error);
-            errorMsg = error.message;
-        }
-
-        return {
-            success: false,
-            errorMsg: [errorMsg],
-            data: null,
-        };
-    }
+    return handleQuery<Group[]>({
+        query: GET_USER_GROUPS_QUERY,
+        variables: {},
+    }, 'getUserGroups', 'Error executing getUserGroups');
 }
 
 export async function getGroup(groupId: string): Promise<ControllerResponse<Group>> {
-    try {
-        const {data, errors} = await getApolloClient().query({
-            query: GET_GROUP_QUERY,
-            variables: {
-                groupId,
-            },
-        });
-
-        if (errors) {
-            return {
-                success: false,
-                errorMsg: errors.map(e => e.message),
-                data: null,
-            }
+    return handleQuery<Group>({
+        query: GET_GROUP_QUERY,
+        variables: {
+            groupId,
         }
-
-        if (!data?.getGroup) {
-            return {
-                success: false,
-                errorMsg: ['Invalid response from server'],
-                data: null,
-            }
-        }
-
-        return {
-            success: true,
-            errorMsg: null,
-            data: data.getGroup as Group,
-        }
-    } catch (error) {
-        let errorMsg = 'Error executing getGroup';
-        if (error instanceof Error) {
-            console.error('Error executing getGroup:', error);
-            errorMsg = error.message;
-        }
-
-        return {
-            success: false,
-            errorMsg: [errorMsg],
-            data: null,
-        };
-    }
-}
-
-interface MutationOptions {
-    mutation: DocumentNode;
-    variables: Record<string, unknown>;
-}
-
-interface QueryOptions {
-    query: DocumentNode;
-    variables: Record<string, unknown>;
-}
-
-async function handleMutation<T>(mutationOptions: MutationOptions, mutationName: string, errorMessage: string): Promise<ControllerResponse<T>> {
-    try {
-        const {data, errors} = await getApolloClient().mutate(mutationOptions);
-
-        if (errors) {
-            return {
-                success: false,
-                errorMsg: errors.map(e => e.message),
-                data: null,
-            }
-        }
-
-        if (!data[mutationName]) {
-            return {
-                success: false,
-                errorMsg: ['Invalid response from server'],
-                data: null,
-            }
-        }
-
-        return {
-            success: true,
-            errorMsg: null,
-            data: data[mutationName] as T,
-        }
-    } catch (error) {
-        let errorMsg = errorMessage;
-        if (error instanceof Error) {
-            console.error(`${errorMessage}:`, error);
-            errorMsg = error.message;
-        }
-
-        return {
-            success: false,
-            errorMsg: [errorMsg],
-            data: null,
-        };
-    }
-}
-
-async function handleQuery<T>(queryOptions: QueryOptions, queryName: string, errorMessage: string): Promise<ControllerResponse<T>> {
-    try {
-        const {data, errors} = await getApolloClient().query(queryOptions);
-
-        if (errors) {
-            return {
-                success: false,
-                errorMsg: errors.map(e => e.message),
-                data: null,
-            }
-        }
-
-        if (!data[queryName]) {
-            return {
-                success: false,
-                errorMsg: ['Invalid response from server'],
-                data: null,
-            }
-        }
-
-        return {
-            success: true,
-            errorMsg: null,
-            data: data[queryName] as T,
-        }
-    } catch (error) {
-        let errorMsg = errorMessage;
-        if (error instanceof Error) {
-            console.error(`${errorMessage}:`, error);
-            errorMsg = error.message;
-        }
-
-        return {
-            success: false,
-            errorMsg: [errorMsg],
-            data: null,
-        };
-    }
+    }, 'getGroup', 'Error executing getGroup');
 }
 
 export async function createGroup(groupInput: CreateGroupInput): Promise<ControllerResponse<Group>> {

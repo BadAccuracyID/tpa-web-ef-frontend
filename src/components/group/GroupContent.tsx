@@ -54,12 +54,16 @@ export function GroupContent({currentUser, group}: { currentUser: User, group: G
             return;
         }
 
-        if (!fileInputRef.current) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        if (!fileInputRef!.current) {
             return;
         }
 
-        fileInputRef.current.click();
-    };
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        fileInputRef!.current.click();
+    }
 
     return (
         <div className="group">

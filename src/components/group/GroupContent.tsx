@@ -55,6 +55,8 @@ export function GroupContent({currentUser, group}: { currentUser: User, group: G
                 </div>
             </div>
 
+            <GroupActionButtons currentUser={currentUser} group={group}/>
+            <GroupAdminActionButtons currentUser={currentUser} group={group}/>
 
             <div className="group-buttons">
                 <div
@@ -140,6 +142,67 @@ function GroupContentPosts({currentUser, group}: { currentUser: User, group: Gro
                         </div>
                     </div>
                 </Link>
+            </div>
+        </div>
+    )
+}
+
+function GroupActionButtons({currentUser, group}: { currentUser: User, group: Group }) {
+    function isMember() {
+        return group.members.some(it => it.id === currentUser.id);
+    }
+
+    return (
+        <div className="group-action-buttons">
+            {
+                !isMember() ?
+                    <div className="group-action-buttons-join">
+                        Join Group
+                    </div>
+                    : <></>
+            }
+            {
+                isMember() ?
+                    <div className="group-action-buttons-leave">
+                        Leave Group
+                    </div>
+                    : <></>
+            }
+            {
+                isMember() ?
+                    <div className="group-action-buttons-invite">
+                        Invite Friend
+                    </div>
+                    : <></>
+            }
+
+        </div>
+    )
+}
+
+function GroupAdminActionButtons({currentUser, group}: { currentUser: User, group: Group }) {
+    function isMember() {
+        return group.members.some(it => it.id === currentUser.id);
+    }
+
+    function isAdmin() {
+        return group.admins.some(it => it.id === currentUser.id);
+    }
+
+    if (!isMember() || !isAdmin()) {
+        return <></>
+    }
+
+    return (
+        <div className="group-action-buttons">
+            <div className="group-action-buttons-accept">
+                Accept Request
+            </div>
+            <div className="group-action-buttons-kick">
+                Kick Member
+            </div>
+            <div className="group-action-buttons-promote">
+                Promote Member
             </div>
         </div>
     )

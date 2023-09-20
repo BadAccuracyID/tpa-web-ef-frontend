@@ -812,3 +812,84 @@ html {
 
     gap: 10px;
 }
+
+.group-action-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+    width: 100%;
+
+    padding: 10px 15%;
+
+    background-color: white;
+    font-weight: bold;
+
+    align-items: center;
+    justify-items: center;
+
+    &-join,
+    &-leave,
+    &-invite,
+    &-accept,
+    &-kick,
+    &-promote {
+        color: white;
+        padding: 8px;
+
+        border-radius: 10px;
+
+        font-weight: 500;
+
+        cursor: pointer;
+        transition: $transition;
+    }
+
+    &-join {
+        background-color: $color-primary;
+
+        &:hover {
+            background-color: $color-primary-dark;
+        }
+    }
+
+    &-leave {
+        background-color: red;
+
+        &:hover {
+            background-color: darkred;
+        }
+    }
+
+    &-invite {
+        background-color: $color-secondary;
+
+        &:hover {
+            background-color: $color-secondary-dark;
+        }
+    }
+
+    &-accept {
+        background-color: $color-primary;
+
+        &:hover {
+            background-color: $color-primary-dark;
+        }
+    }
+
+    &-kick {
+        background-color: red;
+
+        &:hover {
+            background-color: darkred;
+        }
+    }
+
+    &-promote {
+        background-color: $color-secondary;
+
+        &:hover {
+            background-color: $color-secondary-dark;
+        }
+    }
+}

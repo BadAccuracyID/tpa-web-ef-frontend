@@ -614,4 +614,60 @@ html {
   gap: 10px;
 }
 
+.group-action-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 15%;
+  background-color: white;
+  font-weight: bold;
+  align-items: center;
+  justify-items: center;
+}
+.group-action-buttons-join, .group-action-buttons-leave, .group-action-buttons-invite, .group-action-buttons-accept, .group-action-buttons-kick, .group-action-buttons-promote {
+  color: white;
+  padding: 8px;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.group-action-buttons-join {
+  background-color: #1877f2;
+}
+.group-action-buttons-join:hover {
+  background-color: #1464aa;
+}
+.group-action-buttons-leave {
+  background-color: red;
+}
+.group-action-buttons-leave:hover {
+  background-color: darkred;
+}
+.group-action-buttons-invite {
+  background-color: #42b72a;
+}
+.group-action-buttons-invite:hover {
+  background-color: #36a420;
+}
+.group-action-buttons-accept {
+  background-color: #1877f2;
+}
+.group-action-buttons-accept:hover {
+  background-color: #1464aa;
+}
+.group-action-buttons-kick {
+  background-color: red;
+}
+.group-action-buttons-kick:hover {
+  background-color: darkred;
+}
+.group-action-buttons-promote {
+  background-color: #42b72a;
+}
+.group-action-buttons-promote:hover {
+  background-color: #36a420;
+}
+
 /*# sourceMappingURL=group.css.map */

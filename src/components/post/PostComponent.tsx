@@ -1,19 +1,19 @@
 import {Audience, Conversation, Post, User} from "../../lib/gql/graphql.ts";
 import {MdPublic} from "react-icons/md";
-import {BsPeopleFill, BsTrashFill} from "react-icons/bs";
+import {BsChatDotsFill, BsPeopleFill, BsTrashFill} from "react-icons/bs";
 import {AiFillCloseCircle, AiFillLike, AiFillStar, AiOutlineLike} from "react-icons/ai";
 import {FaUsers} from "react-icons/fa";
 import {deletePost, likePost, sharePost, unlikePost} from "../../lib/controllers/post-controller.ts";
 import {toast} from "react-toastify";
-import {BiSolidCommentDetail, BiSolidUserCircle} from "react-icons/bi";
+import {BiSolidCircle, BiSolidCommentDetail, BiSolidUserCircle} from "react-icons/bi";
 import {PostLoadingComponent} from "../loading/LoadingComponents.tsx";
 import {PiShareFatFill} from "react-icons/pi";
 import {useEffect, useState} from "react";
 import "../../styles/post.scss";
 import {useNavigate} from "react-router-dom";
 import {getUserConversations} from "../../lib/controllers/messanger-controller.ts";
-import Conversations from "../messenger/Conversation.tsx";
 import {IoPeopleCircleOutline} from "react-icons/io5";
+import {HiCheck} from "react-icons/hi2";
 
 export function PostComponent({post, user, onRemovePost}: {
     post: Post,
@@ -286,6 +286,11 @@ export function SharePostCard({post, onClose}: { post: Post, onClose: () => void
 
 
     function selectConversation(conversation: Conversation) {
+        if (selectedConversation != null && selectedConversation.id === conversation.id) {
+            setSelectedConversation(null);
+            return;
+        }
+
         setSelectedConversation(conversation);
     }
 
@@ -326,7 +331,17 @@ export function SharePostCard({post, onClose}: { post: Post, onClose: () => void
                 <br/>
 
                 <div className="share-card-container-conversations">
-                    <Conversations conversations={conversations} onSelectConversation={selectConversation}/>
+                    <div className="conversation-list">
+                        {conversations.map((conversation) => {
+                            return (
+                                <ShareConversationCard
+                                    conversation={conversation}
+                                    onSelect={selectConversation}
+                                    selected={selectedConversation != null && selectedConversation.id === conversation.id}
+                                />
+                            )
+                        })}
+                    </div>
                 </div>
 
                 <div
@@ -337,4 +352,35 @@ export function SharePostCard({post, onClose}: { post: Post, onClose: () => void
             </div>
         </div>
     )
+}
+
+function ShareConversationCard({conversation, selected, onSelect}: {
+    conversation: Conversation,
+    selected: boolean,
+    onSelect: (member: Conversation) => void
+}) {
+    return (
+        <div className="create-conversation-card-user" onClick={() => {
+            onSelect(conversation);
+        }}>
+            {selected ? <HiCheck className="create-conversation-card-user-indicator-selected"/> :
+                <BiSolidCircle className="create-conversation-card-user-indicator-unselected"/>}
+
+            <BsChatDotsFill className="create-conversation-card-user-profile-picture-null"/>
+
+            <div className="create-conversation-card-user-right">
+                <div className="create-conversation-card-user-right-name">
+                    {conversation.title}
+                </div>
+
+                {conversation.messages.length > 0 ?
+                    <div className="create-conversation-card-user-right-username">
+                        {conversation.messages[conversation.messages.length - 1].sender.username}: &nbsp;
+                        {conversation.messages[conversation.messages.length - 1].content}
+                    </div> : <></>
+                }
+            </div>
+        </div>
+    )
+
 }

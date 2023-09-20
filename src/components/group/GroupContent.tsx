@@ -1,8 +1,8 @@
-import {Group, User} from "../../lib/gql/graphql.ts";
+import {Group, GroupVisibility, User} from "../../lib/gql/graphql.ts";
 import {useState} from "react";
 import GroupPosts from "./GroupPosts.tsx";
-import {BiMaleFemale} from "react-icons/bi";
-import {AiFillCalendar} from "react-icons/ai";
+import {BiMaleFemale, BiUserCheck} from "react-icons/bi";
+import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai";
 import {Link} from "react-router-dom";
 import {BsChatDotsFill} from "react-icons/bs";
 
@@ -36,18 +36,11 @@ export function GroupContent({currentUser, group}: { currentUser: User, group: G
 
                         <div className="group-header-info-stats">
                             <div className="group-header-info-stats-stat">
+                                {group.visibility === GroupVisibility.Public ?
+                                    <AiFillEye className="group-content-posts-right-info-icon"/> :
+                                    <AiFillEyeInvisible className="group-content-posts-right-info-icon"/>}
                                 <div className="group-header-info-stats-stat-text">
-                                    {group.members.length} members
-                                </div>
-                            </div>
-                            <div className="group-header-info-stats-stat">
-                                <div className="group-header-info-stats-stat-text">
-                                    {group.admins.length} admins
-                                </div>
-                            </div>
-                            <div className="group-header-info-stats-stat">
-                                <div className="group-header-info-stats-stat-text">
-                                    {group.posts.length} posts
+                                    {group.visibility}
                                 </div>
                             </div>
                         </div>
@@ -123,9 +116,17 @@ function GroupContentPosts({currentUser, group}: { currentUser: User, group: Gro
                         </div>
                     </div>
                     <div className="group-content-posts-right-info-gender">
-                        <AiFillCalendar className="group-content-posts-right-info-icon"/>
+                        <BiUserCheck className="group-content-posts-right-info-icon"/>
                         <div>
                             Admins: {group.admins.length}
+                        </div>
+                    </div>
+                    <div className="group-content-posts-right-info-gender">
+                        {group.visibility === GroupVisibility.Public ?
+                            <AiFillEye className="group-content-posts-right-info-icon"/> :
+                            <AiFillEyeInvisible className="group-content-posts-right-info-icon"/>}
+                        <div>
+                            Visibility: {group.visibility}
                         </div>
                     </div>
                 </div>

@@ -23,6 +23,9 @@ export function GroupComponent({group}: { group: Group }) {
 
                 <div className="group-card-right">
                     <div className="group-card-name">
+                        {group.visibility}
+                    </div>
+                    <div className="group-card-name">
                         {group.name}
                     </div>
                     <div className="group-card-description">

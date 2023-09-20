@@ -12,13 +12,15 @@ export function HomeGroupContent({currentUser}: { currentUser: User }) {
     async function loadData() {
         const response = await getJoinedGroupPosts();
         if (!response.success) {
-            toast.error('Failed to load joined group posts', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                draggable: true,
-            });
+            if (response.errorMsg![0] !== 'Invalid response from server') {
+                toast.error('Failed to load joined group posts', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                });
+            }
             return;
         }
 

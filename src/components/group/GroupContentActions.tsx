@@ -2,8 +2,10 @@ import {Group, User} from "../../lib/gql/graphql.ts";
 import {useState} from "react";
 import {toast} from "react-toastify";
 import {AiFillCloseCircle} from "react-icons/ai";
-import {BsChatDotsFill} from "react-icons/bs";
 import {kickMemberFromGroup} from "../../lib/controllers/group-controller.ts";
+import "../../styles/group.scss";
+import {HiCheck} from "react-icons/hi2";
+import {BiSolidCircle, BiSolidUserCircle} from "react-icons/bi";
 
 export function KickMemberCard({currentUser, group, onClose}: {
     currentUser: User,
@@ -12,7 +14,12 @@ export function KickMemberCard({currentUser, group, onClose}: {
 }) {
     const [selectedMember, setSelectedMember] = useState<User | null>(null);
 
-    function selectConversation(member: User) {
+    function selectMember(member: User) {
+        if (isSelected(member)) {
+            setSelectedMember(null);
+            return;
+        }
+
         setSelectedMember(member);
     }
 
@@ -54,6 +61,10 @@ export function KickMemberCard({currentUser, group, onClose}: {
         window.location.reload();
     }
 
+    function isSelected(member: User) {
+        return selectedMember != null && selectedMember.id === member.id;
+    }
+
     return (
         <div className="share-card">
             <div className="share-card-container">
@@ -72,7 +83,10 @@ export function KickMemberCard({currentUser, group, onClose}: {
                         {
                             group.members.map((member) => {
                                 return (
-                                    <GroupMemberCard member={member} onSelect={selectConversation}/>
+                                    <GroupMemberCard member={member}
+                                                     onSelect={selectMember}
+                                                     selected={isSelected(member)}
+                                    />
                                 )
                             })
                         }
@@ -89,24 +103,32 @@ export function KickMemberCard({currentUser, group, onClose}: {
     )
 }
 
-function GroupMemberCard({member, onSelect}: {
+function GroupMemberCard({member, selected, onSelect}: {
     member: User,
+    selected: boolean,
     onSelect: (member: User) => void
 }) {
+    const profilePicture = member.profilePicture;
+
     return (
-        <div className="conversation-card" onClick={() => {
+        <div className="create-conversation-card-user" onClick={() => {
             onSelect(member);
         }}>
-            <BsChatDotsFill className="conversation-card-picture-null"/>
+            {selected ? <HiCheck className="create-conversation-card-user-indicator-selected"/> :
+                <BiSolidCircle className="create-conversation-card-user-indicator-unselected"/>}
 
-            <div className="conversation-right">
-                <div className="conversation-card-right-title">
+            {profilePicture ? <img className="create-conversation-card-user-profile-picture" src={profilePicture}/> :
+                <BiSolidUserCircle className="create-conversation-card-user-profile-picture-null"/>}
+
+            <div className="create-conversation-card-user-right">
+                <div className="create-conversation-card-user-right-name">
                     {member.firstName} {member.lastName}
                 </div>
-                <div className="conversation-card-right-last-message">
+                <div className="create-conversation-card-user-right-username">
                     {member.username}
                 </div>
             </div>
         </div>
     )
 }
+

@@ -1159,6 +1159,126 @@ const CREATE_SUB_COMMENT_MUTATION = graphql(`
     }
 `);
 
+// sharePost(id: ID!, conversationId: ID!): Post
+const SHARE_POST_MUTATION = graphql(`
+    mutation sharePost($id: ID!, $conversationId: ID!) {
+        sharePost(id: $id, conversationId: $conversationId) {
+            id
+            title
+            audience
+            author {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                gender
+                profilePicture
+            }
+
+            sharedBy {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+            likedBy {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+            comments {
+                id
+                holderId
+                author {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                    profilePicture
+                }
+                textContent
+                replies {
+                    id
+                    holderId
+                    author {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        gender
+                        profilePicture
+                    }
+                    textContent
+                    likedBy {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        profilePicture
+                        gender
+                    }
+                    createdAt
+                }
+                likedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    profilePicture
+                    gender
+                }
+                createdAt
+            }
+
+            textContent
+            imageContent
+            videoContent
+
+            taggedUsers {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+            hashtags
+
+            createdAt
+        }
+    }
+`);
+
 export async function getPosts(pageNumber: number, limit: number): Promise<ControllerResponse<Post[]>> {
     try {
         const {data, errors} = await getApolloClient().query({
@@ -1533,6 +1653,62 @@ export async function unlikePost(id: string): Promise<ControllerResponse<Post>> 
         let errorMsg = 'Error executing unlikePosts';
         if (error instanceof Error) {
             console.error('Error executing unlikePosts:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
+    }
+}
+
+export async function sharePost(id: string, conversationId: string): Promise<ControllerResponse<Post>> {
+    try {
+        const {data, errors} = await getApolloClient().mutate({
+            mutation: SHARE_POST_MUTATION,
+            variables: {
+                id,
+                conversationId
+            },
+        });
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            }
+        }
+
+        if (!data?.sharePost) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        const post = data.sharePost;
+        if (post === null) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: post as Post,
+        }
+
+    } catch (error) {
+        let errorMsg = 'Error executing sharePost';
+        if (error instanceof Error) {
+            console.error('Error executing sharePost:', error);
             errorMsg = error.message;
         }
 

@@ -1,10 +1,13 @@
 import {Group, GroupVisibility, User} from "../../lib/gql/graphql.ts";
-import {useState} from "react";
+import React, {createRef, useState} from "react";
 import GroupPosts from "./GroupPosts.tsx";
 import {BiMaleFemale, BiUserCheck} from "react-icons/bi";
 import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai";
 import {Link} from "react-router-dom";
 import {BsChatDotsFill} from "react-icons/bs";
+import {uploadFilesWithToast} from "../../lib/controllers/firebase-upload-controller.ts";
+import {setGroupPicture} from "../../lib/controllers/group-controller.ts";
+import {toast} from "react-toastify";
 
 enum GroupContentMenu {
     POSTS,
@@ -15,6 +18,48 @@ enum GroupContentMenu {
 export function GroupContent({currentUser, group}: { currentUser: User, group: Group }) {
 
     const [menu, setMenu] = useState<GroupContentMenu>(GroupContentMenu.POSTS);
+    const fileInputRef: React.Ref<HTMLInputElement> = createRef();
+
+    const onFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            const file = event.target.files[0];
+            const imageUrl = await uploadFilesWithToast([file]);
+
+            setGroupPicture(group.id, imageUrl[0]).then((result) => {
+                if (!result.success) {
+                    toast.error('Failed to update group picture', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        draggable: true,
+                    });
+                    return;
+                }
+
+                toast.success('Group picture updated', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                });
+                window.location.reload();
+            });
+        }
+    };
+
+    function onProfilePictureClick() {
+        if (!group.admins.some(it => it.id === currentUser.id)) {
+            return;
+        }
+
+        if (!fileInputRef.current) {
+            return;
+        }
+
+        fileInputRef.current.click();
+    };
 
     return (
         <div className="group">
@@ -24,6 +69,16 @@ export function GroupContent({currentUser, group}: { currentUser: User, group: G
                         className="group-header-picture"
                         src={group.picture}
                         alt="group-image"
+                        onClick={() => {
+                            onProfilePictureClick()
+                        }}
+                    />
+                    <input
+                        type="file"
+                        className="profile-header-input-hidden"
+                        onChange={onFileChange}
+                        accept={"image/*"}
+                        ref={fileInputRef}
                     />
 
                     <div className="group-header-info">

@@ -374,6 +374,7 @@ html {
   margin-right: 10px;
   color: gray;
   object-fit: cover;
+  cursor: pointer;
 }
 .group-header-info {
   display: flex;

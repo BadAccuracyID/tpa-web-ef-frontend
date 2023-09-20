@@ -946,6 +946,178 @@ const CREATE_GROUP_POST_MUTATION = graphql(`
     }
 `);
 
+// setPicture(groupId: ID!, picture: String!): Group!
+const SET_PICTURE_MUTATION = graphql(`
+    mutation setPicture($groupId: ID!, $picture: String!) {
+        setPicture(groupId: $groupId, picture: $picture) {
+            id
+            name
+            description
+            picture
+            admins {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+            members {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+            posts {
+                id
+                title
+                audience
+                author {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    gender
+                    profilePicture
+                }
+
+                sharedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    profilePicture
+                    gender
+                }
+                likedBy {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    profilePicture
+                    gender
+                }
+                comments {
+                    id
+                    holderId
+                    author {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        gender
+                        profilePicture
+                    }
+                    textContent
+                    replies {
+                        id
+                        holderId
+                        author {
+                            id
+                            firstName
+                            lastName
+                            activated
+                            username
+                            email
+                            dateOfBirth
+                            gender
+                            profilePicture
+                        }
+                        textContent
+                        likedBy {
+                            id
+                            firstName
+                            lastName
+                            activated
+                            username
+                            email
+                            dateOfBirth
+                            profilePicture
+                            gender
+                        }
+                        createdAt
+                    }
+                    likedBy {
+                        id
+                        firstName
+                        lastName
+                        activated
+                        username
+                        email
+                        dateOfBirth
+                        profilePicture
+                        gender
+                    }
+                    createdAt
+                }
+
+                textContent
+                imageContent
+                videoContent
+
+                taggedUsers {
+                    id
+                    firstName
+                    lastName
+                    activated
+                    username
+                    email
+                    dateOfBirth
+                    profilePicture
+                    gender
+                }
+                hashtags
+
+                createdAt
+            }
+            files
+            visibility
+            joinRequests {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+            invitedUsers {
+                id
+                firstName
+                lastName
+                activated
+                username
+                email
+                dateOfBirth
+                profilePicture
+                gender
+            }
+        }
+    }
+`);
+
 export async function getUserGroups(): Promise<ControllerResponse<Group[]>> {
     try {
         const {data, errors} = await getApolloClient().query({
@@ -1224,6 +1396,52 @@ export async function createGroupPost(groupId: string, postInput: PostInput): Pr
         let errorMsg = 'Error executing createGroupPost';
         if (error instanceof Error) {
             console.error('Error executing createGroupPost:', error);
+            errorMsg = error.message;
+        }
+
+        return {
+            success: false,
+            errorMsg: [errorMsg],
+            data: null,
+        };
+    }
+}
+
+export async function setGroupPicture(groupId: string, picture: string): Promise<ControllerResponse<Group>> {
+    try {
+        const {data, errors} = await getApolloClient().mutate({
+            mutation: SET_PICTURE_MUTATION,
+            variables: {
+                groupId,
+                picture
+            },
+        });
+
+        if (errors) {
+            return {
+                success: false,
+                errorMsg: errors.map(e => e.message),
+                data: null,
+            }
+        }
+
+        if (!data?.setPicture) {
+            return {
+                success: false,
+                errorMsg: ['Invalid response from server'],
+                data: null,
+            }
+        }
+
+        return {
+            success: true,
+            errorMsg: null,
+            data: data.setPicture as Group,
+        }
+    } catch (error) {
+        let errorMsg = 'Error executing setGroupPicture';
+        if (error instanceof Error) {
+            console.error('Error executing setGroupPicture:', error);
             errorMsg = error.message;
         }
 

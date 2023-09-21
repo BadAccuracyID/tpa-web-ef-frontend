@@ -29,6 +29,9 @@ import NotificationPage from "./routes/notification/Notification.tsx";
 import PostPage from "./routes/post/Post.tsx";
 import GroupsPage from "./routes/group/Groups.tsx";
 import PasswordResetPage from "./routes/auth/PasswordReset.tsx";
+import StoryPage from "./routes/story/Story.tsx";
+import CreateStoryPage from "./routes/story/CreateStory.tsx";
+import ReelsPage from "./routes/reels/Reels.tsx";
 
 const router = createBrowserRouter([
     {
@@ -186,6 +189,27 @@ const router = createBrowserRouter([
                     return userLoader();
                 },
                 element: <NotificationPage/>,
+            },
+            {
+                path: "story",
+                loader: () => {
+                    return userLoader();
+                },
+                element: <StoryPage/>,
+            },
+            {
+                path: "story-create",
+                loader: () => {
+                    return userLoader();
+                },
+                element: <CreateStoryPage/>,
+            },
+            {
+                path: "reels",
+                loader: () => {
+                    return userLoader();
+                },
+                element: <ReelsPage/>,
             },
         ]
     },

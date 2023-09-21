@@ -13,6 +13,11 @@ import {CreatePostComponent} from "../../components/home/CreatePost.tsx";
 import {useState} from "react";
 import {IoPeopleCircleOutline} from "react-icons/io5";
 
+enum HomeMenuItem {
+    STORY,
+    REELS
+}
+
 export default function HomePage() {
     const user = useLoaderData() as User;
     if (user === null) {
@@ -21,6 +26,8 @@ export default function HomePage() {
             </div>
         );
     }
+
+    const [activeMenuItem, setActiveMenuItem] = useState<HomeMenuItem | null>(null);
 
     const profilePicture = user.profilePicture;
     const [createPost, setCreatePost] = useState(false);
@@ -90,6 +97,47 @@ export default function HomePage() {
                 </div>
 
                 <div className="middle">
+                    <div className="story-reels">
+                        <div className="story-reels-buttons">
+                            <div
+                                className={"story-reels-item" + (activeMenuItem === HomeMenuItem.STORY ? "-active" : "")}
+                                onClick={() => setActiveMenuItem(HomeMenuItem.STORY)}
+                            >
+                                Story
+                            </div>
+                            <div
+                                className={"story-reels-item" + (activeMenuItem === HomeMenuItem.REELS ? "-active" : "")}
+                                onClick={() => setActiveMenuItem(HomeMenuItem.REELS)}
+                            >
+                                Reels
+                            </div>
+                        </div>
+                        {activeMenuItem !== null ?
+                            <div className="story-reels-content">
+                                {activeMenuItem === HomeMenuItem.STORY ?
+                                    <div className="story-reels-content-story">
+                                        <Link to={'/story'} className="story-reels-content-story-item">
+                                            View Story
+                                        </Link>
+                                        <Link to={'/story-create'} className="story-reels-content-story-item">
+                                            Create Story
+                                        </Link>
+                                    </div>
+                                    :
+                                    <div className="story-reels-content-reels">
+                                        <Link to={'/reels'} className="story-reels-content-reels-item">
+                                            View Reels
+                                        </Link>
+                                    </div>
+                                }
+                            </div>
+                            :
+                            <div className="story-reels-content-hidden">
+                            </div>
+                        }
+                    </div>
+
+
                     <div className="create-post">
                         <div className="create-post-header">
                             <Link to={'/profile/' + user.id} className="user-info">

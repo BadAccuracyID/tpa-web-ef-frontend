@@ -69,14 +69,13 @@ export function PostComponent({post, user, onRemovePost}: {
 
     function countComments() {
         let count = 0;
-        if (post.comments) {
-            post.comments.forEach((comment) => {
+        if (post!.comments) {
+            for (const comment of post!.comments) {
+                count += 1;
                 if (comment.replies) {
                     count += comment.replies.length;
-                } else {
-                    count++;
                 }
-            })
+            }
         }
 
         return count;

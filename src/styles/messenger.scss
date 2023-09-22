@@ -528,6 +528,18 @@ html {
     &-right-content {
         background-color: $color-primary;
         color: white;
+
+        img {
+            object-fit: cover;
+            max-width: 500px;
+            max-height: 500px;
+        }
+
+        video {
+            object-fit: cover;
+            max-width: 500px;
+            max-height: 500px;
+        }
     }
 }
 
@@ -543,5 +555,17 @@ html {
         background-color: $color-light;
         color: black;
         align-self: start;
+
+        img {
+            object-fit: cover;
+            max-width: 500px;
+            max-height: 500px;
+        }
+
+        video {
+            object-fit: cover;
+            max-width: 500px;
+            max-height: 500px;
+        }
     }
 }

@@ -412,6 +412,16 @@ html {
   background-color: #1877f2;
   color: white;
 }
+.bubble-blue-right-content img {
+  object-fit: cover;
+  max-width: 500px;
+  max-height: 500px;
+}
+.bubble-blue-right-content video {
+  object-fit: cover;
+  max-width: 500px;
+  max-height: 500px;
+}
 
 .bubble-gray {
   justify-content: flex-start;
@@ -424,6 +434,16 @@ html {
   background-color: #f0f2f5;
   color: black;
   align-self: start;
+}
+.bubble-gray-right-content img {
+  object-fit: cover;
+  max-width: 500px;
+  max-height: 500px;
+}
+.bubble-gray-right-content video {
+  object-fit: cover;
+  max-width: 500px;
+  max-height: 500px;
 }
 
 /*# sourceMappingURL=messenger.css.map */

@@ -17,9 +17,16 @@ export default function ChatComponent({user, conversation}: { user: User, conver
     const onFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             const file = event.target.files[0];
-            const imageUrl = await uploadFilesWithToast([file]);
+            const fileUrl = await uploadFilesWithToast([file]);
 
-            const response = await sendMessage(user.id, conversation.id, imageUrl[0], MessageContentType.Image);
+            let contentType: MessageContentType;
+            if (file.type.startsWith("video")) {
+                contentType = MessageContentType.Video;
+            } else {
+                contentType = MessageContentType.Image;
+            }
+
+            const response = await sendMessage(user.id, conversation.id, fileUrl[0], contentType);
             if (!response.success) {
                 toast.error('Failed to send media', {
                     position: "top-right",
@@ -30,6 +37,14 @@ export default function ChatComponent({user, conversation}: { user: User, conver
                 });
                 return;
             }
+
+            toast.success('Media sent', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
         }
     }
 
@@ -140,7 +155,7 @@ export default function ChatComponent({user, conversation}: { user: User, conver
                     type="file"
                     className="profile-header-input-hidden"
                     onChange={onFileChange}
-                    accept={"image/*"}
+                    accept={"image/*, video/*"}
                     ref={fileInputRef}
                 />
             </div>
@@ -151,6 +166,9 @@ export default function ChatComponent({user, conversation}: { user: User, conver
 
 function BlueChatBubble({message}: { message: Message }) {
     const profilePicture = message.sender.profilePicture;
+
+    console.log(message.contentType)
+
     return (
         <div className="bubble bubble-blue">
             <div className="bubble-right">
@@ -158,15 +176,44 @@ function BlueChatBubble({message}: { message: Message }) {
                     {message.sender.firstName} {message.sender.lastName}
                 </div>
 
-                <div className="bubble-right-content bubble-blue-right-content">
-                    {message.content}
-                </div>
+                <BlueChatBubbleContent message={message}/>
             </div>
 
             {profilePicture ? <img className="bubble-profile-picture" src={profilePicture}/> :
                 <BiSolidUserCircle className="bubble-profile-picture-null"/>}
         </div>
     );
+}
+
+function BlueChatBubbleContent({message}: { message: Message }) {
+    console.log(message.contentType)
+    switch (message.contentType) {
+        case MessageContentType.Post:
+        case MessageContentType.Text:
+        case MessageContentType.Voice:
+            return (
+                <div className="bubble-right-content bubble-blue-right-content">
+                    {message.content}
+                </div>
+            )
+        case MessageContentType.Image:
+            return (
+                <div className="bubble-right-content bubble-blue-right-content">
+                    <img
+                        src={message.content}
+                        alt={'image'}
+                    />
+                </div>
+            )
+        case MessageContentType.Video:
+            return (
+                <div className="bubble-right-content bubble-blue-right-content">
+                    <video
+                        src={message.content}
+                    />
+                </div>
+            )
+    }
 }
 
 function GreyChatBubble({message}: { message: Message }) {
@@ -181,11 +228,38 @@ function GreyChatBubble({message}: { message: Message }) {
                     {message.sender.firstName} {message.sender.lastName}
                 </div>
 
-                <div className="bubble-right-content bubble-gray-right-content">
-                    {message.content}
-                </div>
+                <GreyChatBubbleContent message={message}/>
             </div>
         </div>
     );
 }
 
+function GreyChatBubbleContent({message}: { message: Message }) {
+    switch (message.contentType) {
+        case MessageContentType.Post:
+        case MessageContentType.Text:
+        case MessageContentType.Voice:
+            return (
+                <div className="bubble-right-content bubble-gray-right-content">
+                    {message.content}
+                </div>
+            )
+        case MessageContentType.Image:
+            return (
+                <div className="bubble-right-content bubble-gray-right-content">
+                    <img
+                        src={message.content}
+                        alt={'image'}
+                    />
+                </div>
+            )
+        case MessageContentType.Video:
+            return (
+                <div className="bubble-right-content bubble-gray-right-content">
+                    <video
+                        src={message.content}
+                    />
+                </div>
+            )
+    }
+}

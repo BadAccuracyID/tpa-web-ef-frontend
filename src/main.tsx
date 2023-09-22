@@ -1,7 +1,6 @@
 /* eslint-disable no-var */
 // noinspection ES6ConvertVarToLetConst
 
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import LoginPage from "./routes/auth/Login.tsx";
@@ -32,6 +31,8 @@ import PasswordResetPage from "./routes/auth/PasswordReset.tsx";
 import StoryPage from "./routes/story/Story.tsx";
 import CreateStoryPage from "./routes/story/CreateStory.tsx";
 import ReelsPage from "./routes/reels/Reels.tsx";
+import {ThemeProvider} from "./lib/theme/ThemeProvider.tsx";
+import CreateReelsPage from "./routes/reels/CreateReels.tsx";
 
 const router = createBrowserRouter([
     {
@@ -202,7 +203,8 @@ const router = createBrowserRouter([
                 loader: () => {
                     return userLoader();
                 },
-                element: <CreateStoryPage/>,
+                element: <
+                    CreateStoryPage/>,
             },
             {
                 path: "reels",
@@ -210,6 +212,13 @@ const router = createBrowserRouter([
                     return userLoader();
                 },
                 element: <ReelsPage/>,
+            },
+            {
+                path: "reels-create",
+                loader: () => {
+                    return userLoader();
+                },
+                element: <CreateReelsPage/>,
             },
         ]
     },
@@ -243,8 +252,8 @@ export function getApolloClient() {
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-    <React.StrictMode>
+    <ThemeProvider>
         <RouterProvider router={router}/>
         <ToastContainer/>
-    </React.StrictMode>,
+    </ThemeProvider>
 )

@@ -124,9 +124,12 @@ export default function HomePage() {
                                         </Link>
                                     </div>
                                     :
-                                    <div className="story-reels-content-reels">
+                                    <div className="story-reels-content-story">
                                         <Link to={'/reels'} className="story-reels-content-reels-item">
                                             View Reels
+                                        </Link>
+                                        <Link to={'/reels-create'} className="story-reels-content-reels-item">
+                                            Create Reels
                                         </Link>
                                     </div>
                                 }

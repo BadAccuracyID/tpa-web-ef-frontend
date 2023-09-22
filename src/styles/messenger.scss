@@ -151,6 +151,9 @@ html {
             }
 
             &-last-message {
+                display: flex;
+                flex-direction: row;
+
                 font-size: 14px;
                 margin-left: 10px;
                 color: slategray;

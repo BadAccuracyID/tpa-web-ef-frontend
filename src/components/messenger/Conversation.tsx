@@ -34,8 +34,17 @@ function ConversationCard({conversation, onSelect}: {
 
                 {conversation.messages.length > 0 ?
                     <div className="conversation-card-right-last-message">
-                        {conversation.messages[conversation.messages.length - 1].sender.username}: &nbsp;
-                        {conversation.messages[conversation.messages.length - 1].content}
+                        {conversation.messages[conversation.messages.length - 1].sender.username}:&nbsp;
+                        {
+                            conversation.messages[conversation.messages.length - 1].contentType === "TEXT" ?
+                                <>
+                                    {conversation.messages[conversation.messages.length - 1].content}
+                                </>
+                                :
+                                <>
+                                    Sent a media
+                                </>
+                        }
                     </div> : <></>
                 }
             </div>

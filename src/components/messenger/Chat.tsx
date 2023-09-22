@@ -1,15 +1,37 @@
 import {Conversation, Message, MessageContentType, Subscription, User} from "../../lib/gql/graphql.ts";
 import "../../styles/messenger.scss";
-import React, {useEffect, useRef, useState} from "react";
+import React, {createRef, useEffect, useRef, useState} from "react";
 import {sendMessage, subscribeConversation} from "../../lib/controllers/messanger-controller.ts";
 import {toast} from "react-toastify";
 import {BiSolidUserCircle} from "react-icons/bi";
 import {BsChatDotsFill} from "react-icons/bs";
+import {HiPhoto} from "react-icons/hi2";
+import {uploadFilesWithToast} from "../../lib/controllers/firebase-upload-controller.ts";
 
 export default function ChatComponent({user, conversation}: { user: User, conversation: Conversation }) {
     const [messages, setMessages] = useState(conversation.messages);
     const [typedMessage, setTypedMessage] = useState("")
     const subscription = useRef<Subscription | null>(null);
+    const fileInputRef: React.Ref<HTMLInputElement> = createRef();
+
+    const onFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            const file = event.target.files[0];
+            const imageUrl = await uploadFilesWithToast([file]);
+
+            const response = await sendMessage(user.id, conversation.id, imageUrl[0], MessageContentType.Image);
+            if (!response.success) {
+                toast.error('Failed to send media', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                });
+                return;
+            }
+        }
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -44,6 +66,18 @@ export default function ChatComponent({user, conversation}: { user: User, conver
         });
 
         return names.slice(0, -2);
+    }
+
+    function onUploadMediaClick() {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        if (!fileInputRef!.current) {
+            return;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        fileInputRef!.current.click();
     }
 
     async function onSendMessage(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -92,13 +126,25 @@ export default function ChatComponent({user, conversation}: { user: User, conver
                 }
             </div>
 
-            <input
-                className="chat-input"
-                placeholder="Aa"
-                value={typedMessage}
-                onChange={(e) => setTypedMessage(e.target.value)}
-                onKeyDown={onSendMessage}
-            />
+            <div className="chat-floating">
+                <input
+                    className="chat-input"
+                    placeholder="Aa"
+                    value={typedMessage}
+                    onChange={(e) => setTypedMessage(e.target.value)}
+                    onKeyDown={onSendMessage}
+                />
+                <HiPhoto className="chat-media" onClick={() => onUploadMediaClick()}/>
+
+                <input
+                    type="file"
+                    className="profile-header-input-hidden"
+                    onChange={onFileChange}
+                    accept={"image/*"}
+                    ref={fileInputRef}
+                />
+            </div>
+
         </div>
     )
 }

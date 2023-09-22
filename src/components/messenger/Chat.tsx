@@ -210,6 +210,8 @@ function BlueChatBubbleContent({message}: { message: Message }) {
                 <div className="bubble-right-content bubble-blue-right-content">
                     <video
                         src={message.content}
+                        autoPlay={true}
+                        controls={true}
                     />
                 </div>
             )
@@ -258,6 +260,8 @@ function GreyChatBubbleContent({message}: { message: Message }) {
                 <div className="bubble-right-content bubble-gray-right-content">
                     <video
                         src={message.content}
+                        autoPlay={true}
+                        controls={true}
                     />
                 </div>
             )

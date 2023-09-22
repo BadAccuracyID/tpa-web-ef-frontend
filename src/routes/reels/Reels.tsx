@@ -1,5 +1,5 @@
 import NavigationBar from "../../components/NavigationBar.tsx";
-import {useLoaderData} from "react-router-dom";
+import {Link, useLoaderData} from "react-router-dom";
 import {User} from "../../lib/gql/graphql.ts";
 
 export default function ReelsPage() {
@@ -12,6 +12,7 @@ export default function ReelsPage() {
             <h1>Reels</h1>
             <h1>Reels</h1>
             <h1>Reels</h1>
+            <Link to={'/reels-create'}>Create Reels wow!</Link>
         </div>
     )
 }
